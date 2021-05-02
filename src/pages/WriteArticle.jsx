@@ -83,7 +83,7 @@ function WriteArticle() {
 
 const mapDispatchToProps = (dispatch) => ({
   dispatchArticle: (title, content) =>
-    dispatchArticle(dispatch, title, content),
+    dispatch(dispatchArticle(title, content)),
 });
 
-export default connect(mapDispatchToProps)(WriteArticle);
+export default connect(null, mapDispatchToProps)(WriteArticle);
