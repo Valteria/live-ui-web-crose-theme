@@ -57,6 +57,6 @@ export const submitForm = (dispatch, formType, formData, token, callback) => axi
 
 export const updateForm = (dispatch, formType, updateData) => dispatch({ type: actionType.UPDATE_FORM_DATA, formType: formType, updateData: updateData });
 
-export const dispatchArticle = (title, content) => {
-    console.log(title, content)
+export const dispatchArticle = (title, content, image) => {
+    console.log(title, content, image)
 }

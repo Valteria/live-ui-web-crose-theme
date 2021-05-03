@@ -1,31 +1,35 @@
 import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import { Editor } from "react-draft-wysiwyg";
-import { EditorState, convertToRaw } from "draft-js";
+import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
 import "../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "../css/WriteArticle.css";
 import draftToHtml from "draftjs-to-html";
-import { useDispatch } from "react-redux";
 import { dispatchArticle } from "../store/dispatch/dispatch";
 import { connect } from "react-redux";
 
 function WriteArticle() {
-  const [title, setTitle] = useState("");
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const onEditorStateChange = (editorState) => {
     setEditorState(editorState);
   };
+  const [title, setTitle] = useState("");
   const [content, setContent] = useState();
-  // const dispatch = useDispatch();
+  const [image, setImage] = useState(
+    "http://hvmatl.net/gallery/img/articles/article-logo.png"
+  );
 
   useEffect(() => {
     setContent(draftToHtml(convertToRaw(editorState.getCurrentContent())));
+    // setContent(
+    //   EditorState.createWithContent(
+    //     convertFromRaw(JSON.parse(editorState.getCurrentContent()))
+    //   )
+    // );
   }, [editorState]);
 
   const saveArticle = () => {
-    if (title) {
-      dispatchArticle(title, content);
-    }
+    dispatchArticle(title, content, image);
   };
 
   return (
@@ -82,8 +86,8 @@ function WriteArticle() {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  dispatchArticle: (title, content) =>
-    dispatch(dispatchArticle(title, content)),
+  dispatchArticle: (title, content, image) =>
+    dispatch(dispatchArticle(title, content, image)),
 });
 
 export default connect(null, mapDispatchToProps)(WriteArticle);
