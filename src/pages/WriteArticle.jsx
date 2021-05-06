@@ -14,13 +14,13 @@ function WriteArticle() {
     setEditorState(editorState);
   };
   const [title, setTitle] = useState("");
-  const [content, setContent] = useState();
+  // const [content, setContent] = useState();
   const [image, setImage] = useState(
     "http://hvmatl.net/gallery/img/articles/article-logo.png"
   );
 
   useEffect(() => {
-    setContent(draftToHtml(convertToRaw(editorState.getCurrentContent())));
+    // setContent(convertToRaw(editorState.getCurrentContent()));
     // setContent(
     //   EditorState.createWithContent(
     //     convertFromRaw(JSON.parse(editorState.getCurrentContent()))
@@ -29,7 +29,9 @@ function WriteArticle() {
   }, [editorState]);
 
   const saveArticle = () => {
-    dispatchArticle(title, content, image);
+    let contentState = editorState.getCurrentContent();
+    const article = { title: title, content: convertToRaw(contentState) };
+    dispatchArticle(article.title, article.content, image);
   };
 
   return (
