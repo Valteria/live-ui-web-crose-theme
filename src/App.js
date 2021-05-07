@@ -50,6 +50,7 @@ import StJosephClassworkPage from './pages/StJosephClassworkPage';
 import VNSaints from './pages/VNSaints';
 import Upload from './pages/Upload';
 import WriteArticle from './pages/WriteArticle';
+import ArticleRepo from './pages/ArticleRepo';
 
 //Google Analytics
 ReactGA.initialize('UA-166941054-1', {
@@ -149,11 +150,13 @@ const App = (props) => {
             <Route path="/st-joseph-classes" component={StJosephClassesPage} />
             <Route path="/st-joseph-classwork/:stJosephClassURL" component={StJosephClassworkPage} />
             <Route path="/Articles" component={Articles} />
-            <Route path="/ArticleDetail/:date" component={ArticleDetail} />
+            <Route path="/ArticleDetail/:date&:review" component={ArticleDetail} exact />
             <Route path="/cookies" component={CookiePage} />
             <Route path="/saint" component={VNSaints} />
             <Route path="/upload" component={Upload} />
             <Route path="/write-article" component={WriteArticle} />
+            <Route path="/article-repo" component={ArticleRepo} />
+            {/* <Route path="/article-review/:date&:review" component={ArticleDetail} /> */}
         </Router>
     )
 };

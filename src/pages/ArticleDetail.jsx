@@ -1,52 +1,69 @@
 //TODO: Working on this
-import React from 'react';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import articleContent from '../database/articles-content';
+import React from "react";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import articleContent from "../database/articles-content";
 
-const ArticleDetail = ({ match }) => {
-    const date = match.params.date;
-    const article = articleContent.find(article => article.date === date);
-    if (!article) return <h1>Article does not exist</h1>
-    return (
-        <div>
-            <Header />
-            <div dangerouslySetInnerHTML={{ __html: '<!-- ##### Blog Content Area Start ##### -->' }} />
-            <section class="blog-content-area section-padding-100">
-                <div class="container">
-                    <div class="row justify-content-between">
-                        {/* <!-- Blog Posts Area --> */}
-                        <div class="col-12 col-lg-12">
-                            <div class="blog-posts-area">
+const ArticleDetail = (props) => {
+  const date = props.match.params.date;
+  const review = props.match.params.review;
+  const article =
+    review === "true"
+      ? articleContent.find((article) => article.date === date)
+      : console.log("review");
+  return (
+    <div>
+      <Header />
+      {!article ? (
+        <h1>Article does not exist</h1>
+      ) : (
+        <>
+          <div
+            dangerouslySetInnerHTML={{
+              __html: "<!-- ##### Blog Content Area Start ##### -->",
+            }}
+          />
+          <section class="blog-content-area section-padding-100">
+            <div class="container">
+              <div class="row justify-content-between">
+                {/* <!-- Blog Posts Area --> */}
+                <div class="col-12 col-lg-12">
+                  <div class="blog-posts-area">
+                    {/* <!-- Post Details Area Start --> */}
 
-                                {/* <!-- Post Details Area Start --> */}
+                    <div class="single-post-details-area">
+                      {/* <!-- <div class="post-thumbnail mb-30 col-12 col-lg-2"><img src="" alt=""></div> --> */}
 
-                                <div class="single-post-details-area">
-                                    {/* <!-- <div class="post-thumbnail mb-30 col-12 col-lg-2"><img src="" alt=""></div> --> */}
-
-                                    <div class="post-content col-12 col-lg-auto">
-                                        <h2 class="post-title">{article.title}</h2>
-                                        <p>{article.body.split('\n').map((item, key) => {
-                                            return <span  key={key}>{item}<br /></span >
-                                        })}</p>
-                                    </div>
-                                </div>
-                                {/* <!-- Post Details Area End --> */}
-
-                            </div>
-                        </div>
+                      <div class="post-content col-12 col-lg-auto">
+                        <h2 class="post-title">{article.title}</h2>
+                        <p>
+                          {article.body.split("\n").map((item, key) => {
+                            return (
+                              <span key={key}>
+                                {item}
+                                <br />
+                              </span>
+                            );
+                          })}
+                        </p>
+                      </div>
                     </div>
+                    {/* <!-- Post Details Area End --> */}
+                  </div>
                 </div>
-            </section>
-            {/* <!-- ##### Blog Content Area End ##### --> */}
-            <Footer />
-        </div>
-    );
-}
+              </div>
+            </div>
+          </section>
+          {/* <!-- ##### Blog Content Area End ##### --> */}
+        </>
+      )}
+
+      <Footer />
+    </div>
+  );
+};
 
 export default ArticleDetail;
-
-
 
 // const ArticleDetail = (prop) => {
 //     const date = prop.match.params.date;
