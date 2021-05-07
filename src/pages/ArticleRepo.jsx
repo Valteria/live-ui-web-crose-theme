@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
 import ArticleListItem from "./ArticleListItem";
+import { connect } from "react-redux";
+import { createNewArticle } from "../store/dispatch/dispatch";
 
 const articleContent = [
   {
@@ -53,7 +55,11 @@ function ArticleRepo() {
                   <h2>Bài viết nháp</h2>
                 </center>
                 <center>
-                  <Link className="btn btn-success" to="/write-article">
+                  <Link
+                    className="btn btn-success"
+                    to="/write-article"
+                    onClick={() => createNewArticle()}
+                  >
                     Bài viết mới
                   </Link>
                 </center>
@@ -70,4 +76,10 @@ function ArticleRepo() {
   );
 }
 
-export default ArticleRepo;
+const mapDispatchProps = (dispatch) => ({
+  createNewArticle: () => {
+    dispatch(createNewArticle());
+  },
+});
+
+export default connect(null, mapDispatchProps)(ArticleRepo);

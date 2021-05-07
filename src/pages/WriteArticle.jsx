@@ -5,7 +5,6 @@ import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
 import "../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "../css/WriteArticle.css";
 import draftToHtml from "draftjs-to-html";
-import { dispatchArticle } from "../store/dispatch/dispatch";
 import { connect } from "react-redux";
 
 function WriteArticle() {
@@ -28,11 +27,11 @@ function WriteArticle() {
     // );
   }, [editorState]);
 
-  const saveArticle = () => {
-    let contentState = editorState.getCurrentContent();
-    const article = { title: title, content: convertToRaw(contentState) };
-    dispatchArticle(article.title, article.content, image);
-  };
+  // const saveArticle = () => {
+  //   let contentState = editorState.getCurrentContent();
+  //   const article = { title: title, content: convertToRaw(contentState) };
+  //   dispatchArticle(article.title, article.content, image);
+  // };
 
   return (
     <div>
@@ -69,11 +68,7 @@ function WriteArticle() {
               placeholder="Enter your story..."
             />
             <div className="group__button">
-              <button
-                className="button-save"
-                type="button"
-                onClick={saveArticle}
-              >
+              <button className="button-save" type="button">
                 SAVE
               </button>
               <button className="button-preview" type="button">
@@ -88,8 +83,8 @@ function WriteArticle() {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  dispatchArticle: (title, content, image) =>
-    dispatch(dispatchArticle(title, content, image)),
+  // dispatchArticle: (title, content, image) =>
+  //   dispatch(dispatchArticle(title, content, image)),
 });
 
 export default connect(null, mapDispatchToProps)(WriteArticle);

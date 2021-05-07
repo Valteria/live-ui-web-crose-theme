@@ -57,6 +57,11 @@ export const submitForm = (dispatch, formType, formData, token, callback) => axi
 
 export const updateForm = (dispatch, formType, updateData) => dispatch({ type: actionType.UPDATE_FORM_DATA, formType: formType, updateData: updateData });
 
-export const dispatchArticle = (title, content, image) => {
-    console.log(title, content, image)
+export const createNewArticle = () => {
+    axios.post("http://localhost:5000/new-draft", {}, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Accepts': 'application/json'
+        },
+    })
 }
