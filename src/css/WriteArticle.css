@@ -76,3 +76,7 @@
 .public-DraftEditor-content{
     height: auto;
 }
+.rdw-embedded-modal,
+.rdw-link-modal{
+    height: auto;
+}
