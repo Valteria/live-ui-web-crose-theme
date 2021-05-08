@@ -69,7 +69,7 @@
     margin: 0;
 }
 .public-DraftStyleDefault-ltr > span{
-    color: black!important;
+    color: black;
 }
 .DraftEditor-editorContainer, 
 .DraftEditor-root, 
