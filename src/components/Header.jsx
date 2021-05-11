@@ -20,6 +20,7 @@ const Header = (prop) => {
   const twitter = useRef(null);
   const youtube = useRef(null);
   const mainMenu = useRef(null);
+  const editor = useRef(null);
 
   const [show, setShow] = useState(false);
   const [content, setContent] = useState({});
@@ -35,6 +36,7 @@ const Header = (prop) => {
       facebook.current.classList.remove("fa-lg");
       twitter.current.classList.remove("fa-lg");
       youtube.current.classList.remove("fa-lg");
+      editor.current.classList.remove("fa-lg");
     } else {
       massSchedule.current.classList.add("fa-lg");
       email.current.classList.add("fa-lg");
@@ -44,6 +46,7 @@ const Header = (prop) => {
       facebook.current.classList.add("fa-lg");
       twitter.current.classList.add("fa-lg");
       youtube.current.classList.add("fa-lg");
+      editor.current.classList.add("fa-lg");
     }
     setLogo(
       window.innerWidth < 400
@@ -169,8 +172,6 @@ const Header = (prop) => {
                     </div>
                   </div>
                   <div className="top-social-info">
-                    {/* Test Admin Button */}
-                    <Link to="/article-repo">Repository</Link>
                     <a
                       href="https://www.facebook.com/cttdvn"
                       aria-label="facebook"
@@ -192,6 +193,10 @@ const Header = (prop) => {
                   </div>
                 </div>
                 <div className="top-header-meta">
+                  <Link className="editor" to="/article-repo">
+                    <i className="fas fa-pen-square" ref={editor}></i>
+                    <span>Editor</span>
+                  </Link>
                   <a href="/massSchedule" className="email-address">
                     <i
                       className="fas fa-calendar-alt"

@@ -373,17 +373,20 @@ a.nav-brand > img {
       height: 50px; }
       .header-area .top-header .top-header-content .open,
       .header-area .top-header .top-header-content .email-address,
+      .header-area .top-header .top-header-content .editor,
       .header-area .top-header .top-header-content .phone {
         font-size: 14px;
         color: #959595; }
         @media only screen and (min-width: 768px) and (max-width: 991px) {
           .header-area .top-header .top-header-content .open,
           .header-area .top-header .top-header-content .email-address,
+          .header-area .top-header .top-header-content .editor,
           .header-area .top-header .top-header-content .phone {
             font-size: 13px; } }
         @media only screen and (max-width: 767px) {
           .header-area .top-header .top-header-content .open span,
           .header-area .top-header .top-header-content .email-address span,
+          .header-area .top-header .top-header-content .editor span,
           .header-area .top-header .top-header-content .phone span{
             display: none; } 
             .header-area .top-header .top-header-content .temperature+span,
@@ -392,6 +395,7 @@ a.nav-brand > img {
             }}
         .header-area .top-header .top-header-content .open svg,
         .header-area .top-header .top-header-content .email-address svg,
+        .header-area .top-header .top-header-content .editor svg,
         .header-area .top-header .top-header-content .phone svg,
         .header-area .top-header .top-header-content svg.temperature,
         .header-area .top-header .top-header-content svg.time {
@@ -400,6 +404,7 @@ a.nav-brand > img {
           margin-left: 10px;}
         .header-area .top-header .top-header-content .open:hover,
         .header-area .top-header .top-header-content .email-address:hover,
+        .header-area .top-header .top-header-content .editor:hover,
         .header-area .top-header .top-header-content .phone:hover {
           color: #c92f2f; }
       .header-area .top-header .top-header-content .email-address {
