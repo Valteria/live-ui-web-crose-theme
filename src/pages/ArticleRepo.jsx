@@ -4,6 +4,7 @@ import Header from "../components/Header";
 import ArticleListItem from "./ArticleListItem";
 import { connect } from "react-redux";
 import { createNewArticle } from "../store/dispatch/dispatch";
+import "../css/ArticleRepo.css";
 
 const articleContent = [
   {
@@ -52,23 +53,89 @@ function ArticleRepo() {
             <div class="col-12">
               <div class="events-title">
                 <center>
-                  <h2>Bài viết nháp</h2>
+                  <h2>Repository Draft</h2>
                 </center>
                 <center>
                   <Link
-                    className="btn btn-success"
+                    className="btn btn-success mb-3"
                     to="/write-article"
                     onClick={() => createNewArticle()}
                   >
-                    Bài viết mới
+                    New Article
                   </Link>
                 </center>
               </div>
             </div>
             {/* <!-- Articles List --> */}
-            {articleContent.map((article, key) => (
-              <ArticleListItem key={key} article={article} repo />
-            ))}
+            <div className="dashboard">
+              <div className="sidebar">
+                <h6>Category</h6>
+                <ul>
+                  <li className="active">
+                    <strong>Parish Activities</strong>
+                  </li>
+                  <li>
+                    <strong>Letters</strong>
+                  </li>
+                </ul>
+              </div>
+              <div className="contents">
+                <h6>Articles</h6>
+                <ul>
+                  <li>
+                    <strong>
+                      Article 1asf asf sf asf sa fda sf a sf as as f asf sa f sd
+                      dsf
+                    </strong>
+                    <div className="buttons-group">
+                      <button>
+                        <i className="fa fa-eye"></i>
+                      </button>
+                      <button>
+                        <i className="fa fa-paper-plane"></i>
+                      </button>
+                      <button>
+                        <i className="fa fa-trash"></i>
+                      </button>
+                    </div>
+                  </li>
+                  <li>
+                    <strong>
+                      Article 1asf asf sf asf sa fda sf a sf as as f asf sa f sd
+                      dsf
+                    </strong>
+                    <div className="buttons-group">
+                      <button>
+                        <i className="fa fa-eye"></i>
+                      </button>
+                      <button>
+                        <i className="fa fa-paper-plane"></i>
+                      </button>
+                      <button>
+                        <i className="fa fa-trash"></i>
+                      </button>
+                    </div>
+                  </li>
+                  <li>
+                    <strong>
+                      Article 1asf asf sf asf sa fda sf a sf as as f asf sa f sd
+                      dsf
+                    </strong>
+                    <div className="buttons-group">
+                      <button>
+                        <i className="fa fa-eye"></i>
+                      </button>
+                      <button>
+                        <i className="fa fa-paper-plane"></i>
+                      </button>
+                      <button>
+                        <i className="fa fa-trash"></i>
+                      </button>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       </div>
