@@ -1,13 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
 import { connect } from "react-redux";
-import { createNewArticle } from "../store/dispatch/dispatch";
+import { createNewArticle, getDraftList } from "../store/dispatch/dispatch";
 import "../css/ArticleRepo.css";
 import DraftArticle from "../components/DraftArticle";
-import ArticleContent from "../database/articles-content";
+import {
+  letterArticles,
+  parishActivityArticles,
+} from "../database/drafts-content";
 
-function ArticleRepo() {
+function ArticleRepo({ getDraftList }) {
+  const [listArticles, setListArticles] = useState([]);
+  const [cateId, setCateId] = useState("parish-activities");
   const sideBtns = document.querySelectorAll(".sidebar ul li");
   for (var i = 0; i < sideBtns.length; i++) {
     const btn = sideBtns[i];
@@ -15,9 +20,15 @@ function ArticleRepo() {
       for (var y = 0; y < sideBtns.length; y++) {
         sideBtns[y].classList.remove("active");
       }
+      setCateId(btn.getAttribute("id"));
       btn.classList.add("active");
     });
   }
+  // useEffect(() => {
+  //   if (cateId) {
+  //     getDraftList(cateId);
+  //   }
+  // }, [cateId]);
   return (
     <div>
       <Header />
@@ -46,10 +57,10 @@ function ArticleRepo() {
               <div className="sidebar">
                 <h6>Category</h6>
                 <ul>
-                  <li className="active">
+                  <li className="active" id="parish-activities">
                     <strong>Parish Activities</strong>
                   </li>
-                  <li>
+                  <li id="letters">
                     <strong>Letters</strong>
                   </li>
                 </ul>
@@ -57,7 +68,8 @@ function ArticleRepo() {
               <div className="contents">
                 <h6>Articles</h6>
                 <ul>
-                  {ArticleContent.map((article, idx) => (
+                  {listArticles.length === 0 && <li>No Draft</li>}
+                  {listArticles.map((article, idx) => (
                     <DraftArticle key={idx} article={article} />
                   ))}
                 </ul>
@@ -70,10 +82,13 @@ function ArticleRepo() {
   );
 }
 
-const mapDispatchProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch) => ({
   createNewArticle: () => {
     dispatch(createNewArticle());
   },
+  getDraftList: (cateId) => {
+    dispatch(getDraftList(cateId));
+  },
 });
 
-export default connect(null, mapDispatchProps)(ArticleRepo);
+export default connect(null, mapDispatchToProps)(ArticleRepo);

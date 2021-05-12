@@ -65,3 +65,7 @@ export const createNewArticle = () => {
         },
     })
 }
+
+export const getDraftList = (cateId) => dispatch => {
+    console.log(cateId)
+}
