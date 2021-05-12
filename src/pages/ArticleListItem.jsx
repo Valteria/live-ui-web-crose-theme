@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function ArticleListItem({ article, repo }) {
+function ArticleListItem({ article }) {
   return (
     <div className="col-12">
       {/* <!-- Single Upcoming Artile Area --> */}
@@ -31,29 +31,12 @@ function ArticleListItem({ article, repo }) {
             {/* <!-- <a href="#">Read More <i className="fa fa-angle-double-right"></i></a> --> */}
           </div>
           <div className="find-out-more-btn">
-            {repo ? (
-              <div>
-                <Link
-                  className="btn btn-primary d-block my-2"
-                  to={`/write-article/${article.date}`}
-                >
-                  Edit
-                </Link>
-                <Link
-                  className="btn btn-secondary d-block my-2"
-                  to={`/ArticleDetail/${article.date}&review`}
-                >
-                  Review
-                </Link>
-              </div>
-            ) : (
-              <Link
-                to={`/ArticleDetail/${article.date}&true`}
-                className="btn crose-btn btn-2"
-              >
-                Xem thêm
-              </Link>
-            )}
+            <Link
+              to={`/ArticleDetail/${article.date}&true`}
+              className="btn crose-btn btn-2"
+            >
+              Xem thêm
+            </Link>
           </div>
         </div>
       </div>
