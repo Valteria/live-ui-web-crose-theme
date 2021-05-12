@@ -8,6 +8,16 @@ import DraftArticle from "../components/DraftArticle";
 import ArticleContent from "../database/articles-content";
 
 function ArticleRepo() {
+  const sideBtns = document.querySelectorAll(".sidebar ul li");
+  for (var i = 0; i < sideBtns.length; i++) {
+    const btn = sideBtns[i];
+    btn.addEventListener("click", () => {
+      for (var y = 0; y < sideBtns.length; y++) {
+        sideBtns[y].classList.remove("active");
+      }
+      btn.classList.add("active");
+    });
+  }
   return (
     <div>
       <Header />
