@@ -13,31 +13,28 @@ import {
 function ArticleRepo({ getDraftList }) {
   const [listArticles, setListArticles] = useState([]);
   const [cateId, setCateId] = useState("parish-activities");
-  const sideBtns = document.querySelectorAll(".sidebar ul li");
-  for (var i = 0; i < sideBtns.length; i++) {
-    const btn = sideBtns[i];
-    btn.addEventListener("click", () => {
-      for (var y = 0; y < sideBtns.length; y++) {
-        sideBtns[y].classList.remove("active");
-      }
-      setCateId(btn.getAttribute("id"));
-      btn.classList.add("active");
-    });
-  }
-  // useEffect(() => {
-  //   if (cateId) {
-  //     getDraftList(cateId);
-  //   }
-  // }, [cateId]);
+  useEffect(() => {
+    const sideBtns = document.querySelectorAll(".sidebar ul li");
+    for (var i = 0; i < sideBtns.length; i++) {
+      const btn = sideBtns[i];
+      btn.addEventListener("click", () => {
+        for (var y = 0; y < sideBtns.length; y++) {
+          sideBtns[y].classList.remove("active");
+        }
+        setCateId(btn.getAttribute("id"));
+        btn.classList.add("active");
+      });
+    }
+  }, []);
   return (
     <div>
       <Header />
-      <div class="events-area section-padding-100">
-        <div class="container">
-          <div class="row articles-container">
+      <div className="events-area section-padding-100">
+        <div className="container">
+          <div className="row articles-container">
             {/* <!-- Articles Title --> */}
-            <div class="col-12">
-              <div class="events-title">
+            <div className="col-12">
+              <div className="events-title">
                 <center>
                   <h2>Repository Draft</h2>
                 </center>
