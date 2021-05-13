@@ -5,13 +5,8 @@ import { connect } from "react-redux";
 import { createNewArticle, getDraftList } from "../store/dispatch/dispatch";
 import "../css/ArticleRepo.css";
 import DraftArticle from "../components/DraftArticle";
-import {
-  letterArticles,
-  parishActivityArticles,
-} from "../database/drafts-content";
 
-function ArticleRepo({ getDraftList }) {
-  const [listArticles, setListArticles] = useState([]);
+function ArticleRepo(props) {
   const [cateId, setCateId] = useState("parish-activities");
   useEffect(() => {
     const sideBtns = document.querySelectorAll(".sidebar ul li");
@@ -25,7 +20,9 @@ function ArticleRepo({ getDraftList }) {
         btn.classList.add("active");
       });
     }
-  }, []);
+    props.getDraftList(cateId);
+  }, [cateId]);
+
   return (
     <div>
       <Header />
@@ -65,8 +62,8 @@ function ArticleRepo({ getDraftList }) {
               <div className="contents">
                 <h6>Articles</h6>
                 <ul>
-                  {listArticles.length === 0 && <li>No Draft</li>}
-                  {listArticles.map((article, idx) => (
+                  {props.draftsList.drafts.length === 0 && <li>No Draft</li>}
+                  {props.draftsList.drafts?.map((article, idx) => (
                     <DraftArticle key={idx} article={article} />
                   ))}
                 </ul>
@@ -80,12 +77,11 @@ function ArticleRepo({ getDraftList }) {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  createNewArticle: () => {
-    dispatch(createNewArticle());
-  },
-  getDraftList: (cateId) => {
-    dispatch(getDraftList(cateId));
-  },
+  getDraftList: (cateId) => getDraftList(dispatch, cateId),
 });
 
-export default connect(null, mapDispatchToProps)(ArticleRepo);
+const mapStateToProps = (state) => ({
+  draftsList: state.draftsList,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ArticleRepo);

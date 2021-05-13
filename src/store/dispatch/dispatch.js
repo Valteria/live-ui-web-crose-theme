@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { letterArticles, parishActivityArticles } from '../../database/drafts-content';
 import * as actionType from '../actionType';
 
 //Auth dispatch
@@ -66,6 +67,5 @@ export const createNewArticle = () => {
     })
 }
 
-export const getDraftList = (cateId) => dispatch => {
-    console.log(cateId)
-}
+export const getDraftList = (dispatch, cateId) => dispatch({ type: actionType.GET_DRAFTS_LIST, payload: cateId === 'parish-activities' ? parishActivityArticles : letterArticles })
+
