@@ -1,12 +1,14 @@
 import { Form, Modal } from "react-bootstrap";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { createNewArticle } from "../store/dispatch/dispatch";
 
-function CategoryModal() {
+function CategoryModal(props) {
   const [cate, setCate] = useState("letters");
-  const handleSubmit = () => {
-    console.log(cate);
-  };
+  //   const handleSubmit = () => {
+  //     console.log(cate);
+  //   };
   return (
     <>
       <Modal.Header closeButton>
@@ -35,7 +37,7 @@ function CategoryModal() {
         <Link
           className="confirmCreateArticle"
           to="/write-article"
-          onClick={handleSubmit}
+          onClick={props.createNewArticle(cate === "letters" ? true : false)}
         >
           Confirm
         </Link>
@@ -44,4 +46,8 @@ function CategoryModal() {
   );
 }
 
-export default CategoryModal;
+const mapDispatchToMaps = (dispatch) => ({
+  createNewArticle: (isLetter) => createNewArticle(dispatch, isLetter),
+});
+
+export default connect(null, mapDispatchToMaps)(CategoryModal);

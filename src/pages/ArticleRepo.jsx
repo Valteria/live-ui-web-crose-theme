@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import Header from "../components/Header";
 import { connect } from "react-redux";
-import { createNewArticle, getDraftList } from "../store/dispatch/dispatch";
+import { getDraftList } from "../store/dispatch/dispatch";
 import "../css/ArticleRepo.css";
 import DraftArticle from "../components/DraftArticle";
 import { Button, Modal } from "react-bootstrap";
@@ -29,7 +28,7 @@ function ArticleRepo(props) {
       });
     }
     props.getDraftList(cateId);
-  }, [cateId]);
+  }, [cateId, props]);
 
   return (
     <div>
