@@ -5,9 +5,17 @@ import { connect } from "react-redux";
 import { createNewArticle, getDraftList } from "../store/dispatch/dispatch";
 import "../css/ArticleRepo.css";
 import DraftArticle from "../components/DraftArticle";
+import { Button, Modal } from "react-bootstrap";
+import CategoryModal from "../components/CategoryModal";
 
 function ArticleRepo(props) {
+  const [modalOpen, setModalOpen] = useState(false);
   const [cateId, setCateId] = useState("parish-activities");
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
   useEffect(() => {
     const sideBtns = document.querySelectorAll(".sidebar ul li");
     for (var i = 0; i < sideBtns.length; i++) {
@@ -30,19 +38,16 @@ function ArticleRepo(props) {
         <div className="container">
           <div className="row articles-container">
             {/* <!-- Articles Title --> */}
-            <div className="col-12">
+            <div className="col-12 mb-3">
               <div className="events-title">
                 <center>
                   <h2>Repository Draft</h2>
-                </center>
-                <center>
-                  <Link
-                    className="btn btn-success mb-3"
-                    to="/write-article"
-                    onClick={() => createNewArticle()}
+                  <Button
+                    className="newArticleBtn"
+                    onClick={() => setModalOpen(true)}
                   >
                     New Article
-                  </Link>
+                  </Button>
                 </center>
               </div>
             </div>
@@ -72,6 +77,9 @@ function ArticleRepo(props) {
           </div>
         </div>
       </div>
+      <Modal show={modalOpen} onHide={closeModal}>
+        <CategoryModal closeModal={closeModal} />
+      </Modal>
     </div>
   );
 }
