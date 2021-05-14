@@ -59,7 +59,7 @@
 
 /* overwrite draft-js */
 .demo-editor.rdw-editor-main{
-    height: 400px;
+    height: 100vh;
     border: 1px solid lightgray;
     border-radius: 5px;
     padding: 15px;

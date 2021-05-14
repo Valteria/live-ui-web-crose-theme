@@ -4,11 +4,11 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { createNewArticle } from "../store/dispatch/dispatch";
 
-function CategoryModal(props) {
+function CategoryModal({ createNewArticle }) {
   const [cate, setCate] = useState("letters");
-  //   const handleSubmit = () => {
-  //     console.log(cate);
-  //   };
+  const handleSubmit = () => {
+    createNewArticle(cate === "letters" ? true : false);
+  };
   return (
     <>
       <Modal.Header closeButton>
@@ -37,7 +37,7 @@ function CategoryModal(props) {
         <Link
           className="confirmCreateArticle"
           to="/write-article"
-          onClick={props.createNewArticle(cate === "letters" ? true : false)}
+          onClick={handleSubmit}
         >
           Confirm
         </Link>
@@ -47,7 +47,7 @@ function CategoryModal(props) {
 }
 
 const mapDispatchToMaps = (dispatch) => ({
-  createNewArticle: (isLetter) => createNewArticle(dispatch, isLetter),
+  createNewArticle: (isLetters) => createNewArticle(dispatch, isLetters),
 });
 
 export default connect(null, mapDispatchToMaps)(CategoryModal);

@@ -28,7 +28,7 @@ function ArticleRepo(props) {
       });
     }
     props.getDraftList(cateId);
-  }, [cateId, props]);
+  }, [cateId]);
 
   return (
     <div>

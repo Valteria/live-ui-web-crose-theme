@@ -58,15 +58,23 @@ export const submitForm = (dispatch, formType, formData, token, callback) => axi
 
 export const updateForm = (dispatch, formType, updateData) => dispatch({ type: actionType.UPDATE_FORM_DATA, formType: formType, updateData: updateData });
 
-export const createNewArticle = (isLetters, dispatch) => {
-    console.log(isLetters)
-    // axios.post("http://localhost:5000/new-draft", {}, {
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //         'Accepts': 'application/json'
-    //     },
-    // })
+export const createNewArticle = async (dispatch, isLetters) => {
+    dispatch({ type: actionType.CREATE_DRAFT_REQUEST })
+    try {
+        const { data } = await axios.post("http://localhost:5000/new-draft", { isLetters }, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accepts': 'application/json'
+            },
+        })
+        dispatch({ type: actionType.CREATE_DRAFT_SUCCESS, payload: data })
+
+    } catch (error) {
+        dispatch({ type: actionType.CREATE_DRAFT_FAIL, message: "Failed to create a draft" })
+    }
 }
+
+
 
 export const getDraftList = (dispatch, cateId) => dispatch({ type: actionType.GET_DRAFTS_LIST, payload: cateId === 'parish-activities' ? parishActivityArticles : letterArticles })
 
