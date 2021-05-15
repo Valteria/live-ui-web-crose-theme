@@ -21,28 +21,28 @@ function WriteArticle(props) {
 
   const { loading, draft } = props.createDraft;
 
-  useEffect(() => {
-    setContent(convertToRaw(editorState.getCurrentContent()));
-    setContent(
-      EditorState.createWithContent(
-        convertFromRaw(JSON.parse(editorState.getCurrentContent()))
-      )
-    );
-  }, [editorState]);
+  // useEffect(() => {
+  //   // setContent(convertToRaw(editorState.getCurrentContent()));
+  //   setContent(
+  //     EditorState.createWithContent(
+  //       convertFromRaw(JSON.parse(editorState.getCurrentContent()))
+  //     )
+  //   );
+  // }, [editorState]);
 
-  const saveArticle = () => {
-    let contentState = editorState.getCurrentContent();
-    const article = { title: title, content: convertToRaw(contentState) };
-  };
+  // const saveArticle = () => {
+  //   let contentState = editorState.getCurrentContent();
+  //   const article = { title: title, content: convertToRaw(contentState) };
+  // };
 
   return (
     <div>
       <Header />
       {loading && <LoadingBox />}
 
-      <div className="article__edition">
+      <div className="writeArticle">
         <div className="events-area">
-          <div className="container">
+          <div className="container article__controler">
             {draft?.isLetters && (
               <div className="article__title-img">
                 <div className="article__title">
@@ -64,15 +64,16 @@ function WriteArticle(props) {
                 </div>
               </div>
             )}
-
-            <Editor
-              editorState={editorState}
-              wrapperClassName="demo-wrapper"
-              editorClassName="demo-editor"
-              toolbarClassName="toolbar-class"
-              onEditorStateChange={onEditorStateChange}
-              placeholder="Enter your story..."
-            />
+            <div className="article__editor">
+              <Editor
+                editorState={editorState}
+                wrapperClassName="demo-wrapper"
+                editorClassName="demo-editor"
+                toolbarClassName="toolbar-class"
+                onEditorStateChange={onEditorStateChange}
+                placeholder="Enter your story..."
+              />
+            </div>
             <div className="group__button">
               <button className="button-save" type="button">
                 SAVE

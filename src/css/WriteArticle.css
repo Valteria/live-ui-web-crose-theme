@@ -1,14 +1,22 @@
-.article__edition{
+
+.writeArticle{
     margin: 20px 0;
-}
-.article__edition{
     height: 100%;
     flex: 1;
 }
+
+
+.article__controler{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+} 
+
 .article__title-img{
     display: flex;
     margin-bottom: 20px;
     align-items: center;
+    flex: 0.2;
 }
 .article__title{
     flex-grow: 1;
@@ -36,30 +44,17 @@
     margin-bottom: 5px;
 }
 
-.group__button{
-    padding: 10px;
-    display: flex;
-    justify-content: space-evenly;
+/* Article-Editor */
+.article__editor{
+    flex: 1;
 }
-.group__button button{
-    width: 90px;
-    border: none;
-    height: 40px;
-    border-radius: 5px;
-    font-weight: bold;
-    color: white;
-    outline: none;
-}
-.group__button .button-preview{
-    background-color: rgb(74, 207, 74);
-}
-.group__button .button-save{
-    background-color: rgb(53, 53, 218);
+.demo-wrapper.rdw-editor-wrapper{
+    height: 85%;
 }
 
 /* overwrite draft-js */
 .demo-editor.rdw-editor-main{
-    height: 100vh;
+    height: 100%;
     border: 1px solid lightgray;
     border-radius: 5px;
     padding: 15px;
@@ -79,4 +74,26 @@
 .rdw-embedded-modal,
 .rdw-link-modal{
     height: auto;
+}
+
+/* Group Button */
+.group__button{
+    padding: 10px;
+    display: flex;
+    justify-content: space-evenly;
+}
+.group__button button{
+    width: 90px;
+    border: none;
+    height: 40px;
+    border-radius: 5px;
+    font-weight: bold;
+    color: white;
+    outline: none;
+}
+.group__button .button-preview{
+    background-color: rgb(74, 207, 74);
+}
+.group__button .button-save{
+    background-color: rgb(53, 53, 218);
 }
