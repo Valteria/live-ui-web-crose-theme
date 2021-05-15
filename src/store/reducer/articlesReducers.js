@@ -23,10 +23,19 @@ export const createDraftReducer = (state = {}, action) => {
 
 export const draftsListReducer = (state = { drafts: [] }, action) => {
     switch (action.type) {
-        case actionType.GET_DRAFTS_LIST:
+        case actionType.DRAFTS_LIST_REQUEST:
             return {
-                ...state,
+                loading: true
+            }
+        case actionType.DRAFTS_LIST_SUCCESS:
+            return {
+                loading: false,
                 drafts: action.payload
+            }
+        case actionType.DRAFTS_LIST_ERROR:
+            return {
+                loading: false,
+                message: action.message
             }
         default:
             return state;

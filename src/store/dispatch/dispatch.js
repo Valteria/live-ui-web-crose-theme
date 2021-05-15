@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { letterArticles, parishActivityArticles } from '../../database/drafts-content';
 import * as actionType from '../actionType';
 
 //Auth dispatch
@@ -76,5 +75,13 @@ export const createNewArticle = async (dispatch, isLetters) => {
 
 
 
-export const getDraftList = (dispatch, cateId) => dispatch({ type: actionType.GET_DRAFTS_LIST, payload: cateId === 'parish-activities' ? parishActivityArticles : letterArticles })
+export const getDraftList = async (dispatch, cateId) => {
+    dispatch({ type: actionType.DRAFTS_LIST_REQUEST })
+    try {
+        const { data } = await axios.get(`http://localhost:5000?isLetters=${cateId === 'letters' ? true : false}`)
+        dispatch({ type: actionType.DRAFTS_LIST_SUCCESS, payload: data })
+    } catch (error) {
+        dispatch({ type: actionType.DRAFTS_LIST_ERROR, message: "Failed to retrieve draft" })
+    }
+}
 

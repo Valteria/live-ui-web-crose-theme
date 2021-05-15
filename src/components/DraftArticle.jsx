@@ -3,7 +3,7 @@ import React from "react";
 function DraftArticle({ article }) {
   return (
     <li>
-      <strong>{article.title}</strong>
+      <strong>{article.title ? article.title : article.date}</strong>
       <div className="buttons-group">
         <button>
           <i className="fa fa-eye"></i>
