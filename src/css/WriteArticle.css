@@ -88,12 +88,14 @@
     height: 40px;
     border-radius: 5px;
     font-weight: bold;
-    color: white;
+    font-size: large;
     outline: none;
 }
 .group__button .button-preview{
-    background-color: rgb(74, 207, 74);
+    background-color: rgb(2, 122, 2);
+    color: whitesmoke;
 }
 .group__button .button-save{
-    background-color: rgb(53, 53, 218);
+    color: black;
+    background-color: rgb(224, 224, 224);
 }

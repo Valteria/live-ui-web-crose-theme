@@ -20,20 +20,21 @@ function WriteArticle(props) {
   );
 
   const { loading, draft } = props.createDraft;
+  console.log(draft);
 
-  // useEffect(() => {
-  //   // setContent(convertToRaw(editorState.getCurrentContent()));
-  //   setContent(
-  //     EditorState.createWithContent(
-  //       convertFromRaw(JSON.parse(editorState.getCurrentContent()))
-  //     )
-  //   );
-  // }, [editorState]);
+  useEffect(() => {
+    setContent(convertToRaw(editorState.getCurrentContent()));
+    // setContent(
+    //   EditorState.createWithContent(
+    //     convertFromRaw(JSON.parse(editorState.getCurrentContent()))
+    //   )
+    // );
+  }, [editorState]);
 
-  // const saveArticle = () => {
-  //   let contentState = editorState.getCurrentContent();
-  //   const article = { title: title, content: convertToRaw(contentState) };
-  // };
+  const saveArticle = () => {
+    let contentState = editorState.getCurrentContent();
+    const article = { title: title, content: convertToRaw(contentState) };
+  };
 
   return (
     <div>
@@ -43,9 +44,10 @@ function WriteArticle(props) {
       <div className="writeArticle">
         <div className="events-area">
           <div className="container article__controler">
-            {draft?.isLetters && (
+            {draft?.isLetters ? (
               <div className="article__title-img">
                 <div className="article__title">
+                  <h3 style={{ textAlign: "center" }}>Letters</h3>
                   <label htmlFor="title">Title</label>
                   <input
                     type="text"
@@ -63,6 +65,8 @@ function WriteArticle(props) {
                   <input type="file" />
                 </div>
               </div>
+            ) : (
+              <h3 style={{ textAlign: "center" }}>Parish Activities</h3>
             )}
             <div className="article__editor">
               <Editor
@@ -75,11 +79,15 @@ function WriteArticle(props) {
               />
             </div>
             <div className="group__button">
-              <button className="button-save" type="button">
-                SAVE
+              <button
+                className="button-save"
+                type="button"
+                onClick={() => props.history.push("/article-repo")}
+              >
+                <i className="fa fa-arrow-left"></i>
               </button>
               <button className="button-preview" type="button">
-                PREVIEW
+                <i className="fa fa-eye"></i>
               </button>
             </div>
           </div>

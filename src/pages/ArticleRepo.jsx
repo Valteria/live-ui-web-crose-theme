@@ -7,7 +7,7 @@ import DraftArticle from "../components/DraftArticle";
 import { Button, Modal } from "react-bootstrap";
 import CategoryModal from "../components/CategoryModal";
 
-function ArticleRepo(props) {
+function ArticleRepo({ getDraftList, draftsList, history }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [cateId, setCateId] = useState("parish-activities");
 
@@ -27,8 +27,10 @@ function ArticleRepo(props) {
         btn.classList.add("active");
       });
     }
-    props.getDraftList(cateId);
-  }, [cateId]);
+    getDraftList(cateId);
+  }, [cateId, getDraftList]);
+
+  // console.log(history);
 
   return (
     <div>
@@ -66,8 +68,8 @@ function ArticleRepo(props) {
               <div className="contents">
                 <h6>Articles</h6>
                 <ul>
-                  {props.draftsList.drafts.length === 0 && <li>No Draft</li>}
-                  {props.draftsList.drafts?.map((article, idx) => (
+                  {draftsList.drafts.length === 0 && <li>No Draft</li>}
+                  {draftsList.drafts?.map((article, idx) => (
                     <DraftArticle key={idx} article={article} />
                   ))}
                 </ul>

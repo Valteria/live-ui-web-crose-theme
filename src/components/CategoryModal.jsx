@@ -1,14 +1,20 @@
-import { Form, Modal } from "react-bootstrap";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Button, Form, Modal } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { createNewArticle } from "../store/dispatch/dispatch";
+import { useHistory } from "react-router";
 
-function CategoryModal({ createNewArticle }) {
+function CategoryModal({ createNewArticle, createDraft }) {
   const [cate, setCate] = useState("letters");
+  const history = useHistory();
   const handleSubmit = () => {
     createNewArticle(cate === "letters" ? true : false);
   };
+  useEffect(() => {
+    if (createDraft.draft) {
+      history.push(`/write-article/${createDraft.draft._id}`);
+    }
+  }, [createDraft, history]);
   return (
     <>
       <Modal.Header closeButton>
@@ -34,13 +40,9 @@ function CategoryModal({ createNewArticle }) {
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Link
-          className="confirmCreateArticle"
-          to="/write-article"
-          onClick={handleSubmit}
-        >
+        <Button className="confirmCreateArticle" onClick={handleSubmit}>
           Confirm
-        </Link>
+        </Button>
       </Modal.Footer>
     </>
   );
@@ -49,5 +51,8 @@ function CategoryModal({ createNewArticle }) {
 const mapDispatchToMaps = (dispatch) => ({
   createNewArticle: (isLetters) => createNewArticle(dispatch, isLetters),
 });
+const mapStateToProps = (state) => ({
+  createDraft: state.createDraft,
+});
 
-export default connect(null, mapDispatchToMaps)(CategoryModal);
+export default connect(mapStateToProps, mapDispatchToMaps)(CategoryModal);
