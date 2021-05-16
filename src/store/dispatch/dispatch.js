@@ -116,3 +116,5 @@ export const getDraftContent = async (dispatch, draftId) => {
         dispatch({ type: actionType.DRAFT_CONTENT_FAIL, payload: message })
     }
 }
+
+export const saveUpdateDraft = async (dispatch, content) => { }

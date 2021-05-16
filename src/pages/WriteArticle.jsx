@@ -8,6 +8,7 @@ import draftToHtml from "draftjs-to-html";
 import { connect } from "react-redux";
 import LoadingBox from "../components/LoadingBox";
 import { getDraftContent } from "../store/dispatch/dispatch";
+import { Button, FormControl, InputGroup } from "react-bootstrap";
 
 function WriteArticle({
   match,
@@ -30,9 +31,9 @@ function WriteArticle({
   const { loading, draft } = draftContent;
 
   useEffect(() => {
-    setContent(convertToRaw(editorState.getCurrentContent()));
+    // setContent(convertToRaw(editorState.getCurrentContent()));
     getDraftContent(draftId);
-  }, [editorState, getDraftContent, draftId]);
+  }, [getDraftContent, draftId]);
 
   const saveArticle = () => {
     let contentState = editorState.getCurrentContent();
@@ -61,11 +62,21 @@ function WriteArticle({
                   />
                 </div>
                 <div className="article__img">
-                  <img
-                    src="http://hvmatl.net/gallery/img/articles/article-logo.png"
-                    alt=""
-                  />
-                  <input type="file" />
+                  <img src={image ? image : null} alt="" />
+                  <div className="article__img-input">
+                    <InputGroup>
+                      <FormControl
+                        placeholder="Enter URL"
+                        value={image}
+                        onChange={(e) => setImage(e.target.value)}
+                      />
+                      <InputGroup.Append>
+                        <Button>
+                          <i className="fa fa-save"></i>
+                        </Button>
+                      </InputGroup.Append>
+                    </InputGroup>
+                  </div>
                 </div>
               </div>
             ) : (
@@ -82,16 +93,24 @@ function WriteArticle({
               />
             </div>
             <div className="group__button">
-              <button
-                className="button-save"
-                type="button"
+              <Button
+                className="button-back"
                 onClick={() => history.push("/article-repo")}
+                variant="secondary"
               >
                 <i className="fa fa-arrow-left"></i>
-              </button>
-              <button className="button-preview" type="button">
+              </Button>
+              <Button
+                className="button-save"
+                type="button"
+                onClick={saveArticle}
+                variant="primary"
+              >
+                Test Save
+              </Button>
+              <Button className="button-preview" variant="success">
                 <i className="fa fa-eye"></i>
-              </button>
+              </Button>
             </div>
           </div>
         </div>
