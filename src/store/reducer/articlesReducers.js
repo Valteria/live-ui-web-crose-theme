@@ -58,3 +58,18 @@ export const deleteDraftReducer = (state = {}, action) => {
             return state;
     }
 }
+
+export const draftContentReducer = (state = {}, action) => {
+    switch (action.type) {
+        case actionType.DRAFT_CONTENT_REQUEST:
+            return { loading: true }
+        case actionType.DRAFT_CONTENT_SUCCESS:
+            return { loading: false, success: true, draft: action.payload }
+        case actionType.DRAFT_CONTENT_FAIL:
+            return { loading: false, error: action.payload }
+        case actionType.DRAFT_CONTENT_RESET:
+            return {}
+        default:
+            return state;
+    }
+}

@@ -154,7 +154,7 @@ const App = (props) => {
             <Route path="/cookies" component={CookiePage} />
             <Route path="/saint" component={VNSaints} />
             <Route path="/upload" component={Upload} />
-            <Route path="/write-article" component={WriteArticle} />
+            <Route path="/write-article/:id" component={WriteArticle} />
             <Route path="/article-repo" component={ArticleRepo} />
             {/* <Route path="/article-review/:date&:review" component={ArticleDetail} /> */}
         </Router>

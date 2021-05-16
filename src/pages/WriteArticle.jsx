@@ -7,8 +7,15 @@ import "../css/WriteArticle.css";
 import draftToHtml from "draftjs-to-html";
 import { connect } from "react-redux";
 import LoadingBox from "../components/LoadingBox";
+import { getDraftContent } from "../store/dispatch/dispatch";
 
-function WriteArticle(props) {
+function WriteArticle({
+  match,
+  createDraft,
+  history,
+  getDraftContent,
+  draftContent,
+}) {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const onEditorStateChange = (editorState) => {
     setEditorState(editorState);
@@ -18,17 +25,14 @@ function WriteArticle(props) {
   const [image, setImage] = useState(
     "http://hvmatl.net/gallery/img/articles/article-logo.png"
   );
+  const draftId = match.params.id;
 
-  const { loading, draft } = props.createDraft;
+  const { loading, draft } = draftContent;
 
   useEffect(() => {
     setContent(convertToRaw(editorState.getCurrentContent()));
-    // setContent(
-    //   EditorState.createWithContent(
-    //     convertFromRaw(JSON.parse(editorState.getCurrentContent()))
-    //   )
-    // );
-  }, [editorState]);
+    getDraftContent(draftId);
+  }, [editorState, getDraftContent, draftId]);
 
   const saveArticle = () => {
     let contentState = editorState.getCurrentContent();
@@ -81,7 +85,7 @@ function WriteArticle(props) {
               <button
                 className="button-save"
                 type="button"
-                onClick={() => props.history.push("/article-repo")}
+                onClick={() => history.push("/article-repo")}
               >
                 <i className="fa fa-arrow-left"></i>
               </button>
@@ -96,10 +100,13 @@ function WriteArticle(props) {
   );
 }
 
-const mapDispatchToProps = (dispatch) => ({});
+const mapDispatchToProps = (dispatch) => ({
+  getDraftContent: (draftId) => getDraftContent(dispatch, draftId),
+});
 
 const mapStateToProps = (state) => ({
   createDraft: state.createDraft,
+  draftContent: state.draftContent,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(WriteArticle);

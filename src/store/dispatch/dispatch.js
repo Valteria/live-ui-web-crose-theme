@@ -103,3 +103,16 @@ export const deleteDraft = async (dispatch, draftId) => {
         dispatch({ type: actionType.DELETE_DRAFT_FAIL, payload: message })
     }
 }
+
+export const getDraftContent = async (dispatch, draftId) => {
+    dispatch({ type: actionType.DRAFT_CONTENT_REQUEST })
+    try {
+        const { data } = await axios.get(`http://localhost:5000/${draftId}`)
+        dispatch({ type: actionType.DRAFT_CONTENT_SUCCESS, payload: data })
+    } catch (error) {
+        const message = error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message
+        dispatch({ type: actionType.DRAFT_CONTENT_FAIL, payload: message })
+    }
+}
