@@ -20,7 +20,6 @@ function WriteArticle(props) {
   );
 
   const { loading, draft } = props.createDraft;
-  console.log(draft);
 
   useEffect(() => {
     setContent(convertToRaw(editorState.getCurrentContent()));

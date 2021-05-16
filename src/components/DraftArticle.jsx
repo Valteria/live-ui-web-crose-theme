@@ -1,6 +1,8 @@
 import React from "react";
+import { connect } from "react-redux";
+import { deleteDraft } from "../store/dispatch/dispatch";
 
-function DraftArticle({ article }) {
+function DraftArticle({ article, deleteDraft }) {
   return (
     <li>
       <strong>{article.title ? article.title : article.date}</strong>
@@ -11,7 +13,7 @@ function DraftArticle({ article }) {
         <button>
           <i className="fa fa-paper-plane"></i>
         </button>
-        <button>
+        <button onClick={() => deleteDraft(article._id)}>
           <i className="fa fa-trash"></i>
         </button>
       </div>
@@ -19,4 +21,8 @@ function DraftArticle({ article }) {
   );
 }
 
-export default DraftArticle;
+const mapDispatchToProps = (dispatch) => ({
+  deleteDraft: (draftId) => deleteDraft(dispatch, draftId),
+});
+
+export default connect(null, mapDispatchToProps)(DraftArticle);

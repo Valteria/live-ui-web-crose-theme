@@ -69,7 +69,10 @@ export const createNewArticle = async (dispatch, isLetters) => {
         dispatch({ type: actionType.CREATE_DRAFT_SUCCESS, payload: data })
 
     } catch (error) {
-        dispatch({ type: actionType.CREATE_DRAFT_FAIL, message: "Failed to create a draft" })
+        const message = error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message
+        dispatch({ type: actionType.CREATE_DRAFT_FAIL, payload: message })
     }
 }
 
@@ -81,7 +84,22 @@ export const getDraftList = async (dispatch, cateId) => {
         const { data } = await axios.get(`http://localhost:5000?isLetters=${cateId === 'letters' ? true : false}`)
         dispatch({ type: actionType.DRAFTS_LIST_SUCCESS, payload: data })
     } catch (error) {
-        dispatch({ type: actionType.DRAFTS_LIST_ERROR, message: "Failed to retrieve draft" })
+        const message = error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message
+        dispatch({ type: actionType.DRAFTS_LIST_ERROR, payload: message })
     }
 }
 
+export const deleteDraft = async (dispatch, draftId) => {
+    dispatch({ type: actionType.DELETE_DRAFT_REQUEST })
+    try {
+        const { data } = await axios.delete(`http://localhost:5000/${draftId}`)
+        dispatch({ type: actionType.DELETE_DRAFT_SUCCESS, payload: data })
+    } catch (error) {
+        const message = error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message
+        dispatch({ type: actionType.DELETE_DRAFT_FAIL, payload: message })
+    }
+}

@@ -1,20 +1,27 @@
 import { Button, Form, Modal } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { createNewArticle } from "../store/dispatch/dispatch";
 import { useHistory } from "react-router";
+import { CREATE_DRAFT_RESET } from "../store/actionType";
 
 function CategoryModal({ createNewArticle, createDraft }) {
   const [cate, setCate] = useState("letters");
   const history = useHistory();
+  const dispatch = useDispatch();
+
   const handleSubmit = () => {
     createNewArticle(cate === "letters" ? true : false);
+    setCate("letters");
   };
   useEffect(() => {
     if (createDraft.draft) {
       history.push(`/write-article/${createDraft.draft._id}`);
     }
-  }, [createDraft, history]);
+    if (createDraft.success) {
+      dispatch({ type: CREATE_DRAFT_RESET });
+    }
+  }, [createDraft, history, dispatch]);
   return (
     <>
       <Modal.Header closeButton>

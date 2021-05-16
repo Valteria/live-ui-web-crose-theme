@@ -1,19 +1,23 @@
 import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { getDraftList } from "../store/dispatch/dispatch";
 import "../css/ArticleRepo.css";
 import DraftArticle from "../components/DraftArticle";
 import { Button, Modal } from "react-bootstrap";
 import CategoryModal from "../components/CategoryModal";
+import { DELETE_DRAFT_RESET } from "../store/actionType";
 
-function ArticleRepo({ getDraftList, draftsList }) {
+function ArticleRepo({ getDraftList, draftsList, deleteDraft }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [cateId, setCateId] = useState("letters");
+  const dispatch = useDispatch();
 
   const closeModal = () => {
     setModalOpen(false);
   };
+
+  const { success } = deleteDraft;
 
   useEffect(() => {
     const sideBtns = document.querySelectorAll(".sidebar ul li");
@@ -27,8 +31,13 @@ function ArticleRepo({ getDraftList, draftsList }) {
         btn.classList.add("active");
       });
     }
+
+    if (success) {
+      dispatch({ type: DELETE_DRAFT_RESET });
+    }
+
     getDraftList(cateId);
-  }, [cateId, getDraftList]);
+  }, [cateId, getDraftList, success, dispatch]);
 
   return (
     <div>
@@ -89,6 +98,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const mapStateToProps = (state) => ({
   draftsList: state.draftsList,
+  deleteDraft: state.deleteDraft,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ArticleRepo);
