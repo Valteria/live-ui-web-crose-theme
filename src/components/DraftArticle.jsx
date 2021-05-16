@@ -1,8 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Button, Modal } from "react-bootstrap";
 import { connect } from "react-redux";
 import { deleteDraft } from "../store/dispatch/dispatch";
 
 function DraftArticle({ article, deleteDraft }) {
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
+  const deleteModalClose = () => {
+    setDeleteModal(false);
+  };
+
+  useEffect(() => {
+    if (isDelete) {
+      deleteDraft(article._id);
+      setIsDelete(false);
+      setDeleteModal(false);
+    }
+  }, [article._id, isDelete, deleteDraft]);
+
   return (
     <li>
       <strong>{article.title ? article.title : article.date}</strong>
@@ -13,10 +28,29 @@ function DraftArticle({ article, deleteDraft }) {
         <button>
           <i className="fa fa-paper-plane"></i>
         </button>
-        <button onClick={() => deleteDraft(article._id)}>
+        <button onClick={() => setDeleteModal(true)}>
           <i className="fa fa-trash"></i>
         </button>
       </div>
+      <Modal show={deleteModal} onHide={deleteModalClose}>
+        <Modal.Header>
+          <div>
+            You are attempting to delete{" "}
+            <b>
+              <i>{article.title ? article.title : article.date}.</i>
+            </b>{" "}
+            Are you sure?
+          </div>
+        </Modal.Header>
+        <Modal.Footer>
+          <Button variant="primary" onClick={deleteModalClose}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={() => setIsDelete(true)}>
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </li>
   );
 }
