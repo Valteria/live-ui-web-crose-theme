@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { connect } from "react-redux";
 import { deleteDraft } from "../store/dispatch/dispatch";
+import { useHistory } from "react-router";
 
 function DraftArticle({ article, deleteDraft }) {
   const [deleteModal, setDeleteModal] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
+  const history = useHistory();
   const deleteModalClose = () => {
     setDeleteModal(false);
   };
@@ -19,7 +21,7 @@ function DraftArticle({ article, deleteDraft }) {
   }, [article._id, isDelete, deleteDraft]);
 
   return (
-    <li>
+    <li onClick={() => history.push(`/write-article/${article._id}`)}>
       <strong>{article.title ? article.title : article.date}</strong>
       <div className="buttons-group">
         <button>
