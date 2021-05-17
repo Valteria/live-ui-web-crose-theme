@@ -6,6 +6,7 @@ import {
   convertToRaw,
   convertFromRaw,
   convertFromHTML,
+  Editor as EditorOrigin,
 } from "draft-js";
 import "../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "../css/WriteArticle.css";
@@ -23,9 +24,6 @@ function WriteArticle({
   draftContent,
 }) {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
-  const onEditorStateChange = (editorState) => {
-    setEditorState(editorState);
-  };
   const [title, setTitle] = useState("");
   const [content, setContent] = useState();
   const [image, setImage] = useState(
@@ -37,6 +35,15 @@ function WriteArticle({
   const draftId = match.params.id;
 
   const { loading, draft } = draftContent;
+
+  const onEditorStateChange = (editorState) => {
+    setEditorState(editorState);
+    setContent(
+      editorState
+        ? EditorState.createWithContent(editorState.getCurrentContent())
+        : EditorState.createEmpty()
+    );
+  };
 
   useEffect(() => {
     // setContent(convertToRaw(editorState.getCurrentContent()));
@@ -120,7 +127,14 @@ function WriteArticle({
                     onChange={(e) => setDate(e.target.value)}
                     className="article__description-date"
                   />
-                  <div className="article__description-words"></div>
+                  <div className="article__description-words">
+                    <EditorOrigin
+                      editorState={
+                        content ? content : EditorState.createEmpty()
+                      }
+                      readOnly
+                    />
+                  </div>
                 </div>
               </div>
             ) : (
