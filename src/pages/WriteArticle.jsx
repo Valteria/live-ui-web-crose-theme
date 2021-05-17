@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import { Editor } from "react-draft-wysiwyg";
-import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
+import {
+  EditorState,
+  convertToRaw,
+  convertFromRaw,
+  convertFromHTML,
+} from "draft-js";
 import "../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "../css/WriteArticle.css";
 import draftToHtml from "draftjs-to-html";
 import { connect } from "react-redux";
 import LoadingBox from "../components/LoadingBox";
 import { getDraftContent } from "../store/dispatch/dispatch";
-import { Button, FormControl, InputGroup } from "react-bootstrap";
+import { Button, Form, FormControl, InputGroup } from "react-bootstrap";
 
 function WriteArticle({
   match,
@@ -26,6 +31,9 @@ function WriteArticle({
   const [image, setImage] = useState(
     "http://hvmatl.net/gallery/img/articles/article-logo.png"
   );
+  const [newImage, setNewImage] = useState("");
+  const [date, setDate] = useState("");
+
   const draftId = match.params.id;
 
   const { loading, draft } = draftContent;
@@ -40,6 +48,15 @@ function WriteArticle({
     const article = { title: title, content: convertToRaw(contentState) };
   };
 
+  const handleChangeUrl = () => {
+    if (newImage) {
+      setImage(newImage);
+      document
+        .querySelector(".article__img-inputURL")
+        .classList.remove("visible");
+    }
+  };
+
   return (
     <div>
       <Header />
@@ -49,34 +66,61 @@ function WriteArticle({
         <div className="events-area">
           <div className="container article__controler">
             {draft?.isLetters ? (
-              <div className="article__title-img">
-                <div className="article__title">
-                  <h3 style={{ textAlign: "center" }}>Letters</h3>
-                  <label htmlFor="title">Title</label>
+              <div className="article__review">
+                <div className="article__img">
+                  <img src={image ? image : null} alt="" />
+                  <div
+                    className="article__img-upload"
+                    onClick={() => {
+                      document
+                        .querySelector(".article__img-inputURL")
+                        .classList.add("visible");
+                    }}
+                  >
+                    <Button className="article__img-upload-btn">
+                      <i className="fa fa-upload"></i>
+                    </Button>
+                  </div>
+                  <div className="article__img-inputURL">
+                    <input
+                      type="text"
+                      placeholder="Paste URL here"
+                      value={newImage}
+                      onChange={(e) => setNewImage(e.target.value)}
+                    />
+                    <div className="article__img-groupBtn">
+                      <Button
+                        variant="danger"
+                        onClick={() => {
+                          document
+                            .querySelector(".article__img-inputURL")
+                            .classList.remove("visible");
+                        }}
+                      >
+                        x
+                      </Button>
+                      <Button variant="success" onClick={handleChangeUrl}>
+                        <i className="fa fa-save"></i>
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+                <div className="article__description">
                   <input
                     type="text"
                     required
                     placeholder="Title"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
+                    className="article__description-title"
                   />
-                </div>
-                <div className="article__img">
-                  <img src={image ? image : null} alt="" />
-                  <div className="article__img-input">
-                    <InputGroup>
-                      <FormControl
-                        placeholder="Enter URL"
-                        value={image}
-                        onChange={(e) => setImage(e.target.value)}
-                      />
-                      <InputGroup.Append>
-                        <Button>
-                          <i className="fa fa-save"></i>
-                        </Button>
-                      </InputGroup.Append>
-                    </InputGroup>
-                  </div>
+                  <input
+                    type="text"
+                    value={date ? date : draft.date}
+                    onChange={(e) => setDate(e.target.value)}
+                    className="article__description-date"
+                  />
+                  <div className="article__description-words"></div>
                 </div>
               </div>
             ) : (
