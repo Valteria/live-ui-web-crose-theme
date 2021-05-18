@@ -49,10 +49,12 @@
 }
 
 .article__description-words{
+    padding: 5px 10px;
     width: 100%;
     border: 1px solid lightgray;
     height: 100px;
     border-radius: 5px;
+    overflow: hidden;
 }
 
 .article__img{

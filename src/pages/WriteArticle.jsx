@@ -13,7 +13,7 @@ import "../css/WriteArticle.css";
 import draftToHtml from "draftjs-to-html";
 import { connect } from "react-redux";
 import LoadingBox from "../components/LoadingBox";
-import { getDraftContent } from "../store/dispatch/dispatch";
+import { getDraftContent, saveUpdateDraft } from "../store/dispatch/dispatch";
 import { Button, Form, FormControl, InputGroup } from "react-bootstrap";
 
 function WriteArticle({
@@ -22,6 +22,7 @@ function WriteArticle({
   history,
   getDraftContent,
   draftContent,
+  saveUpdateDraft,
 }) {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [title, setTitle] = useState("");
@@ -30,7 +31,7 @@ function WriteArticle({
     "http://hvmatl.net/gallery/img/articles/article-logo.png"
   );
   const [newImage, setNewImage] = useState("");
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState(null);
 
   const draftId = match.params.id;
 
@@ -38,21 +39,21 @@ function WriteArticle({
 
   const onEditorStateChange = (editorState) => {
     setEditorState(editorState);
-    setContent(
-      editorState
-        ? EditorState.createWithContent(editorState.getCurrentContent())
-        : EditorState.createEmpty()
-    );
+    setContent(editorState.getCurrentContent());
   };
 
   useEffect(() => {
-    // setContent(convertToRaw(editorState.getCurrentContent()));
     getDraftContent(draftId);
   }, [getDraftContent, draftId]);
 
   const saveArticle = () => {
     let contentState = editorState.getCurrentContent();
-    const article = { title: title, content: convertToRaw(contentState) };
+    const article = {
+      title: title,
+      content: convertToRaw(contentState),
+      date: date,
+    };
+    saveUpdateDraft(article);
   };
 
   const handleChangeUrl = () => {
@@ -123,16 +124,17 @@ function WriteArticle({
                   />
                   <input
                     type="text"
-                    value={date ? date : draft.date}
+                    value={date}
+                    placeholder={draft.date}
                     onChange={(e) => setDate(e.target.value)}
                     className="article__description-date"
                   />
                   <div className="article__description-words">
                     <EditorOrigin
-                      editorState={
-                        content ? content : EditorState.createEmpty()
-                      }
+                      toolbarHidden
                       readOnly
+                      editorState={editorState}
+                      placeholder="Desciption will be here..."
                     />
                   </div>
                 </div>
@@ -158,15 +160,12 @@ function WriteArticle({
               >
                 <i className="fa fa-arrow-left"></i>
               </Button>
+
               <Button
-                className="button-save"
-                type="button"
+                className="button-preview"
+                variant="success"
                 onClick={saveArticle}
-                variant="primary"
               >
-                Test Save
-              </Button>
-              <Button className="button-preview" variant="success">
                 <i className="fa fa-eye"></i>
               </Button>
             </div>
@@ -179,6 +178,7 @@ function WriteArticle({
 
 const mapDispatchToProps = (dispatch) => ({
   getDraftContent: (draftId) => getDraftContent(dispatch, draftId),
+  saveUpdateDraft: (article) => saveUpdateDraft(dispatch, article),
 });
 
 const mapStateToProps = (state) => ({

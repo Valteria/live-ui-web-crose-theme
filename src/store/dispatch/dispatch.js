@@ -117,4 +117,14 @@ export const getDraftContent = async (dispatch, draftId) => {
     }
 }
 
-export const saveUpdateDraft = async (dispatch, content) => { }
+export const saveUpdateDraft = async (dispatch, article) => {
+    dispatch({ type: actionType.SAVE_DRAFT_REQUEST })
+    try {
+
+    } catch (error) {
+        const message = error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message
+        dispatch({ type: actionType.SAVE_DRAFT_FAIL, payload: message })
+    }
+}
