@@ -120,7 +120,13 @@ export const getDraftContent = async (dispatch, draftId) => {
 export const saveUpdateDraft = async (dispatch, article) => {
     dispatch({ type: actionType.SAVE_DRAFT_REQUEST })
     try {
-
+        const { data } = await axios.put(`http://localhost:5000/update-draft/${article._id}`, article, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accepts': 'application/json'
+            },
+        })
+        dispatch({ type: actionType.SAVE_DRAFT_SUCCESS, payload: data })
     } catch (error) {
         const message = error.response && error.response.data.message
             ? error.response.data.message

@@ -35,23 +35,35 @@ function WriteArticle({
 
   const draftId = match.params.id;
 
-  const { loading, draft } = draftContent;
-
   const onEditorStateChange = (editorState) => {
     setEditorState(editorState);
     setContent(editorState.getCurrentContent());
   };
-
+  const { loading, draft } = draftContent;
   useEffect(() => {
     getDraftContent(draftId);
   }, [getDraftContent, draftId]);
 
+  useEffect(() => {
+    if (draft && draft?.content) {
+      setEditorState(
+        EditorState.createWithContent(convertFromRaw(JSON.parse(draft.content)))
+      );
+      setTitle(draft.title);
+      setDate(draft.date);
+      setImage(draft.image);
+    } else {
+      setEditorState(EditorState.createEmpty());
+    }
+  }, [draft]);
+
   const saveArticle = () => {
-    let contentState = editorState.getCurrentContent();
     const article = {
       title: title,
-      content: convertToRaw(contentState),
+      content: JSON.stringify(convertToRaw(content)),
       date: date,
+      image: image,
+      _id: draftId,
     };
     saveUpdateDraft(article);
   };

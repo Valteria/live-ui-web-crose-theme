@@ -73,3 +73,20 @@ export const draftContentReducer = (state = {}, action) => {
             return state;
     }
 }
+
+export const draftUpdatedReducer = (state = {}, action) => {
+    switch (action.type) {
+        case actionType.SAVE_DRAFT_REQUEST:
+            return { loading: true }
+        case actionType.SAVE_DRAFT_SUCCESS:
+            return {
+                loading: false,
+                success: true,
+                draft: action.payload,
+            }
+        case actionType.SAVE_DRAFT_FAIL:
+            return { loading: false, error: action.payload }
+        default:
+            return state;
+    }
+}
