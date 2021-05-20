@@ -1,43 +1,41 @@
 import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import { Editor } from "react-draft-wysiwyg";
-import {
-  EditorState,
-  convertToRaw,
-  convertFromRaw,
-  convertFromHTML,
-  Editor as EditorOrigin,
-} from "draft-js";
+import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
 import "../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "../css/WriteArticle.css";
-import draftToHtml from "draftjs-to-html";
+
 import { connect } from "react-redux";
 import LoadingBox from "../components/LoadingBox";
-import { getDraftContent, saveUpdateDraft } from "../store/dispatch/dispatch";
-import { Button, Form, FormControl, InputGroup } from "react-bootstrap";
+import {
+  getDraftContent,
+  getImageUrl,
+  saveUpdateDraft,
+} from "../store/dispatch/dispatch";
+import { Button } from "react-bootstrap";
 
 function WriteArticle({
   match,
-  createDraft,
   history,
   getDraftContent,
   draftContent,
   saveUpdateDraft,
+  getImageUrl,
 }) {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [title, setTitle] = useState("");
-  const [content, setContent] = useState();
   const [image, setImage] = useState(
     "http://hvmatl.net/gallery/img/articles/article-logo.png"
   );
   const [newImage, setNewImage] = useState("");
   const [date, setDate] = useState(null);
+  const [fileImage, setFileImage] = useState("");
+  const [imageReader, setImageReader] = useState(null);
 
   const draftId = match.params.id;
 
   const onEditorStateChange = (editorState) => {
     setEditorState(editorState);
-    setContent(editorState.getCurrentContent());
   };
   const { loading, draft } = draftContent;
   useEffect(() => {
@@ -59,10 +57,10 @@ function WriteArticle({
 
   const saveArticle = () => {
     const article = {
-      title: title,
-      content: JSON.stringify(convertToRaw(content)),
+      title: draft.isLetters ? title : null,
+      content: JSON.stringify(convertToRaw(editorState.getCurrentContent())),
       date: date,
-      image: image,
+      image: draft.isLetters ? image : null,
       _id: draftId,
     };
     saveUpdateDraft(article);
@@ -74,6 +72,18 @@ function WriteArticle({
       document
         .querySelector(".article__img-inputURL")
         .classList.remove("visible");
+    }
+  };
+
+  const handleChangeImage = (e) => {
+    setFileImage(e.target.value);
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setImageReader(reader.result);
+      };
     }
   };
 
@@ -141,12 +151,26 @@ function WriteArticle({
                     onChange={(e) => setDate(e.target.value)}
                     className="article__description-date"
                   />
-                  <div className="article__description-words">
-                    <EditorOrigin
-                      toolbarHidden
+                  <div className="article__getURLImage">
+                    <div className="article__resourceImage">
+                      <input
+                        type="file"
+                        className="article__resourceImage-input"
+                        value={fileImage}
+                        onChange={handleChangeImage}
+                      />
+                      <Button
+                        variant="primary"
+                        disabled={!imageReader ? true : false}
+                        onClick={() => getImageUrl(imageReader)}
+                      >
+                        Upload
+                      </Button>
+                    </div>
+                    <input
+                      type="text"
                       readOnly
-                      editorState={editorState}
-                      placeholder="Desciption will be here..."
+                      className="article__resultURL"
                     />
                   </div>
                 </div>
@@ -191,6 +215,7 @@ function WriteArticle({
 const mapDispatchToProps = (dispatch) => ({
   getDraftContent: (draftId) => getDraftContent(dispatch, draftId),
   saveUpdateDraft: (article) => saveUpdateDraft(dispatch, article),
+  getImageUrl: (imageReader) => getImageUrl(dispatch, imageReader),
 });
 
 const mapStateToProps = (state) => ({

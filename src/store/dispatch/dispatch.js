@@ -76,6 +76,10 @@ export const createNewArticle = async (dispatch, isLetters) => {
     }
 }
 
+export const getImageUrl = (dispatch, imageReader) => {
+    console.log(imageReader)
+}
+
 
 
 export const getDraftList = async (dispatch, cateId) => {
