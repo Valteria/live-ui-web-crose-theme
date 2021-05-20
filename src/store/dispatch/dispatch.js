@@ -60,7 +60,7 @@ export const updateForm = (dispatch, formType, updateData) => dispatch({ type: a
 export const createNewArticle = async (dispatch, isLetters) => {
     dispatch({ type: actionType.CREATE_DRAFT_REQUEST })
     try {
-        const { data } = await axios.post("http://localhost:5000/new-draft", { isLetters }, {
+        const { data } = await axios.post("http://localhost:5000/api/drafts/new-draft", { isLetters }, {
             headers: {
                 'Content-Type': 'application/json',
                 'Accepts': 'application/json'
@@ -85,7 +85,7 @@ export const getImageUrl = (dispatch, imageReader) => {
 export const getDraftList = async (dispatch, cateId) => {
     dispatch({ type: actionType.DRAFTS_LIST_REQUEST })
     try {
-        const { data } = await axios.get(`http://localhost:5000?isLetters=${cateId === 'letters' ? true : false}`)
+        const { data } = await axios.get(`http://localhost:5000/api/drafts?isLetters=${cateId === 'letters' ? true : false}`)
         dispatch({ type: actionType.DRAFTS_LIST_SUCCESS, payload: data })
     } catch (error) {
         const message = error.response && error.response.data.message
@@ -98,7 +98,7 @@ export const getDraftList = async (dispatch, cateId) => {
 export const deleteDraft = async (dispatch, draftId) => {
     dispatch({ type: actionType.DELETE_DRAFT_REQUEST })
     try {
-        const { data } = await axios.delete(`http://localhost:5000/${draftId}`)
+        const { data } = await axios.delete(`http://localhost:5000/api/drafts/${draftId}`)
         dispatch({ type: actionType.DELETE_DRAFT_SUCCESS, payload: data })
     } catch (error) {
         const message = error.response && error.response.data.message
@@ -111,7 +111,7 @@ export const deleteDraft = async (dispatch, draftId) => {
 export const getDraftContent = async (dispatch, draftId) => {
     dispatch({ type: actionType.DRAFT_CONTENT_REQUEST })
     try {
-        const { data } = await axios.get(`http://localhost:5000/${draftId}`)
+        const { data } = await axios.get(`http://localhost:5000/api/drafts/${draftId}`)
         dispatch({ type: actionType.DRAFT_CONTENT_SUCCESS, payload: data })
     } catch (error) {
         const message = error.response && error.response.data.message
@@ -124,7 +124,7 @@ export const getDraftContent = async (dispatch, draftId) => {
 export const saveUpdateDraft = async (dispatch, article) => {
     dispatch({ type: actionType.SAVE_DRAFT_REQUEST })
     try {
-        const { data } = await axios.put(`http://localhost:5000/update-draft/${article._id}`, article, {
+        const { data } = await axios.put(`http://localhost:5000/api/drafts/update-draft/${article._id}`, article, {
             headers: {
                 'Content-Type': 'application/json',
                 'Accepts': 'application/json'
