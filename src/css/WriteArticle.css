@@ -84,6 +84,7 @@
 
 .article__img img{
     height: 185px;
+    border-radius: 8px;
 }
 
 .article__img:hover .article__img-upload{

@@ -75,6 +75,11 @@ function WriteArticle({
     }
   };
 
+  const handleBackBtn = () => {
+    saveArticle();
+    history.push("/article-repo");
+  };
+
   return (
     <div>
       <Header />
@@ -161,7 +166,7 @@ function WriteArticle({
             <div className="group__button">
               <Button
                 className="button-back"
-                onClick={() => history.push("/article-repo")}
+                onClick={handleBackBtn}
                 variant="secondary"
               >
                 <i className="fa fa-arrow-left"></i>
