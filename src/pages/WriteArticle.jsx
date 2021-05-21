@@ -7,12 +7,9 @@ import "../css/WriteArticle.css";
 
 import { connect } from "react-redux";
 import LoadingBox from "../components/LoadingBox";
-import {
-  getDraftContent,
-  getImageUrl,
-  saveUpdateDraft,
-} from "../store/dispatch/dispatch";
+import { getDraftContent, saveUpdateDraft } from "../store/dispatch/dispatch";
 import { Button } from "react-bootstrap";
+import UploadImageToCloud from "../components/UploadImageToCloud";
 
 function WriteArticle({
   match,
@@ -20,8 +17,6 @@ function WriteArticle({
   getDraftContent,
   draftContent,
   saveUpdateDraft,
-  getImageUrl,
-  cloudImage,
 }) {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [title, setTitle] = useState("");
@@ -30,28 +25,22 @@ function WriteArticle({
   );
   const [newImage, setNewImage] = useState("");
   const [date, setDate] = useState(null);
-  const [fileImage, setFileImage] = useState("");
-  const [imageReader, setImageReader] = useState(null);
-
-  const draftId = match.params.id;
+  const [articleId, setArticleId] = useState(null);
+  const [resetUrl, setResetUrl] = useState(false);
 
   const { loading, draft } = draftContent;
-  const { loading: loadingUrl, imageUrl } = cloudImage;
 
   const onEditorStateChange = (editorState) => {
     setEditorState(editorState);
   };
 
   useEffect(() => {
-    if (imageUrl) {
-      setImageReader(null);
-      setFileImage("");
+    if (!articleId || articleId !== match.params.id) {
+      setArticleId(match.params.id);
+      setResetUrl(true);
     }
-  }, [imageUrl]);
-
-  useEffect(() => {
-    getDraftContent(draftId);
-  }, [getDraftContent, draftId]);
+    getDraftContent(match.params.id);
+  }, [getDraftContent, articleId, match.params.id]);
 
   useEffect(() => {
     if (draft && draft?.content) {
@@ -72,7 +61,7 @@ function WriteArticle({
       content: JSON.stringify(convertToRaw(editorState.getCurrentContent())),
       date: date,
       image: draft.isLetters ? image : null,
-      _id: draftId,
+      _id: articleId,
     };
     saveUpdateDraft(article);
   };
@@ -83,18 +72,6 @@ function WriteArticle({
       document
         .querySelector(".article__img-inputURL")
         .classList.remove("visible");
-    }
-  };
-
-  const handleChangeImage = (e) => {
-    setFileImage(e.target.value);
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onloadend = () => {
-        setImageReader(reader.result);
-      };
     }
   };
 
@@ -162,37 +139,14 @@ function WriteArticle({
                     onChange={(e) => setDate(e.target.value)}
                     className="article__description-date"
                   />
-                  <div className="article__getURLImage">
-                    <div className="article__resourceImage">
-                      <input
-                        type="file"
-                        className="article__resourceImage-input"
-                        value={fileImage}
-                        onChange={handleChangeImage}
-                      />
-                      <Button
-                        variant={!imageReader ? "secondary" : "primary"}
-                        disabled={!imageReader ? true : false}
-                        onClick={() => getImageUrl(imageReader)}
-                      >
-                        Upload
-                      </Button>
-                    </div>
-                    {loadingUrl ? (
-                      <LoadingBox />
-                    ) : (
-                      <input
-                        type="text"
-                        readOnly
-                        className="article__resultURL"
-                        value={imageUrl}
-                      />
-                    )}
-                  </div>
+                  <UploadImageToCloud />
                 </div>
               </div>
             ) : (
-              <h3 style={{ textAlign: "center" }}>Parish Activities</h3>
+              <div className="my-3">
+                <h3 style={{ textAlign: "center" }}>Parish Activities</h3>
+                <UploadImageToCloud />
+              </div>
             )}
             <div className="article__editor">
               <Editor
@@ -231,7 +185,6 @@ function WriteArticle({
 const mapDispatchToProps = (dispatch) => ({
   getDraftContent: (draftId) => getDraftContent(dispatch, draftId),
   saveUpdateDraft: (article) => saveUpdateDraft(dispatch, article),
-  getImageUrl: (imageReader) => getImageUrl(dispatch, imageReader),
 });
 
 const mapStateToProps = (state) => ({

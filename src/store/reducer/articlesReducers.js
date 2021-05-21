@@ -96,9 +96,11 @@ export const cloudImageReducer = (state = {}, action) => {
         case actionType.IMAGE_UPLOAD_REQUEST:
             return { loading: true }
         case actionType.IMAGE_UPLOAD_SUCCESS:
-            return { loading: false, imageUrl: action.payload }
+            return { loading: false, imageUrl: action.payload, success: true }
         case actionType.IMAGE_UPLOAD_FAIL:
             return { loading: false, error: action.payload }
+        case actionType.IMAGE_UPLOAD_RESET:
+            return {}
         default:
             return state;
     }

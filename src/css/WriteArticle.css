@@ -65,12 +65,13 @@
 }
 .article__resourceImage button{
     margin-left: 5px;
-    flex: 1;
+    flex: 0.2;
     display: inline;
     font-weight: bold;
 }
 .article__resourceImage input{
     background-color: white;
+    flex: 0.8;
 }
 
 .article__img{
