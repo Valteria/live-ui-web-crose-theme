@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 function ArticleListItem({ article }) {
+  console.log(article);
   return (
     <div className="col-12">
       {/* <!-- Single Upcoming Artile Area --> */}
@@ -22,7 +23,7 @@ function ArticleListItem({ article }) {
           <div className="events-text">
             <h4>{article.title}</h4>
             <div className="events-meta">
-              <Link to={`/ArticleDetail/${article.date}&true`}>
+              <Link to={`/ArticleDetail/${article.date}`}>
                 <i className="fa fa-calendar" aria-hidden="true"></i>
                 {article.date.split("-").reverse().join("-")}
               </Link>
@@ -32,7 +33,7 @@ function ArticleListItem({ article }) {
           </div>
           <div className="find-out-more-btn">
             <Link
-              to={`/ArticleDetail/${article.date}&true`}
+              to={`/ArticleDetail/${article.date}`}
               className="btn crose-btn btn-2"
             >
               Xem thêm
