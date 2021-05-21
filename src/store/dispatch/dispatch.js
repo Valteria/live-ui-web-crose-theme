@@ -76,11 +76,6 @@ export const createNewArticle = async (dispatch, isLetters) => {
     }
 }
 
-export const getImageUrl = (dispatch, imageReader) => {
-    console.log(imageReader)
-}
-
-
 
 export const getDraftList = async (dispatch, cateId) => {
     dispatch({ type: actionType.DRAFTS_LIST_REQUEST })
@@ -138,3 +133,22 @@ export const saveUpdateDraft = async (dispatch, article) => {
         dispatch({ type: actionType.SAVE_DRAFT_FAIL, payload: message })
     }
 }
+
+export const getImageUrl = async (dispatch, imageReader) => {
+    dispatch({ type: actionType.IMAGE_UPLOAD_REQUEST })
+    try {
+        const { data } = await axios.post('http://localhost:5000/api/cloudinary/upload-image', JSON.stringify({ data: imageReader }), {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accepts': 'application/json'
+            }
+        })
+        dispatch({ type: actionType.IMAGE_UPLOAD_SUCCESS, payload: data })
+    } catch (error) {
+        const message = error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message
+        dispatch({ type: actionType.IMAGE_UPLOAD_FAIL, payload: message })
+    }
+}
+

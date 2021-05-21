@@ -90,3 +90,16 @@ export const draftUpdatedReducer = (state = {}, action) => {
             return state;
     }
 }
+
+export const cloudImageReducer = (state = {}, action) => {
+    switch (action.type) {
+        case actionType.IMAGE_UPLOAD_REQUEST:
+            return { loading: true }
+        case actionType.IMAGE_UPLOAD_SUCCESS:
+            return { loading: false, imageUrl: action.payload }
+        case actionType.IMAGE_UPLOAD_FAIL:
+            return { loading: false, error: action.payload }
+        default:
+            return state;
+    }
+}

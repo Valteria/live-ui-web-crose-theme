@@ -21,6 +21,7 @@ function WriteArticle({
   draftContent,
   saveUpdateDraft,
   getImageUrl,
+  cloudImage,
 }) {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [title, setTitle] = useState("");
@@ -34,10 +35,20 @@ function WriteArticle({
 
   const draftId = match.params.id;
 
+  const { loading, draft } = draftContent;
+  const { loading: loadingUrl, imageUrl } = cloudImage;
+
   const onEditorStateChange = (editorState) => {
     setEditorState(editorState);
   };
-  const { loading, draft } = draftContent;
+
+  useEffect(() => {
+    if (imageUrl) {
+      setImageReader(null);
+      setFileImage("");
+    }
+  }, [imageUrl]);
+
   useEffect(() => {
     getDraftContent(draftId);
   }, [getDraftContent, draftId]);
@@ -160,18 +171,23 @@ function WriteArticle({
                         onChange={handleChangeImage}
                       />
                       <Button
-                        variant="primary"
+                        variant={!imageReader ? "secondary" : "primary"}
                         disabled={!imageReader ? true : false}
                         onClick={() => getImageUrl(imageReader)}
                       >
                         Upload
                       </Button>
                     </div>
-                    <input
-                      type="text"
-                      readOnly
-                      className="article__resultURL"
-                    />
+                    {loadingUrl ? (
+                      <LoadingBox />
+                    ) : (
+                      <input
+                        type="text"
+                        readOnly
+                        className="article__resultURL"
+                        value={imageUrl}
+                      />
+                    )}
                   </div>
                 </div>
               </div>
@@ -221,6 +237,7 @@ const mapDispatchToProps = (dispatch) => ({
 const mapStateToProps = (state) => ({
   createDraft: state.createDraft,
   draftContent: state.draftContent,
+  cloudImage: state.cloudImage,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(WriteArticle);
