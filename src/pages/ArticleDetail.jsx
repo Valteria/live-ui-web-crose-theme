@@ -6,11 +6,7 @@ import articleContent from "../database/articles-content";
 
 const ArticleDetail = (props) => {
   const date = props.match.params.date;
-  const review = props.match.params.review;
-  const article =
-    review === "true"
-      ? articleContent.find((article) => article.date === date)
-      : console.log("review");
+  const article = articleContent.find((article) => article.date === date);
   return (
     <div>
       <Header />
