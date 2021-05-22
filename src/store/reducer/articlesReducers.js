@@ -120,3 +120,18 @@ export const articlePublishedReducer = (state = {}, action) => {
             return state;
     }
 }
+
+export const articlesListReducer = (state = { article: [] }, action) => {
+    switch (action.type) {
+        case actionType.GET_ARTICLES_REQUEST:
+            return { loading: true }
+        case actionType.GET_ARTICLES_SUCCESS:
+            return { loading: false, articles: action.payload }
+        case actionType.GET_ARTICLES_FAIL:
+            return { loading: false, error: action.payload }
+        case actionType.GET_ARTICLES_RESET:
+            return { ...state, articles: [] }
+        default:
+            return state;
+    }
+}
