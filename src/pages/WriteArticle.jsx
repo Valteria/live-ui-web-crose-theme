@@ -32,7 +32,6 @@ function WriteArticle({
 
   const { loading, draft } = draftContent;
   const { success, draft: updatedDraft } = draftUpdated;
-  console.log(draftUpdated);
 
   const onEditorStateChange = (editorState) => {
     setEditorState(editorState);
@@ -41,9 +40,9 @@ function WriteArticle({
   useEffect(() => {
     if (!articleId || articleId !== match.params.id) {
       setArticleId(match.params.id);
+    } else {
+      getDraftContent(articleId);
     }
-
-    getDraftContent(match.params.id);
   }, [getDraftContent, articleId, match.params.id]);
 
   useEffect(() => {
@@ -61,10 +60,9 @@ function WriteArticle({
 
   useEffect(() => {
     if (success) {
-      history.push(`/article-review/${updatedDraft._id}`);
-      dispatch({ type: SAVE_DRAFT_RESET });
+      history.push(`/article-review/${match.params.id}`);
     }
-  }, [success, history, updatedDraft, dispatch]);
+  }, [success, history, match.params.id]);
 
   const saveArticle = () => {
     const article = {

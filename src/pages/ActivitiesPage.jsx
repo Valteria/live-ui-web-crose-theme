@@ -28,12 +28,28 @@ const ActivitiesPage = ({ getArticles, match, articlesList }) => {
   return (
     <>
       <Header />
-      <section className="section-padding-25">
-        <h2 className="section-heading">Sinh Hoạt Giáo Xứ</h2>
-        {loading && <LoadingBox />}
-        {articles && (
-          <Editor readOnly toolbarHidden editorState={editorState} />
-        )}
+      <section className="blog-content-area section-padding-100">
+        <div className="container">
+          <div className="row justify-content-between">
+            <div class="col-12 col-lg-12">
+              <div class="blog-posts-area">
+                <div class="single-post-details-area">
+                  <div class="post-content col-12 col-lg-auto">
+                    <h2 className="section-heading">Sinh Hoạt Giáo Xứ</h2>
+                    {loading && <LoadingBox />}
+                    {articles && (
+                      <Editor
+                        readOnly
+                        toolbarHidden
+                        editorState={editorState}
+                      />
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
       <Footer />
     </>

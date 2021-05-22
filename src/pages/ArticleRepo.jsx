@@ -49,7 +49,7 @@ function ArticleRepo({ getDraftList, draftsList, deleteDraft }) {
             <div className="col-12 mb-3">
               <div className="events-title">
                 <center>
-                  <h2>Repository Draft</h2>
+                  <h2>Repository</h2>
                   <Button
                     className="newArticleBtn"
                     onClick={() => setModalOpen(true)}
