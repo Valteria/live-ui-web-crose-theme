@@ -13,6 +13,7 @@ import { Editor } from "react-draft-wysiwyg";
 import { convertFromRaw, EditorState } from "draft-js";
 import { Button } from "react-bootstrap";
 import { POST_ARTICLE_RESET } from "../store/actionType";
+import { Modal } from "react-bootstrap";
 
 function ReviewArticle({
   getDraftContent,
@@ -26,11 +27,9 @@ function ReviewArticle({
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const { loading, draft } = draftContent;
   const { loading: loadingPublish, success: successPublish } = articlePublished;
+  const [postModal, setPostModal] = useState(false);
+  const [isPost, setIsPost] = useState(false);
   const dispatch = useDispatch();
-
-  const handlePostButton = () => {
-    postArticle(draft);
-  };
 
   useEffect(() => {
     getDraftContent(match.params.id);
@@ -54,7 +53,14 @@ function ReviewArticle({
         EditorState.createWithContent(convertFromRaw(JSON.parse(draft.content)))
       );
     }
-  }, [draft]);
+    if (isPost) {
+      postArticle(draft);
+    }
+  }, [draft, isPost, postArticle]);
+
+  const postModelClose = () => {
+    setPostModal(false);
+  };
 
   return (
     <div>
@@ -103,13 +109,34 @@ function ReviewArticle({
                     >
                       Repository
                     </Button>
-                    <Button variant="success" onClick={handlePostButton}>
+                    <Button
+                      variant="success"
+                      onClick={() => setPostModal(true)}
+                    >
                       {loadingPublish ? <LoadingBox /> : "Post"}
                     </Button>
                   </div>
                 </div>
               </div>
             </div>
+            <Modal show={postModal} onHide={postModelClose}>
+              <Modal.Header>
+                <div>
+                  Are you wanting to post{" "}
+                  <b>
+                    <i>{draft.title ? draft.title : draft.date}.</i>
+                  </b>
+                </div>
+              </Modal.Header>
+              <Modal.Footer>
+                <Button variant="primary" onClick={postModelClose}>
+                  Cancel
+                </Button>
+                <Button variant="success" onClick={() => setIsPost(true)}>
+                  Post
+                </Button>
+              </Modal.Footer>
+            </Modal>
           </section>
         )}
       </div>

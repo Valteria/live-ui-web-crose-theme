@@ -26,12 +26,10 @@ function DraftArticle({ article, deleteDraft }) {
         {article.title ? article.title : article.date}
       </strong>
       <div className="buttons-group">
-        <button>
+        <button onClick={() => history.push(`/article-review/${article._id}`)}>
           <i className="fa fa-eye"></i>
         </button>
-        <button>
-          <i className="fa fa-paper-plane"></i>
-        </button>
+
         <button onClick={() => setDeleteModal(true)}>
           <i className="fa fa-trash"></i>
         </button>
