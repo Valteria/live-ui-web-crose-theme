@@ -152,3 +152,20 @@ export const getImageUrl = async (dispatch, imageReader) => {
     }
 }
 
+export const postArticle = async (dispatch, draft) => {
+    dispatch({ type: actionType.POST_ARTICLE_REQUEST })
+    try {
+        const { data } = await axios.post('http://localhost:5000/api/articles/post-article', draft, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accepts': 'application/json'
+            }
+        })
+        dispatch({ type: actionType.POST_ARTICLE_SUCCESS, payload: data })
+    } catch (error) {
+        const message = error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message
+        dispatch({ type: actionType.POST_ARTICLE_FAIL, payload: message })
+    }
+}

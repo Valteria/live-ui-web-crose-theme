@@ -21,8 +21,10 @@ function DraftArticle({ article, deleteDraft }) {
   }, [article._id, isDelete, deleteDraft]);
 
   return (
-    <li onClick={() => history.push(`/write-article/${article._id}`)}>
-      <strong>{article.title ? article.title : article.date}</strong>
+    <li>
+      <strong onClick={() => history.push(`/write-article/${article._id}`)}>
+        {article.title ? article.title : article.date}
+      </strong>
       <div className="buttons-group">
         <button>
           <i className="fa fa-eye"></i>

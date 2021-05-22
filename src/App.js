@@ -51,6 +51,7 @@ import VNSaints from './pages/VNSaints';
 import Upload from './pages/Upload';
 import WriteArticle from './pages/WriteArticle';
 import ArticleRepo from './pages/ArticleRepo';
+import ReviewArticle from './pages/ReviewArticle';
 
 
 //Google Analytics
@@ -157,7 +158,7 @@ const App = (props) => {
             <Route path="/upload" component={Upload} />
             <Route path="/write-article/:id" component={WriteArticle} />
             <Route path="/article-repo" component={ArticleRepo} />
-            {/* <Route path="/article-review/:id" component={ArticleDetail} /> */}
+            <Route path="/article-review/:id" component={ReviewArticle} />
         </Router>
     )
 };

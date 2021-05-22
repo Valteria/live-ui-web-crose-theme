@@ -26,7 +26,6 @@ function WriteArticle({
   const [newImage, setNewImage] = useState("");
   const [date, setDate] = useState(null);
   const [articleId, setArticleId] = useState(null);
-  const [resetUrl, setResetUrl] = useState(false);
 
   const { loading, draft } = draftContent;
 
@@ -37,7 +36,6 @@ function WriteArticle({
   useEffect(() => {
     if (!articleId || articleId !== match.params.id) {
       setArticleId(match.params.id);
-      setResetUrl(true);
     }
     getDraftContent(match.params.id);
   }, [getDraftContent, articleId, match.params.id]);
@@ -73,6 +71,11 @@ function WriteArticle({
         .querySelector(".article__img-inputURL")
         .classList.remove("visible");
     }
+  };
+
+  const handleReviewBtn = () => {
+    saveArticle();
+    history.push(`/article-review/${draft._id}`);
   };
 
   const handleBackBtn = () => {
@@ -175,7 +178,7 @@ function WriteArticle({
               <Button
                 className="button-preview"
                 variant="success"
-                onClick={saveArticle}
+                onClick={handleReviewBtn}
               >
                 <i className="fa fa-eye"></i>
               </Button>

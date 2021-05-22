@@ -11,7 +11,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/style.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { cloudImageReducer, createDraftReducer, deleteDraftReducer, draftContentReducer, draftsListReducer } from './store/reducer/articlesReducers';
+import { articlePublishedReducer, cloudImageReducer, createDraftReducer, deleteDraftReducer, draftContentReducer, draftsListReducer } from './store/reducer/articlesReducers';
 
 const rootReducer = combineReducers({
     auth: authReducer,
@@ -22,7 +22,8 @@ const rootReducer = combineReducers({
     createDraft: createDraftReducer,
     deleteDraft: deleteDraftReducer,
     draftContent: draftContentReducer,
-    cloudImage: cloudImageReducer
+    cloudImage: cloudImageReducer,
+    articlePublished: articlePublishedReducer
 })
 //Redux store
 const store = createStore(rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());

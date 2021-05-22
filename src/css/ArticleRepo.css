@@ -27,13 +27,14 @@
     flex-grow: 0.9;
 }
 
-.sidebar ul li,
-.contents ul li{
+.sidebar ul li{
     display: flex;
     justify-content: flex-start;
     padding: 5px 10px;
     cursor: pointer;
 }
+
+
 
 .sidebar ul li.active{
     background-color: rgb(255, 238, 241)!important;
@@ -59,6 +60,14 @@
     position: relative;
     align-items: center;
 }
+
+.contents ul li strong{
+    padding: 5px 10px;
+    cursor: pointer;
+    flex: 0.85;
+    text-align: left;
+}
+
 .contents ul li:last-child{
     border-bottom: 0;
 }
@@ -68,9 +77,8 @@
     opacity: 1;
 }
 .contents ul li .buttons-group{
-    position: absolute;
-    right: 10px;
     opacity: 0;
+    flex: 0.15;
 }
 .buttons-group button{
     margin-right: 10px;

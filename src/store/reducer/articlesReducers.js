@@ -105,3 +105,18 @@ export const cloudImageReducer = (state = {}, action) => {
             return state;
     }
 }
+
+export const articlePublishedReducer = (state = {}, action) => {
+    switch (action.type) {
+        case actionType.POST_ARTICLE_REQUEST:
+            return { loading: true }
+        case actionType.POST_ARTICLE_SUCCESS:
+            return { loading: false, success: true, article: action.payload }
+        case actionType.POST_ARTICLE_FAIL:
+            return { loading: false, error: action.payload }
+        case actionType.POST_ARTICLE_RESET:
+            return {}
+        default:
+            return state;
+    }
+}
