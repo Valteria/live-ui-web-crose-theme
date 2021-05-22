@@ -1,15 +1,35 @@
 //TODO: Working on this
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import articleContent from "../database/articles-content";
+import { connect } from "react-redux";
+import { getArticleContent } from "../store/dispatch/dispatch";
+import LoadingBox from "../components/LoadingBox";
+import { Editor } from "react-draft-wysiwyg";
+import { convertFromRaw, EditorState } from "draft-js";
 
-const ArticleDetail = (props) => {
-  const date = props.match.params.date;
-  const article = articleContent.find((article) => article.date === date);
+const ArticleDetail = ({ match, getArticleContent, articleContent }) => {
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const { loading, article } = articleContent;
+  const id = match.params.id;
+  useEffect(() => {
+    getArticleContent(id);
+  }, [getArticleContent, id]);
+
+  useEffect(() => {
+    if (article) {
+      setEditorState(
+        EditorState.createWithContent(
+          convertFromRaw(JSON.parse(article.content))
+        )
+      );
+    }
+  }, [article]);
+
   return (
     <div>
       <Header />
+      {loading && <LoadingBox />}
       {!article ? (
         <h1>Article does not exist</h1>
       ) : (
@@ -32,16 +52,11 @@ const ArticleDetail = (props) => {
 
                       <div class="post-content col-12 col-lg-auto">
                         <h2 class="post-title">{article.title}</h2>
-                        <p>
-                          {article.body.split("\n").map((item, key) => {
-                            return (
-                              <span key={key}>
-                                {item}
-                                <br />
-                              </span>
-                            );
-                          })}
-                        </p>
+                        <Editor
+                          readOnly
+                          toolbarHidden
+                          editorState={editorState}
+                        />
                       </div>
                     </div>
                     {/* <!-- Post Details Area End --> */}
@@ -59,33 +74,12 @@ const ArticleDetail = (props) => {
   );
 };
 
-export default ArticleDetail;
+const mapDispatchToProps = (dispatch) => ({
+  getArticleContent: (id) => getArticleContent(dispatch, id),
+});
 
-// const ArticleDetail = (prop) => {
-//     const date = prop.match.params.date;
-//     const [getContent, setContent] = useState({});
-//     return(
-//         <div>
-//             <Header/>
-//             <section class="blog-content-area section-padding-100">
-//                 <div class="container">
-//                     <div class="row justify-content-between">
-//                         {/* <!-- Blog Posts Area --> */}
-//                         <div class="col-12 col-lg-12">
-//                             <div class="blog-posts-area">
-//                                 <div class="single-post-details-area">
-//                                     <div class="post-content col-12 col-lg-auto">
-//                                         <h2 class="post-title">{getContent.title}</h2>
-//                                         <p>{getContent.content}</p>
-//                                     </div>
-//                                 </div>
-//                             </div>
-//                         </div>
-//                     </div>
-//                 </div>
-//             </section>
-//             <Footer/>
-//         </div>
-//     );
-// }
-// export default ArticleDetail;
+const mapStateToProps = (state) => ({
+  articleContent: state.articleContent,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ArticleDetail);

@@ -152,7 +152,7 @@ const App = (props) => {
             <Route path="/st-joseph-classes" component={StJosephClassesPage} />
             <Route path="/st-joseph-classwork/:stJosephClassURL" component={StJosephClassworkPage} />
             <Route path="/Articles" component={Articles} />
-            <Route path="/ArticleDetail/:date" component={ArticleDetail} />
+            <Route path="/ArticleDetail/:id" component={ArticleDetail} />
             <Route path="/cookies" component={CookiePage} />
             <Route path="/saint" component={VNSaints} />
             <Route path="/upload" component={Upload} />

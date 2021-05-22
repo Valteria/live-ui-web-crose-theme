@@ -30,7 +30,7 @@ function ArticleItemList({ article }) {
           <div className="events-text">
             <h4>{article.title}</h4>
             <div className="events-meta">
-              <a href={`/ArticleDetail/${article.date}`}>
+              <a href={`/ArticleDetail/${article._id}`}>
                 <i className="fa fa-calendar" aria-hidden="true"></i>
                 {article.date}
               </a>
@@ -44,7 +44,7 @@ function ArticleItemList({ article }) {
           </div>
           <div className="find-out-more-btn">
             <a
-              href={`/ArticleDetail/${article.date}`}
+              href={`/ArticleDetail/${article._id}`}
               className="btn crose-btn btn-2"
             >
               Xem thêm
