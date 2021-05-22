@@ -28,8 +28,6 @@ function ReviewArticle({
   const { loading: loadingPublish, success: successPublish } = articlePublished;
   const dispatch = useDispatch();
 
-  console.log(articlePublished);
-
   const handlePostButton = () => {
     postArticle(draft);
   };

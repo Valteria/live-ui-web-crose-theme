@@ -170,11 +170,13 @@ export const postArticle = async (dispatch, draft) => {
     }
 }
 
-export const getArticles = async (dispatch, isLetters = true) => {
+export const getArticles = async (dispatch, category) => {
     dispatch({ type: actionType.GET_ARTICLES_REQUEST })
+    const isLetters = category === '/Articles' ? true : false
     try {
         const { data } = await axios.get(`http://localhost:5000/api/articles/${isLetters}`)
-        dispatch({ type: actionType.GET_ARTICLES_SUCCESS, payload: data })
+        const result = isLetters ? data : data[0]
+        dispatch({ type: actionType.GET_ARTICLES_SUCCESS, payload: result })
     } catch (error) {
         const message = error.response && error.response.data.message
             ? error.response.data.message

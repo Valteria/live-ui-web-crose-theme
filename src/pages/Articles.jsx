@@ -1,19 +1,18 @@
 //TODO: Working on this
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { connect } from "react-redux";
 import { getArticles } from "../store/dispatch/dispatch";
 import LoadingBox from "../components/LoadingBox";
-import { Editor, EditorState } from "react-draft-wysiwyg";
 import ArticleItemList from "./ArticleItemList";
 
-const Articles = ({ getArticles, articlesList }) => {
-  console.log(articlesList);
+const Articles = ({ getArticles, articlesList, match }) => {
+  const category = match.path;
   const { loading, articles } = articlesList;
   useEffect(() => {
-    getArticles();
-  }, [getArticles]);
+    getArticles(category);
+  }, [getArticles, category]);
 
   return (
     <div>
@@ -59,7 +58,7 @@ const Articles = ({ getArticles, articlesList }) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  getArticles: () => getArticles(dispatch),
+  getArticles: (category) => getArticles(dispatch, category),
 });
 
 const mapStateToProps = (state) => ({

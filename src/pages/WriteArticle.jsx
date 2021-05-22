@@ -5,11 +5,12 @@ import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
 import "../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "../css/WriteArticle.css";
 
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import LoadingBox from "../components/LoadingBox";
 import { getDraftContent, saveUpdateDraft } from "../store/dispatch/dispatch";
 import { Button } from "react-bootstrap";
 import UploadImageToCloud from "../components/UploadImageToCloud";
+import { SAVE_DRAFT_RESET } from "../store/actionType";
 
 function WriteArticle({
   match,
@@ -17,6 +18,7 @@ function WriteArticle({
   getDraftContent,
   draftContent,
   saveUpdateDraft,
+  draftUpdated,
 }) {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [title, setTitle] = useState("");
@@ -26,8 +28,11 @@ function WriteArticle({
   const [newImage, setNewImage] = useState("");
   const [date, setDate] = useState(null);
   const [articleId, setArticleId] = useState(null);
+  const dispatch = useDispatch();
 
   const { loading, draft } = draftContent;
+  const { success, draft: updatedDraft } = draftUpdated;
+  console.log(draftUpdated);
 
   const onEditorStateChange = (editorState) => {
     setEditorState(editorState);
@@ -37,6 +42,7 @@ function WriteArticle({
     if (!articleId || articleId !== match.params.id) {
       setArticleId(match.params.id);
     }
+
     getDraftContent(match.params.id);
   }, [getDraftContent, articleId, match.params.id]);
 
@@ -52,6 +58,13 @@ function WriteArticle({
       setEditorState(EditorState.createEmpty());
     }
   }, [draft]);
+
+  useEffect(() => {
+    if (success) {
+      history.push(`/article-review/${updatedDraft._id}`);
+      dispatch({ type: SAVE_DRAFT_RESET });
+    }
+  }, [success, history, updatedDraft, dispatch]);
 
   const saveArticle = () => {
     const article = {
@@ -75,7 +88,6 @@ function WriteArticle({
 
   const handleReviewBtn = () => {
     saveArticle();
-    history.push(`/article-review/${draft._id}`);
   };
 
   const handleBackBtn = () => {
@@ -199,6 +211,7 @@ const mapStateToProps = (state) => ({
   createDraft: state.createDraft,
   draftContent: state.draftContent,
   cloudImage: state.cloudImage,
+  draftUpdated: state.draftUpdated,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(WriteArticle);

@@ -86,6 +86,8 @@ export const draftUpdatedReducer = (state = {}, action) => {
             }
         case actionType.SAVE_DRAFT_FAIL:
             return { loading: false, error: action.payload }
+        case actionType.SAVE_DRAFT_RESET:
+            return {}
         default:
             return state;
     }
