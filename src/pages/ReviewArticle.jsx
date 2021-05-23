@@ -12,7 +12,7 @@ import LoadingBox from "../components/LoadingBox";
 import { Editor } from "react-draft-wysiwyg";
 import { convertFromRaw, EditorState } from "draft-js";
 import { Button } from "react-bootstrap";
-import { POST_ARTICLE_RESET, SAVE_DRAFT_RESET } from "../store/actionType";
+import { POST_ARTICLE_RESET } from "../store/actionType";
 import { Modal } from "react-bootstrap";
 
 function ReviewArticle({
@@ -23,13 +23,10 @@ function ReviewArticle({
   postArticle,
   articlePublished,
   deleteDraft,
-  draftUpdated,
 }) {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const { loading, draft } = draftContent;
   const { loading: loadingPublish, success: successPublish } = articlePublished;
-  const { success: successUpdate, draft: updatedDraft } = draftUpdated;
-  console.log(draftUpdated);
   const [postModal, setPostModal] = useState(false);
   const [isPost, setIsPost] = useState(false);
   const dispatch = useDispatch();
@@ -41,9 +38,6 @@ function ReviewArticle({
       history.push("/article-repo");
       dispatch({ type: POST_ARTICLE_RESET });
     }
-    if (successUpdate) {
-      dispatch({ type: SAVE_DRAFT_RESET });
-    }
   }, [
     match.params.id,
     getDraftContent,
@@ -51,7 +45,6 @@ function ReviewArticle({
     deleteDraft,
     history,
     dispatch,
-    successUpdate,
   ]);
 
   useEffect(() => {
@@ -155,7 +148,6 @@ function ReviewArticle({
 const mapStateToProps = (state) => ({
   draftContent: state.draftContent,
   articlePublished: state.articlePublished,
-  draftUpdated: state.draftUpdated,
 });
 
 const mapDispatchToProps = (dispatch) => ({

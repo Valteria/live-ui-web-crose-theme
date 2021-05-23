@@ -27,42 +27,44 @@ function WriteArticle({
   );
   const [newImage, setNewImage] = useState("");
   const [date, setDate] = useState(null);
-  const [articleId, setArticleId] = useState(null);
   const dispatch = useDispatch();
+  const contentId = match.params.id;
 
   const { loading, draft } = draftContent;
-  const { success, draft: updatedDraft } = draftUpdated;
+  const { success } = draftUpdated;
 
   const onEditorStateChange = (editorState) => {
     setEditorState(editorState);
   };
 
   useEffect(() => {
-    if (!articleId || articleId !== match.params.id) {
-      setArticleId(match.params.id);
-    } else {
-      getDraftContent(articleId);
+    if (success) {
+      history.push(`/article-review/${contentId}`);
     }
-  }, [getDraftContent, articleId, match.params.id]);
-
-  useEffect(() => {
+    if (!draft || draft._id !== contentId || success) {
+      getDraftContent(contentId);
+      dispatch({ type: SAVE_DRAFT_RESET });
+    } else {
+      setTitle(draft.title);
+      setDate(draft.date);
+      setImage(draft.image);
+    }
     if (draft && draft?.content) {
       setEditorState(
         EditorState.createWithContent(convertFromRaw(JSON.parse(draft.content)))
       );
-      setTitle(draft.title);
-      setDate(draft.date);
-      setImage(draft.image);
     } else {
       setEditorState(EditorState.createEmpty());
     }
-  }, [draft]);
+  }, [getDraftContent, contentId, draft, dispatch, history, success]);
 
-  useEffect(() => {
-    if (success) {
-      history.push(`/article-review/${match.params.id}`);
-    }
-  }, [success, history, match.params.id]);
+  // useEffect(() => {
+  // if (draft && draft?.content) {
+
+  // } else {
+  //   setEditorState(EditorState.createEmpty());
+  // }
+  // }, [draft]);
 
   const saveArticle = () => {
     const article = {
@@ -70,7 +72,7 @@ function WriteArticle({
       content: JSON.stringify(convertToRaw(editorState.getCurrentContent())),
       date: date,
       image: draft.isLetters ? image : null,
-      _id: articleId,
+      _id: contentId,
     };
     saveUpdateDraft(article);
   };
