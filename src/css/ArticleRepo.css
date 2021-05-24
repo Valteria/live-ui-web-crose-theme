@@ -23,7 +23,7 @@
     cursor: pointer;
 }
 .contents__headTable.active h6{
-    border-radius: 15px 0 15px 0;
+    border-radius: 0 15px 0 15px ;
     background-color: rgba(255, 255, 255, 0.911);
 }
 
@@ -92,13 +92,36 @@
     border-bottom: 0;
 }
 .contents ul li:hover,
-.contents ul li:hover .buttons-group{
-    background-color: rgba(240, 240, 240, 0.932);
+.contents ul li:hover .group__right .buttons-group{
+    background-color: rgb(240, 240, 240);
     opacity: 1;
+    z-index: 10;
 }
-.contents ul li .buttons-group{
-    opacity: 0;
+.contents ul li .group__right{
     flex: 0.15;
+    position: relative;
+    top: 0;
+    height: 25px;
+}
+.group__right strong{
+    position: absolute;
+    z-index: 2;
+    width: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.group__right .buttons-group{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    position: absolute;
+    z-index: 1;
+    opacity: 0;
+    width: 100%;
+
 }
 .buttons-group button{
     margin-right: 10px;

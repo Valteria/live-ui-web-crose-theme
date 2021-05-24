@@ -23,16 +23,26 @@ function DraftArticle({ article, deleteDraft }) {
   return (
     <li>
       <strong onClick={() => history.push(`/write-article/${article._id}`)}>
-        {article.title ? article.title : article.date}
+        {article.title ? (
+          article.title
+        ) : (
+          <i style={{ fontWeight: 100 }}>No Title</i>
+        )}
       </strong>
-      <div className="buttons-group">
-        <button onClick={() => history.push(`/article-review/${article._id}`)}>
-          <i className="fa fa-eye"></i>
-        </button>
-
-        <button onClick={() => setDeleteModal(true)}>
-          <i className="fa fa-trash"></i>
-        </button>
+      <div className="group__right">
+        <strong>
+          <i>{article.date}</i>
+        </strong>
+        <div className="buttons-group">
+          <button
+            onClick={() => history.push(`/article-review/${article._id}`)}
+          >
+            <i className="fa fa-eye"></i>
+          </button>
+          <button onClick={() => setDeleteModal(true)}>
+            <i className="fa fa-trash"></i>
+          </button>
+        </div>
       </div>
       <Modal show={deleteModal} onHide={deleteModalClose}>
         <Modal.Header>
