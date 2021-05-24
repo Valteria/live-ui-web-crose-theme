@@ -1,17 +1,23 @@
 import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import { connect, useDispatch } from "react-redux";
-import { getDraftList } from "../store/dispatch/dispatch";
+import { getArticles, getDraftList } from "../store/dispatch/dispatch";
 import "../css/ArticleRepo.css";
 import DraftArticle from "../components/DraftArticle";
 import { Button, Modal } from "react-bootstrap";
 import CategoryModal from "../components/CategoryModal";
 import { DELETE_DRAFT_RESET } from "../store/actionType";
 
-function ArticleRepo({ getDraftList, draftsList, deleteDraft }) {
+function ArticleRepo({
+  getDraftList,
+  draftsList,
+  deleteDraft,
+  getArticles,
+  articlesList,
+}) {
   const [modalOpen, setModalOpen] = useState(false);
   const [cateId, setCateId] = useState("letters");
-  const [headId, setHeadId] = useState("drafts");
+  const [headId, setHeadId] = useState("/Drafts");
   const dispatch = useDispatch();
 
   const closeModal = () => {
@@ -37,17 +43,18 @@ function ArticleRepo({ getDraftList, draftsList, deleteDraft }) {
     // Select Category
     const sideBtns = document.querySelectorAll(".sidebar ul li");
     selectTab(sideBtns, setCateId);
+    getDraftList(cateId);
 
     // Select Drafts Or Posts
     const headBtn = document.querySelectorAll(".contents__headTable");
     selectTab(headBtn, setHeadId);
+    getArticles(headId);
 
     if (success) {
       dispatch({ type: DELETE_DRAFT_RESET });
     }
-
-    getDraftList(cateId);
-  }, [cateId, getDraftList, success, dispatch]);
+  }, [cateId, getDraftList, success, dispatch, getArticles, headId]);
+  console.log(articlesList);
 
   return (
     <div>
@@ -86,10 +93,10 @@ function ArticleRepo({ getDraftList, draftsList, deleteDraft }) {
               </div>
               <div className="contents">
                 <div className="contents__group">
-                  <div className="contents__headTable active" id="drafts">
+                  <div className="contents__headTable active" id="/Drafts">
                     <h6>Drafts</h6>
                   </div>
-                  <div className="contents__headTable" id="posts">
+                  <div className="contents__headTable" id="/Articles">
                     <h6>Posts</h6>
                   </div>
                 </div>
@@ -113,11 +120,13 @@ function ArticleRepo({ getDraftList, draftsList, deleteDraft }) {
 
 const mapDispatchToProps = (dispatch) => ({
   getDraftList: (cateId) => getDraftList(dispatch, cateId),
+  getArticles: (headId) => getArticles(dispatch, headId),
 });
 
 const mapStateToProps = (state) => ({
   draftsList: state.draftsList,
   deleteDraft: state.deleteDraft,
+  articlesList: state.articlesList,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ArticleRepo);

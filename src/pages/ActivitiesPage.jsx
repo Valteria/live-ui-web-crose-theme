@@ -19,7 +19,7 @@ const ActivitiesPage = ({ getArticles, match, articlesList }) => {
     if (articles) {
       setEditorState(
         EditorState.createWithContent(
-          convertFromRaw(JSON.parse(articles.content))
+          convertFromRaw(JSON.parse(articles[0].content))
         )
       );
     }
