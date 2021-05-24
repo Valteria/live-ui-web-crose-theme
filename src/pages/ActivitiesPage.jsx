@@ -9,21 +9,21 @@ import { convertFromRaw, EditorState } from "draft-js";
 
 const ActivitiesPage = ({ getArticles, match, articlesList }) => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
-  const { loading, articles } = articlesList;
+  const { loading, data } = articlesList;
   const category = match.path;
   useEffect(() => {
     getArticles(category);
   }, [getArticles, category]);
 
   useEffect(() => {
-    if (articles) {
+    if (data) {
       setEditorState(
         EditorState.createWithContent(
-          convertFromRaw(JSON.parse(articles[0].content))
+          convertFromRaw(JSON.parse(data[0].content))
         )
       );
     }
-  }, [articles]);
+  }, [data]);
 
   return (
     <>
@@ -37,7 +37,7 @@ const ActivitiesPage = ({ getArticles, match, articlesList }) => {
                   <div class="post-content col-12 col-lg-auto">
                     <h2 className="section-heading">Sinh Hoạt Giáo Xứ</h2>
                     {loading && <LoadingBox />}
-                    {articles && (
+                    {data && (
                       <Editor
                         readOnly
                         toolbarHidden

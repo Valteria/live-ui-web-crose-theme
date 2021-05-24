@@ -9,7 +9,7 @@ import ArticleItemList from "./ArticleItemList";
 
 const Articles = ({ getArticles, articlesList, match }) => {
   const category = match.path;
-  const { loading, articles } = articlesList;
+  const { loading, data } = articlesList;
   useEffect(() => {
     getArticles(category);
   }, [getArticles, category]);
@@ -31,7 +31,7 @@ const Articles = ({ getArticles, articlesList, match }) => {
             </div>
             {/* <!-- Articles List --> */}
             {loading && <LoadingBox />}
-            {articles?.map((article, key) => (
+            {data?.map((article, key) => (
               <ArticleItemList key={key} article={article} />
             ))}
             {/* <!--  pagination area --> */}

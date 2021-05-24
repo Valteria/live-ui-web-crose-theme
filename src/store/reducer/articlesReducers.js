@@ -32,7 +32,7 @@ export const draftsListReducer = (state = { drafts: [] }, action) => {
         case actionType.DRAFTS_LIST_SUCCESS:
             return {
                 loading: false,
-                drafts: action.payload
+                data: action.payload
             }
         case actionType.DRAFTS_LIST_ERROR:
             return {
@@ -128,7 +128,7 @@ export const articlesListReducer = (state = { article: [] }, action) => {
         case actionType.GET_ARTICLES_REQUEST:
             return { loading: true }
         case actionType.GET_ARTICLES_SUCCESS:
-            return { loading: false, articles: action.payload }
+            return { loading: false, data: action.payload }
         case actionType.GET_ARTICLES_FAIL:
             return { loading: false, error: action.payload }
         case actionType.GET_ARTICLES_RESET:
@@ -146,6 +146,21 @@ export const articleContentReducer = (state = {}, action) => {
             return { loading: false, article: action.payload }
         case actionType.ARTICLE_CONTENT_FAIL:
             return { loading: false, error: action.payload }
+        default:
+            return state;
+    }
+}
+
+export const repoListReducer = (state = {}, action) => {
+    switch (action.type) {
+        case actionType.REPO_LIST_REQUEST:
+            return { loading: true }
+        case actionType.REPO_LIST_SUCCESS:
+            return { loading: false, data: action.payload }
+        case actionType.REPO_LIST_FAIL:
+            return { loading: false, error: action.payload }
+        case actionType.REPO_LIST_RESET:
+            return {}
         default:
             return state;
     }

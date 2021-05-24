@@ -1,20 +1,18 @@
 import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import { connect, useDispatch } from "react-redux";
-import { getArticles, getDraftList } from "../store/dispatch/dispatch";
+import {
+  getArticles,
+  getDraftList,
+  getRepoList,
+} from "../store/dispatch/dispatch";
 import "../css/ArticleRepo.css";
 import DraftArticle from "../components/DraftArticle";
 import { Button, Modal } from "react-bootstrap";
 import CategoryModal from "../components/CategoryModal";
 import { DELETE_DRAFT_RESET } from "../store/actionType";
 
-function ArticleRepo({
-  getDraftList,
-  draftsList,
-  deleteDraft,
-  getArticles,
-  articlesList,
-}) {
+function ArticleRepo({ deleteDraft, getRepoList, repoList }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [cateId, setCateId] = useState("letters");
   const [headId, setHeadId] = useState("/Drafts");
@@ -43,18 +41,17 @@ function ArticleRepo({
     // Select Category
     const sideBtns = document.querySelectorAll(".sidebar ul li");
     selectTab(sideBtns, setCateId);
-    getDraftList(cateId);
 
     // Select Drafts Or Posts
     const headBtn = document.querySelectorAll(".contents__headTable");
     selectTab(headBtn, setHeadId);
-    getArticles(headId);
 
     if (success) {
       dispatch({ type: DELETE_DRAFT_RESET });
     }
-  }, [cateId, getDraftList, success, dispatch, getArticles, headId]);
-  console.log(articlesList);
+
+    getRepoList(cateId, headId);
+  }, [cateId, success, dispatch, headId, getRepoList]);
 
   return (
     <div>
@@ -101,8 +98,8 @@ function ArticleRepo({
                   </div>
                 </div>
                 <ul>
-                  {draftsList.drafts?.length === 0 && <li>No Draft</li>}
-                  {draftsList.drafts?.map((article, idx) => (
+                  {repoList.data?.length === 0 && <li>No Draft</li>}
+                  {repoList.data?.map((article, idx) => (
                     <DraftArticle key={idx} article={article} />
                   ))}
                 </ul>
@@ -119,14 +116,12 @@ function ArticleRepo({
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  getDraftList: (cateId) => getDraftList(dispatch, cateId),
-  getArticles: (headId) => getArticles(dispatch, headId),
+  getRepoList: (cateId, headId) => getRepoList(dispatch, cateId, headId),
 });
 
 const mapStateToProps = (state) => ({
-  draftsList: state.draftsList,
   deleteDraft: state.deleteDraft,
-  articlesList: state.articlesList,
+  repoList: state.repoList,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ArticleRepo);

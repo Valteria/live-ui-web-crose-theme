@@ -199,3 +199,24 @@ export const getArticleContent = async (dispatch, id) => {
         dispatch({ type: actionType.ARTICLE_CONTENT_FAIL, payload: message })
     }
 }
+
+export const getRepoList = async (dispatch, cateId, headId) => {
+
+    dispatch({ type: actionType.REPO_LIST_REQUEST })
+    try {
+        const isLetters = headId === '/Drafts' ? true : false
+        const { data } = isLetters === true ? (
+            await axios.get(`http://localhost:5000/api/drafts?isLetters=${cateId === 'letters' ? true : false}`)
+        ) : (
+            await axios.get(`http://localhost:5000/api/articles/${cateId === 'letters' ? true : false}`)
+        )
+        dispatch({ type: actionType.REPO_LIST_SUCCESS, payload: data })
+
+    } catch (error) {
+        const message = error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message
+        dispatch({ type: actionType.REPO_LIST_FAIL, payload: message })
+    }
+
+}
