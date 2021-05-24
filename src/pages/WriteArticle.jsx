@@ -38,12 +38,9 @@ function WriteArticle({
   };
 
   useEffect(() => {
-    if (success && draft._id === contentId) {
-      history.push(`/article-review/${contentId}`);
-    }
+    dispatch({ type: SAVE_DRAFT_RESET });
     if (!draft || draft._id !== contentId || success) {
       getDraftContent(contentId);
-      dispatch({ type: SAVE_DRAFT_RESET });
     } else {
       setTitle(draft.title);
       setDate(draft.date);
@@ -56,7 +53,7 @@ function WriteArticle({
     } else {
       setEditorState(EditorState.createEmpty());
     }
-  }, [getDraftContent, contentId, draft, dispatch, history, success]);
+  }, [getDraftContent, contentId, draft, dispatch, success]);
 
   const saveArticle = () => {
     const article = {
@@ -80,6 +77,7 @@ function WriteArticle({
 
   const handleReviewBtn = () => {
     saveArticle();
+    history.push(`/article-review/${contentId}`);
   };
 
   const handleBackBtn = () => {
