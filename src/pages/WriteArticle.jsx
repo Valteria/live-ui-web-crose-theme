@@ -20,7 +20,7 @@ function WriteArticle({
   saveUpdateDraft,
   draftUpdated,
 }) {
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const [editorState, setEditorState] = useState();
   const [title, setTitle] = useState("");
   const [image, setImage] = useState(
     "http://hvmatl.net/gallery/img/articles/article-logo.png"
@@ -38,7 +38,7 @@ function WriteArticle({
   };
 
   useEffect(() => {
-    if (success) {
+    if (success && draft._id === contentId) {
       history.push(`/article-review/${contentId}`);
     }
     if (!draft || draft._id !== contentId || success) {
@@ -57,14 +57,6 @@ function WriteArticle({
       setEditorState(EditorState.createEmpty());
     }
   }, [getDraftContent, contentId, draft, dispatch, history, success]);
-
-  // useEffect(() => {
-  // if (draft && draft?.content) {
-
-  // } else {
-  //   setEditorState(EditorState.createEmpty());
-  // }
-  // }, [draft]);
 
   const saveArticle = () => {
     const article = {
