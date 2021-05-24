@@ -11,6 +11,7 @@ import { DELETE_DRAFT_RESET } from "../store/actionType";
 function ArticleRepo({ getDraftList, draftsList, deleteDraft }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [cateId, setCateId] = useState("letters");
+  const [headId, setHeadId] = useState("drafts");
   const dispatch = useDispatch();
 
   const closeModal = () => {
@@ -19,18 +20,27 @@ function ArticleRepo({ getDraftList, draftsList, deleteDraft }) {
 
   const { success } = deleteDraft;
 
-  useEffect(() => {
-    const sideBtns = document.querySelectorAll(".sidebar ul li");
-    for (var i = 0; i < sideBtns.length; i++) {
-      const btn = sideBtns[i];
+  const selectTab = (groupBtn, setId) => {
+    for (var i = 0; i < groupBtn.length; i++) {
+      const btn = groupBtn[i];
       btn.addEventListener("click", () => {
-        for (var y = 0; y < sideBtns.length; y++) {
-          sideBtns[y].classList.remove("active");
+        for (var y = 0; y < groupBtn.length; y++) {
+          groupBtn[y].classList.remove("active");
         }
-        setCateId(btn.getAttribute("id"));
+        setId(btn.getAttribute("id"));
         btn.classList.add("active");
       });
     }
+  };
+
+  useEffect(() => {
+    // Select Category
+    const sideBtns = document.querySelectorAll(".sidebar ul li");
+    selectTab(sideBtns, setCateId);
+
+    // Select Drafts Or Posts
+    const headBtn = document.querySelectorAll(".contents__headTable");
+    selectTab(headBtn, setHeadId);
 
     if (success) {
       dispatch({ type: DELETE_DRAFT_RESET });
@@ -62,7 +72,9 @@ function ArticleRepo({ getDraftList, draftsList, deleteDraft }) {
             {/* <!-- Articles List --> */}
             <div className="dashboard">
               <div className="sidebar">
-                <h6>Category</h6>
+                <div className="sidebar__headTable">
+                  <h6>Category</h6>
+                </div>
                 <ul>
                   <li id="letters" className="active">
                     <strong>Letters</strong>
@@ -73,7 +85,14 @@ function ArticleRepo({ getDraftList, draftsList, deleteDraft }) {
                 </ul>
               </div>
               <div className="contents">
-                <h6>Articles</h6>
+                <div className="contents__group">
+                  <div className="contents__headTable active" id="drafts">
+                    <h6>Drafts</h6>
+                  </div>
+                  <div className="contents__headTable" id="posts">
+                    <h6>Posts</h6>
+                  </div>
+                </div>
                 <ul>
                   {draftsList.drafts?.length === 0 && <li>No Draft</li>}
                   {draftsList.drafts?.map((article, idx) => (

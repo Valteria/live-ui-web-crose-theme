@@ -11,13 +11,27 @@
     overflow: hidden;
 }
 
-.sidebar h6 ,
-.contents h6 {
-    padding: 5px 0;
-    border-bottom: 1px solid rgba(211, 211, 211, 0.308);
-    margin: 0;
+.sidebar__headTable,
+.contents__headTable{
     background-color: rgb(223, 223, 223);
-    
+    flex: 0.5;
+
+    border-bottom: 1px solid rgba(211, 211, 211, 0.308);
+}
+
+.contents__headTable{
+    cursor: pointer;
+}
+.contents__headTable.active h6{
+    border-radius: 15px 0 15px 0;
+    background-color: rgba(255, 255, 255, 0.911);
+}
+
+
+.sidebar__headTable h6,
+.contents__headTable h6{
+    padding: 10px 0;
+    margin: 0;  
 }
 .sidebar{
     flex-grow: 0.1;
@@ -48,6 +62,12 @@
 
 .contents{
     overflow: hidden;
+    flex: 0.9;
+}
+.contents__group{
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
 }
 .contents ul{
     background-color: rgba(240, 240, 240, 0.274);
