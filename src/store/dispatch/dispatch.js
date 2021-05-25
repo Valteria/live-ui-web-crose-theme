@@ -77,16 +77,16 @@ export const createNewArticle = async (dispatch, isLetters) => {
 }
 
 
-export const deleteDraft = async (dispatch, draftId) => {
-    dispatch({ type: actionType.DELETE_DRAFT_REQUEST })
+export const deleteRepo = async (dispatch, repoId) => {
+    dispatch({ type: actionType.DELETE_REPO_REQUEST })
     try {
-        const { data } = await axios.delete(`http://localhost:5000/api/drafts/${draftId}`)
-        dispatch({ type: actionType.DELETE_DRAFT_SUCCESS, payload: data })
+        const { data } = await axios.delete(`http://localhost:5000/api/repos/delete-repo/${repoId}`)
+        dispatch({ type: actionType.DELETE_REPO_SUCCESS, payload: data })
     } catch (error) {
         const message = error.response && error.response.data.message
             ? error.response.data.message
             : error.message
-        dispatch({ type: actionType.DELETE_DRAFT_FAIL, payload: message })
+        dispatch({ type: actionType.DELETE_REPO_FAIL, payload: message })
     }
 }
 
@@ -192,8 +192,6 @@ export const getRepoList = async (dispatch, cateId, headId) => {
     try {
         const { data } = await axios.get(`http://localhost:5000/api/repos/list-repos?isLetters=${cateId === 'letters' ? true : false}&isPublish=${headId === '/Drafts' ? false : true}`)
         dispatch({ type: actionType.REPO_LIST_SUCCESS, payload: data })
-        console.log(data)
-
     } catch (error) {
         const message = error.response && error.response.data.message
             ? error.response.data.message

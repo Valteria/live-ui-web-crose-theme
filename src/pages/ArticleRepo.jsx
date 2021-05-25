@@ -6,7 +6,7 @@ import "../css/ArticleRepo.css";
 import DraftArticle from "../components/DraftArticle";
 import { Button, Modal } from "react-bootstrap";
 import CategoryModal from "../components/CategoryModal";
-import { DELETE_DRAFT_RESET } from "../store/actionType";
+import { DELETE_REPO_RESET } from "../store/actionType";
 
 function ArticleRepo({ deleteDraft, getRepoList, repoList }) {
   const [modalOpen, setModalOpen] = useState(false);
@@ -43,7 +43,7 @@ function ArticleRepo({ deleteDraft, getRepoList, repoList }) {
     selectTab(headBtn, setHeadId);
 
     if (success) {
-      dispatch({ type: DELETE_DRAFT_RESET });
+      dispatch({ type: DELETE_REPO_RESET });
     }
 
     getRepoList(cateId, headId);

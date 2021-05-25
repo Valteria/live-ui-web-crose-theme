@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { connect } from "react-redux";
-import { deleteDraft } from "../store/dispatch/dispatch";
+import { deleteRepo } from "../store/dispatch/dispatch";
 import { useHistory } from "react-router";
 
-function DraftArticle({ article, deleteDraft }) {
+function DraftArticle({ article, deleteRepo }) {
   const [deleteModal, setDeleteModal] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const history = useHistory();
@@ -14,11 +14,11 @@ function DraftArticle({ article, deleteDraft }) {
 
   useEffect(() => {
     if (isDelete) {
-      deleteDraft(article._id);
+      deleteRepo(article._id);
       setIsDelete(false);
       setDeleteModal(false);
     }
-  }, [article._id, isDelete, deleteDraft]);
+  }, [article._id, isDelete, deleteRepo]);
 
   return (
     <li>
@@ -68,7 +68,7 @@ function DraftArticle({ article, deleteDraft }) {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  deleteDraft: (draftId) => deleteDraft(dispatch, draftId),
+  deleteRepo: (draftId) => deleteRepo(dispatch, draftId),
 });
 
 export default connect(null, mapDispatchToProps)(DraftArticle);

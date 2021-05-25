@@ -46,13 +46,13 @@ export const draftsListReducer = (state = { drafts: [] }, action) => {
 
 export const deleteDraftReducer = (state = {}, action) => {
     switch (action.type) {
-        case actionType.DELETE_DRAFT_REQUEST:
+        case actionType.DELETE_REPO_REQUEST:
             return { loading: true }
-        case actionType.DELETE_DRAFT_SUCCESS:
+        case actionType.DELETE_REPO_SUCCESS:
             return { loading: false, success: true }
-        case actionType.DELETE_DRAFT_FAIL:
+        case actionType.DELETE_REPO_FAIL:
             return { loading: false, error: action.payload }
-        case actionType.DELETE_DRAFT_RESET:
+        case actionType.DELETE_REPO_RESET:
             return {}
         default:
             return state;

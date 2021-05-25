@@ -4,7 +4,7 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import { connect, useDispatch } from "react-redux";
 import {
-  deleteDraft,
+  deleteRepo,
   getDraftContent,
   postArticle,
 } from "../store/dispatch/dispatch";
@@ -22,7 +22,7 @@ function ReviewArticle({
   history,
   postArticle,
   articlePublished,
-  deleteDraft,
+  deleteRepo,
 }) {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const { loading, draft } = draftContent;
@@ -34,7 +34,7 @@ function ReviewArticle({
   useEffect(() => {
     getDraftContent(match.params.id);
     if (successPublish) {
-      deleteDraft(match.params.id);
+      deleteRepo(match.params.id);
       history.push("/article-repo");
       dispatch({ type: POST_ARTICLE_RESET });
     }
@@ -42,7 +42,7 @@ function ReviewArticle({
     match.params.id,
     getDraftContent,
     successPublish,
-    deleteDraft,
+    deleteRepo,
     history,
     dispatch,
   ]);
@@ -153,7 +153,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   getDraftContent: (draftId) => getDraftContent(dispatch, draftId),
   postArticle: (draft) => postArticle(dispatch, draft),
-  deleteDraft: (draftId) => deleteDraft(dispatch, draftId),
+  deleteRepo: (draftId) => deleteRepo(dispatch, draftId),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ReviewArticle);
