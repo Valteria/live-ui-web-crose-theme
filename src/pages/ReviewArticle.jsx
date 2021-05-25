@@ -5,7 +5,7 @@ import Header from "../components/Header";
 import { connect, useDispatch } from "react-redux";
 import {
   deleteRepo,
-  getDraftContent,
+  getRepoContent,
   postArticle,
 } from "../store/dispatch/dispatch";
 import LoadingBox from "../components/LoadingBox";
@@ -16,23 +16,23 @@ import { POST_ARTICLE_RESET } from "../store/actionType";
 import { Modal } from "react-bootstrap";
 
 function ReviewArticle({
-  getDraftContent,
+  getRepoContent,
   match,
-  draftContent,
+  repoContent,
   history,
   postArticle,
   articlePublished,
   deleteRepo,
 }) {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
-  const { loading, draft } = draftContent;
+  const { loading, repo } = repoContent;
   const { loading: loadingPublish, success: successPublish } = articlePublished;
   const [postModal, setPostModal] = useState(false);
   const [isPost, setIsPost] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    getDraftContent(match.params.id);
+    getRepoContent(match.params.id);
     if (successPublish) {
       deleteRepo(match.params.id);
       history.push("/article-repo");
@@ -40,7 +40,7 @@ function ReviewArticle({
     }
   }, [
     match.params.id,
-    getDraftContent,
+    getRepoContent,
     successPublish,
     deleteRepo,
     history,
@@ -48,15 +48,15 @@ function ReviewArticle({
   ]);
 
   useEffect(() => {
-    if (draft && draft?.content) {
+    if (repo && repo?.content) {
       setEditorState(
-        EditorState.createWithContent(convertFromRaw(JSON.parse(draft.content)))
+        EditorState.createWithContent(convertFromRaw(JSON.parse(repo.content)))
       );
     }
     if (isPost) {
-      postArticle(draft);
+      postArticle(repo);
     }
-  }, [draft, isPost, postArticle]);
+  }, [repo, isPost, postArticle]);
 
   const postModelClose = () => {
     setPostModal(false);
@@ -67,7 +67,7 @@ function ReviewArticle({
       <Header />
       <div className="reviewArticle__container">
         {loading && <LoadingBox />}
-        {draft && (
+        {repo && (
           <section class="blog-content-area section-padding-100">
             <div class="container">
               <div class="row justify-content-between">
@@ -80,8 +80,8 @@ function ReviewArticle({
                       {/* <!-- <div class="post-thumbnail mb-30 col-12 col-lg-2"><img src="" alt=""></div> --> */}
 
                       <div class="post-content col-12 col-lg-auto">
-                        {draft.isLetters ? (
-                          <h2 class="post-title">{draft.title}</h2>
+                        {repo.isLetters ? (
+                          <h2 class="post-title">{repo.title}</h2>
                         ) : (
                           <h2 class="post-title">Parish Activies</h2>
                         )}
@@ -97,9 +97,7 @@ function ReviewArticle({
                   <div className="reviewArticle__buttonGroup">
                     <Button
                       variant="primary"
-                      onClick={() =>
-                        history.push(`/write-article/${draft._id}`)
-                      }
+                      onClick={() => history.push(`/write-article/${repo._id}`)}
                     >
                       Editor
                     </Button>
@@ -124,7 +122,7 @@ function ReviewArticle({
                 <div>
                   Are you wanting to post{" "}
                   <b>
-                    <i>{draft.title ? draft.title : draft.date}.</i>
+                    <i>{repo.title ? repo.title : repo.date}.</i>
                   </b>
                 </div>
               </Modal.Header>
@@ -146,14 +144,14 @@ function ReviewArticle({
 }
 
 const mapStateToProps = (state) => ({
-  draftContent: state.draftContent,
+  repoContent: state.repoContent,
   articlePublished: state.articlePublished,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getDraftContent: (draftId) => getDraftContent(dispatch, draftId),
-  postArticle: (draft) => postArticle(dispatch, draft),
-  deleteRepo: (draftId) => deleteRepo(dispatch, draftId),
+  getRepoContent: (repoId) => getRepoContent(dispatch, repoId),
+  postArticle: (repo) => postArticle(dispatch, repo),
+  deleteRepo: (repoId) => deleteRepo(dispatch, repoId),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ReviewArticle);

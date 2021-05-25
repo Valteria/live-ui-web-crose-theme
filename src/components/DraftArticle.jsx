@@ -68,7 +68,7 @@ function DraftArticle({ article, deleteRepo }) {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  deleteRepo: (draftId) => deleteRepo(dispatch, draftId),
+  deleteRepo: (repoId) => deleteRepo(dispatch, repoId),
 });
 
 export default connect(null, mapDispatchToProps)(DraftArticle);

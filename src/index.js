@@ -11,22 +11,21 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/style.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { articleContentReducer, articlePublishedReducer, articlesListReducer, cloudImageReducer, createDraftReducer, deleteDraftReducer, draftContentReducer, draftsListReducer, draftUpdatedReducer, repoListReducer } from './store/reducer/articlesReducers';
+import { articleContentReducer, articlePublishedReducer, articlesListReducer, cloudImageReducer, createDraftReducer, deleteRepoReducer, repoContentReducer, repoUpdatedReducer, repoListReducer } from './store/reducer/articlesReducers';
 
 const rootReducer = combineReducers({
     auth: authReducer,
     carousel: carouselReducer,
     weeklyNews: weeklyNewsReducer,
     form: formReducer,
-    draftsList: draftsListReducer,
     createDraft: createDraftReducer,
-    deleteDraft: deleteDraftReducer,
-    draftContent: draftContentReducer,
+    deleteRepo: deleteRepoReducer,
+    repoContent: repoContentReducer,
     cloudImage: cloudImageReducer,
     articlePublished: articlePublishedReducer,
     articlesList: articlesListReducer,
     articleContent: articleContentReducer,
-    draftUpdated: draftUpdatedReducer,
+    repoUpdated: repoUpdatedReducer,
     repoList: repoListReducer
 })
 //Redux store

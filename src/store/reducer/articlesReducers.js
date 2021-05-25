@@ -23,28 +23,28 @@ export const createDraftReducer = (state = {}, action) => {
     }
 }
 
-export const draftsListReducer = (state = { drafts: [] }, action) => {
-    switch (action.type) {
-        case actionType.DRAFTS_LIST_REQUEST:
-            return {
-                loading: true
-            }
-        case actionType.DRAFTS_LIST_SUCCESS:
-            return {
-                loading: false,
-                data: action.payload
-            }
-        case actionType.DRAFTS_LIST_ERROR:
-            return {
-                loading: false,
-                error: action.message
-            }
-        default:
-            return state;
-    }
-}
+// export const draftsListReducer = (state = { drafts: [] }, action) => {
+//     switch (action.type) {
+//         case actionType.DRAFTS_LIST_REQUEST:
+//             return {
+//                 loading: true
+//             }
+//         case actionType.DRAFTS_LIST_SUCCESS:
+//             return {
+//                 loading: false,
+//                 data: action.payload
+//             }
+//         case actionType.DRAFTS_LIST_ERROR:
+//             return {
+//                 loading: false,
+//                 error: action.message
+//             }
+//         default:
+//             return state;
+//     }
+// }
 
-export const deleteDraftReducer = (state = {}, action) => {
+export const deleteRepoReducer = (state = {}, action) => {
     switch (action.type) {
         case actionType.DELETE_REPO_REQUEST:
             return { loading: true }
@@ -59,34 +59,34 @@ export const deleteDraftReducer = (state = {}, action) => {
     }
 }
 
-export const draftContentReducer = (state = {}, action) => {
+export const repoContentReducer = (state = {}, action) => {
     switch (action.type) {
-        case actionType.DRAFT_CONTENT_REQUEST:
+        case actionType.REPO_CONTENT_REQUEST:
             return { loading: true }
-        case actionType.DRAFT_CONTENT_SUCCESS:
-            return { loading: false, success: true, draft: action.payload }
-        case actionType.DRAFT_CONTENT_FAIL:
+        case actionType.REPO_CONTENT_SUCCESS:
+            return { loading: false, success: true, repo: action.payload }
+        case actionType.REPO_CONTENT_FAIL:
             return { loading: false, error: action.payload }
-        case actionType.DRAFT_CONTENT_RESET:
+        case actionType.REPO_CONTENT_RESET:
             return {}
         default:
             return state;
     }
 }
 
-export const draftUpdatedReducer = (state = {}, action) => {
+export const repoUpdatedReducer = (state = {}, action) => {
     switch (action.type) {
-        case actionType.SAVE_DRAFT_REQUEST:
+        case actionType.SAVE_REPO_REQUEST:
             return { loading: true }
-        case actionType.SAVE_DRAFT_SUCCESS:
+        case actionType.SAVE_REPO_SUCCESS:
             return {
                 loading: false,
                 success: true,
-                draft: action.payload,
+                repo: action.payload,
             }
-        case actionType.SAVE_DRAFT_FAIL:
+        case actionType.SAVE_REPO_FAIL:
             return { loading: false, error: action.payload }
-        case actionType.SAVE_DRAFT_RESET:
+        case actionType.SAVE_REPO_RESET:
             return {}
         default:
             return state;

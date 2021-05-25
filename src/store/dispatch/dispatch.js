@@ -90,21 +90,21 @@ export const deleteRepo = async (dispatch, repoId) => {
     }
 }
 
-export const getDraftContent = async (dispatch, draftId) => {
-    dispatch({ type: actionType.DRAFT_CONTENT_REQUEST })
+export const getRepoContent = async (dispatch, repoId) => {
+    dispatch({ type: actionType.REPO_CONTENT_REQUEST })
     try {
-        const { data } = await axios.get(`http://localhost:5000/api/repos/${draftId}`)
-        dispatch({ type: actionType.DRAFT_CONTENT_SUCCESS, payload: data })
+        const { data } = await axios.get(`http://localhost:5000/api/repos/${repoId}`)
+        dispatch({ type: actionType.REPO_CONTENT_SUCCESS, payload: data })
     } catch (error) {
         const message = error.response && error.response.data.message
             ? error.response.data.message
             : error.message
-        dispatch({ type: actionType.DRAFT_CONTENT_FAIL, payload: message })
+        dispatch({ type: actionType.REPO_CONTENT_FAIL, payload: message })
     }
 }
 
-export const saveUpdateDraft = async (dispatch, article) => {
-    dispatch({ type: actionType.SAVE_DRAFT_REQUEST })
+export const saveUpdateRepo = async (dispatch, article) => {
+    dispatch({ type: actionType.SAVE_REPO_REQUEST })
     try {
         const { data } = await axios.put(`http://localhost:5000/api/repos/update-repo/${article._id}`, article, {
             headers: {
@@ -112,12 +112,12 @@ export const saveUpdateDraft = async (dispatch, article) => {
                 'Accepts': 'application/json'
             },
         })
-        dispatch({ type: actionType.SAVE_DRAFT_SUCCESS, payload: data })
+        dispatch({ type: actionType.SAVE_REPO_SUCCESS, payload: data })
     } catch (error) {
         const message = error.response && error.response.data.message
             ? error.response.data.message
             : error.message
-        dispatch({ type: actionType.SAVE_DRAFT_FAIL, payload: message })
+        dispatch({ type: actionType.SAVE_REPO_FAIL, payload: message })
     }
 }
 

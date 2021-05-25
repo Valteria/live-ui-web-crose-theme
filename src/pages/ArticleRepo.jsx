@@ -8,7 +8,7 @@ import { Button, Modal } from "react-bootstrap";
 import CategoryModal from "../components/CategoryModal";
 import { DELETE_REPO_RESET } from "../store/actionType";
 
-function ArticleRepo({ deleteDraft, getRepoList, repoList }) {
+function ArticleRepo({ deleteRepo, getRepoList, repoList }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [cateId, setCateId] = useState("letters");
   const [headId, setHeadId] = useState("/Drafts");
@@ -18,7 +18,7 @@ function ArticleRepo({ deleteDraft, getRepoList, repoList }) {
     setModalOpen(false);
   };
 
-  const { success } = deleteDraft;
+  const { success } = deleteRepo;
 
   const selectTab = (groupBtn, setId) => {
     for (var i = 0; i < groupBtn.length; i++) {
@@ -116,7 +116,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const mapStateToProps = (state) => ({
-  deleteDraft: state.deleteDraft,
+  deleteRepo: state.deleteRepo,
   repoList: state.repoList,
 });
 

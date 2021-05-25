@@ -7,18 +7,18 @@ import "../css/WriteArticle.css";
 
 import { connect, useDispatch } from "react-redux";
 import LoadingBox from "../components/LoadingBox";
-import { getDraftContent, saveUpdateDraft } from "../store/dispatch/dispatch";
+import { getRepoContent, saveUpdateRepo } from "../store/dispatch/dispatch";
 import { Button } from "react-bootstrap";
 import UploadImageToCloud from "../components/UploadImageToCloud";
-import { SAVE_DRAFT_RESET } from "../store/actionType";
+import { SAVE_REPO_RESET } from "../store/actionType";
 
 function WriteArticle({
   match,
   history,
-  getDraftContent,
-  draftContent,
-  saveUpdateDraft,
-  draftUpdated,
+  getRepoContent,
+  repoContent,
+  saveUpdateRepo,
+  repoUpdated,
 }) {
   const [editorState, setEditorState] = useState();
   const [title, setTitle] = useState("");
@@ -30,40 +30,40 @@ function WriteArticle({
   const dispatch = useDispatch();
   const contentId = match.params.id;
 
-  const { loading, draft } = draftContent;
-  const { success } = draftUpdated;
+  const { loading, repo } = repoContent;
+  const { success } = repoUpdated;
 
   const onEditorStateChange = (editorState) => {
     setEditorState(editorState);
   };
 
   useEffect(() => {
-    dispatch({ type: SAVE_DRAFT_RESET });
-    if (!draft || draft._id !== contentId || success) {
-      getDraftContent(contentId);
+    dispatch({ type: SAVE_REPO_RESET });
+    if (!repo || repo._id !== contentId || success) {
+      getRepoContent(contentId);
     } else {
-      setTitle(draft.title);
-      setDate(draft.date);
-      setImage(draft.image);
+      setTitle(repo.title);
+      setDate(repo.date);
+      setImage(repo.image);
     }
-    if (draft && draft?.content) {
+    if (repo && repo?.content) {
       setEditorState(
-        EditorState.createWithContent(convertFromRaw(JSON.parse(draft.content)))
+        EditorState.createWithContent(convertFromRaw(JSON.parse(repo.content)))
       );
     } else {
       setEditorState(EditorState.createEmpty());
     }
-  }, [getDraftContent, contentId, draft, dispatch, success]);
+  }, [getRepoContent, contentId, repo, dispatch, success]);
 
   const saveArticle = () => {
     const article = {
-      title: draft.isLetters ? title : null,
+      title: repo.isLetters ? title : null,
       content: JSON.stringify(convertToRaw(editorState.getCurrentContent())),
       date: date,
-      image: draft.isLetters ? image : null,
+      image: repo.isLetters ? image : null,
       _id: contentId,
     };
-    saveUpdateDraft(article);
+    saveUpdateRepo(article);
   };
 
   const handleChangeUrl = () => {
@@ -93,7 +93,7 @@ function WriteArticle({
       <div className="writeArticle">
         <div className="events-area">
           <div className="container article__controler">
-            {draft?.isLetters ? (
+            {repo?.isLetters ? (
               <div className="article__review">
                 <div className="article__img">
                   <img src={image ? image : null} alt="" />
@@ -145,7 +145,7 @@ function WriteArticle({
                   <input
                     type="text"
                     value={date}
-                    placeholder={draft.date}
+                    placeholder={repo.date}
                     onChange={(e) => setDate(e.target.value)}
                     className="article__description-date"
                   />
@@ -193,15 +193,14 @@ function WriteArticle({
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  getDraftContent: (draftId) => getDraftContent(dispatch, draftId),
-  saveUpdateDraft: (article) => saveUpdateDraft(dispatch, article),
+  getRepoContent: (repoId) => getRepoContent(dispatch, repoId),
+  saveUpdateRepo: (article) => saveUpdateRepo(dispatch, article),
 });
 
 const mapStateToProps = (state) => ({
-  createDraft: state.createDraft,
-  draftContent: state.draftContent,
+  repoContent: state.repoContent,
   cloudImage: state.cloudImage,
-  draftUpdated: state.draftUpdated,
+  repoUpdated: state.repoUpdated,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(WriteArticle);
