@@ -2,21 +2,21 @@ import * as actionType from '../actionType'
 
 export const createDraftReducer = (state = {}, action) => {
     switch (action.type) {
-        case actionType.CREATE_DRAFT_REQUEST:
+        case actionType.CREATE_REPO_REQUEST:
             return { loading: true }
 
-        case actionType.CREATE_DRAFT_SUCCESS:
+        case actionType.CREATE_REPO_SUCCESS:
             return {
                 loading: false,
                 draft: action.payload,
                 success: true
             }
-        case actionType.CREATE_DRAFT_FAIL:
+        case actionType.CREATE_REPO_FAIL:
             return {
                 loading: false,
                 error: action.payload
             }
-        case actionType.CREATE_DRAFT_RESET:
+        case actionType.CREATE_REPO_RESET:
             return {}
         default:
             return state;

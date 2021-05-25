@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import { createNewArticle } from "../store/dispatch/dispatch";
 import { useHistory } from "react-router";
-import { CREATE_DRAFT_RESET } from "../store/actionType";
+import { CREATE_REPO_RESET } from "../store/actionType";
 
 function CategoryModal({ createNewArticle, createDraft }) {
   const [cate, setCate] = useState("letters");
@@ -19,7 +19,7 @@ function CategoryModal({ createNewArticle, createDraft }) {
       history.push(`/write-article/${createDraft.draft._id}`);
     }
     if (createDraft.success) {
-      dispatch({ type: CREATE_DRAFT_RESET });
+      dispatch({ type: CREATE_REPO_RESET });
     }
   }, [createDraft, history, dispatch]);
   return (

@@ -58,21 +58,21 @@ export const submitForm = (dispatch, formType, formData, token, callback) => axi
 export const updateForm = (dispatch, formType, updateData) => dispatch({ type: actionType.UPDATE_FORM_DATA, formType: formType, updateData: updateData });
 
 export const createNewArticle = async (dispatch, isLetters) => {
-    dispatch({ type: actionType.CREATE_DRAFT_REQUEST })
+    dispatch({ type: actionType.CREATE_REPO_REQUEST })
     try {
-        const { data } = await axios.post("http://localhost:5000/api/drafts/new-draft", { isLetters }, {
+        const { data } = await axios.post("http://localhost:5000/api/repos/new-repo", { isLetters }, {
             headers: {
                 'Content-Type': 'application/json',
                 'Accepts': 'application/json'
             },
         })
-        dispatch({ type: actionType.CREATE_DRAFT_SUCCESS, payload: data })
+        dispatch({ type: actionType.CREATE_REPO_SUCCESS, payload: data })
 
     } catch (error) {
         const message = error.response && error.response.data.message
             ? error.response.data.message
             : error.message
-        dispatch({ type: actionType.CREATE_DRAFT_FAIL, payload: message })
+        dispatch({ type: actionType.CREATE_REPO_FAIL, payload: message })
     }
 }
 
@@ -106,7 +106,7 @@ export const deleteDraft = async (dispatch, draftId) => {
 export const getDraftContent = async (dispatch, draftId) => {
     dispatch({ type: actionType.DRAFT_CONTENT_REQUEST })
     try {
-        const { data } = await axios.get(`http://localhost:5000/api/drafts/${draftId}`)
+        const { data } = await axios.get(`http://localhost:5000/api/repos/${draftId}`)
         dispatch({ type: actionType.DRAFT_CONTENT_SUCCESS, payload: data })
     } catch (error) {
         const message = error.response && error.response.data.message
@@ -119,7 +119,7 @@ export const getDraftContent = async (dispatch, draftId) => {
 export const saveUpdateDraft = async (dispatch, article) => {
     dispatch({ type: actionType.SAVE_DRAFT_REQUEST })
     try {
-        const { data } = await axios.put(`http://localhost:5000/api/drafts/update-draft/${article._id}`, article, {
+        const { data } = await axios.put(`http://localhost:5000/api/repos/update-repo/${article._id}`, article, {
             headers: {
                 'Content-Type': 'application/json',
                 'Accepts': 'application/json'
