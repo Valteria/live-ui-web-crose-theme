@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import { connect, useDispatch } from "react-redux";
-import {
-  getArticles,
-  getDraftList,
-  getRepoList,
-} from "../store/dispatch/dispatch";
+import { getRepoList } from "../store/dispatch/dispatch";
 import "../css/ArticleRepo.css";
 import DraftArticle from "../components/DraftArticle";
 import { Button, Modal } from "react-bootstrap";

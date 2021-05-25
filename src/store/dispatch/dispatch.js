@@ -77,19 +77,6 @@ export const createNewArticle = async (dispatch, isLetters) => {
 }
 
 
-export const getDraftList = async (dispatch, cateId) => {
-    dispatch({ type: actionType.DRAFTS_LIST_REQUEST })
-    try {
-        const { data } = await axios.get(`http://localhost:5000/api/drafts?isLetters=${cateId === 'letters' ? true : false}`)
-        dispatch({ type: actionType.DRAFTS_LIST_SUCCESS, payload: data })
-    } catch (error) {
-        const message = error.response && error.response.data.message
-            ? error.response.data.message
-            : error.message
-        dispatch({ type: actionType.DRAFTS_LIST_ERROR, payload: message })
-    }
-}
-
 export const deleteDraft = async (dispatch, draftId) => {
     dispatch({ type: actionType.DELETE_DRAFT_REQUEST })
     try {
@@ -201,16 +188,11 @@ export const getArticleContent = async (dispatch, id) => {
 }
 
 export const getRepoList = async (dispatch, cateId, headId) => {
-
     dispatch({ type: actionType.REPO_LIST_REQUEST })
     try {
-        const isLetters = headId === '/Drafts' ? true : false
-        const { data } = isLetters === true ? (
-            await axios.get(`http://localhost:5000/api/drafts?isLetters=${cateId === 'letters' ? true : false}`)
-        ) : (
-            await axios.get(`http://localhost:5000/api/articles/${cateId === 'letters' ? true : false}`)
-        )
+        const { data } = await axios.get(`http://localhost:5000/api/repos/list-repos?isLetters=${cateId === 'letters' ? true : false}&isPublish=${headId === '/Drafts' ? false : true}`)
         dispatch({ type: actionType.REPO_LIST_SUCCESS, payload: data })
+        console.log(data)
 
     } catch (error) {
         const message = error.response && error.response.data.message
