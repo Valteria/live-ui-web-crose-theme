@@ -142,8 +142,8 @@ export const getImageUrl = async (dispatch, imageReader) => {
     }
 }
 
-export const postArticle = async (dispatch, repo) => {
-    dispatch({ type: actionType.POST_ARTICLE_REQUEST })
+export const postRepo = async (dispatch, repo) => {
+    dispatch({ type: actionType.POST_REPO_REQUEST })
     try {
         const { data } = await axios.put(`http://localhost:5000/api/repos/update-repo/${repo._id}`, { ...repo, isPublish: true }, {
             headers: {
@@ -151,12 +151,12 @@ export const postArticle = async (dispatch, repo) => {
                 'Accepts': 'application/json'
             }
         })
-        dispatch({ type: actionType.POST_ARTICLE_SUCCESS, payload: data })
+        dispatch({ type: actionType.POST_REPO_SUCCESS, payload: data })
     } catch (error) {
         const message = error.response && error.response.data.message
             ? error.response.data.message
             : error.message
-        dispatch({ type: actionType.POST_ARTICLE_FAIL, payload: message })
+        dispatch({ type: actionType.POST_REPO_FAIL, payload: message })
     }
 }
 

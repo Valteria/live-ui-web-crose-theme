@@ -8,7 +8,7 @@ export const createRepoReducer = (state = {}, action) => {
         case actionType.CREATE_REPO_SUCCESS:
             return {
                 loading: false,
-                draft: action.payload,
+                data: action.payload,
                 success: true
             }
         case actionType.CREATE_REPO_FAIL:
@@ -71,6 +71,27 @@ export const repoUpdatedReducer = (state = {}, action) => {
             return state;
     }
 }
+
+export const repoPostedReducer = (state = {}, action) => {
+    switch (action.type) {
+        case actionType.POST_REPO_REQUEST:
+            return { loading: true }
+        case actionType.POST_REPO_SUCCESS:
+            return {
+                loading: false,
+                success: true,
+                repo: action.payload,
+            }
+        case actionType.POST_REPO_FAIL:
+            return { loading: false, error: action.payload }
+        case actionType.POST_REPO_RESET:
+            return {}
+        default:
+            return state;
+    }
+}
+
+
 
 export const cloudImageReducer = (state = {}, action) => {
     switch (action.type) {

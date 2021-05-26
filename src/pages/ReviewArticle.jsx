@@ -6,13 +6,13 @@ import { connect, useDispatch } from "react-redux";
 import {
   deleteRepo,
   getRepoContent,
-  postArticle,
+  postRepo,
 } from "../store/dispatch/dispatch";
 import LoadingBox from "../components/LoadingBox";
 import { Editor } from "react-draft-wysiwyg";
 import { convertFromRaw, EditorState } from "draft-js";
 import { Button } from "react-bootstrap";
-import { POST_ARTICLE_RESET } from "../store/actionType";
+import { POST_REPO_RESET } from "../store/actionType";
 import { Modal } from "react-bootstrap";
 
 function ReviewArticle({
@@ -20,24 +20,23 @@ function ReviewArticle({
   match,
   repoContent,
   history,
-  postArticle,
-  articlePublished,
-  deleteRepo,
+  postRepo,
+  repoPosted,
 }) {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const { loading, repo } = repoContent;
-  const { loading: loadingPublish, success: successPublish } = articlePublished;
+  const { loading: loadingPosted, success: successPosted } = repoPosted;
   const [postModal, setPostModal] = useState(false);
   const [isPost, setIsPost] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
     getRepoContent(match.params.id);
-    if (successPublish) {
-      dispatch({ type: POST_ARTICLE_RESET });
+    dispatch({ type: POST_REPO_RESET });
+    if (successPosted) {
       history.push("/article-repo");
     }
-  }, [match.params.id, getRepoContent, successPublish, history, dispatch]);
+  }, [match.params.id, getRepoContent, successPosted, history, dispatch]);
 
   useEffect(() => {
     if (repo && repo?.content) {
@@ -46,9 +45,9 @@ function ReviewArticle({
       );
     }
     if (isPost) {
-      postArticle(repo);
+      postRepo(repo);
     }
-  }, [repo, isPost, postArticle]);
+  }, [repo, isPost, postRepo]);
 
   const postModelClose = () => {
     setPostModal(false);
@@ -99,12 +98,14 @@ function ReviewArticle({
                     >
                       Repository
                     </Button>
-                    <Button
-                      variant="success"
-                      onClick={() => setPostModal(true)}
-                    >
-                      {loadingPublish ? <LoadingBox /> : "Post"}
-                    </Button>
+                    {!repo.isPublish && (
+                      <Button
+                        variant="success"
+                        onClick={() => setPostModal(true)}
+                      >
+                        {loadingPosted ? <LoadingBox /> : "Post"}
+                      </Button>
+                    )}
                   </div>
                 </div>
               </div>
@@ -137,12 +138,12 @@ function ReviewArticle({
 
 const mapStateToProps = (state) => ({
   repoContent: state.repoContent,
-  articlePublished: state.articlePublished,
+  repoPosted: state.repoPosted,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   getRepoContent: (repoId) => getRepoContent(dispatch, repoId),
-  postArticle: (repo) => postArticle(dispatch, repo),
+  postRepo: (repo) => postRepo(dispatch, repo),
   deleteRepo: (repoId) => deleteRepo(dispatch, repoId),
 });
 

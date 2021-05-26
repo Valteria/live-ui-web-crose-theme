@@ -38,6 +38,9 @@ function WriteArticle({
   };
 
   useEffect(() => {
+    if (success) {
+      history.push(`/article-review/${contentId}`);
+    }
     dispatch({ type: SAVE_REPO_RESET });
     if (!repo || repo._id !== contentId || success) {
       getRepoContent(contentId);
@@ -53,11 +56,11 @@ function WriteArticle({
     } else {
       setEditorState(EditorState.createEmpty());
     }
-  }, [getRepoContent, contentId, repo, dispatch, success]);
+  }, [getRepoContent, contentId, repo, dispatch, success, history]);
 
   const saveArticle = () => {
     const article = {
-      title: repo.isLetters ? title : null,
+      title: title ? title : null,
       content: JSON.stringify(convertToRaw(editorState.getCurrentContent())),
       date: date,
       image: repo.isLetters ? image : null,
@@ -77,7 +80,6 @@ function WriteArticle({
 
   const handleReviewBtn = () => {
     saveArticle();
-    history.push(`/article-review/${contentId}`);
   };
 
   const handleBackBtn = () => {
@@ -136,7 +138,6 @@ function WriteArticle({
                 <div className="article__description">
                   <input
                     type="text"
-                    required
                     placeholder="Title"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
@@ -155,6 +156,20 @@ function WriteArticle({
             ) : (
               <div className="my-3">
                 <h3 style={{ textAlign: "center" }}>Parish Activities</h3>
+                <input
+                  type="text"
+                  placeholder="Title"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  style={{
+                    width: "100%",
+                    marginBottom: 10,
+                    fontSize: 20,
+                    padding: "5px 10px",
+                    border: "1px solid lightgray",
+                    borderRadius: 5,
+                  }}
+                />
                 <UploadImageToCloud />
               </div>
             )}

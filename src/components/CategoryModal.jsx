@@ -5,23 +5,24 @@ import { createNewRepo } from "../store/dispatch/dispatch";
 import { useHistory } from "react-router";
 import { CREATE_REPO_RESET } from "../store/actionType";
 
-function CategoryModal({ createNewRepo, createDraft }) {
+function CategoryModal({ createNewRepo, createRepo }) {
   const [cate, setCate] = useState("letters");
   const history = useHistory();
   const dispatch = useDispatch();
+  console.log(createRepo);
 
   const handleSubmit = () => {
     createNewRepo(cate === "letters" ? true : false);
     setCate("letters");
   };
   useEffect(() => {
-    if (createDraft.draft) {
-      history.push(`/write-article/${createDraft.draft._id}`);
+    if (createRepo.data) {
+      history.push(`/write-article/${createRepo.data._id}`);
     }
-    if (createDraft.success) {
+    if (createRepo.success) {
       dispatch({ type: CREATE_REPO_RESET });
     }
-  }, [createDraft, history, dispatch]);
+  }, [createRepo, history, dispatch]);
   return (
     <>
       <Modal.Header closeButton>
@@ -59,7 +60,7 @@ const mapDispatchToMaps = (dispatch) => ({
   createNewRepo: (isLetters) => createNewRepo(dispatch, isLetters),
 });
 const mapStateToProps = (state) => ({
-  createDraft: state.createDraft,
+  createRepo: state.createRepo,
 });
 
 export default connect(mapStateToProps, mapDispatchToMaps)(CategoryModal);
