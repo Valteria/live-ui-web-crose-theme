@@ -34,18 +34,10 @@ function ReviewArticle({
   useEffect(() => {
     getRepoContent(match.params.id);
     if (successPublish) {
-      deleteRepo(match.params.id);
-      history.push("/article-repo");
       dispatch({ type: POST_ARTICLE_RESET });
+      history.push("/article-repo");
     }
-  }, [
-    match.params.id,
-    getRepoContent,
-    successPublish,
-    deleteRepo,
-    history,
-    dispatch,
-  ]);
+  }, [match.params.id, getRepoContent, successPublish, history, dispatch]);
 
   useEffect(() => {
     if (repo && repo?.content) {

@@ -3,16 +3,15 @@ import React, { useEffect } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { connect } from "react-redux";
-import { getArticles } from "../store/dispatch/dispatch";
+import { getRepoList } from "../store/dispatch/dispatch";
 import LoadingBox from "../components/LoadingBox";
 import ArticleItemList from "./ArticleItemList";
 
-const Articles = ({ getArticles, articlesList, match }) => {
-  const category = match.path;
-  const { loading, data } = articlesList;
+const Articles = ({ getRepoList, repoList }) => {
+  const { loading, data } = repoList;
   useEffect(() => {
-    getArticles(category);
-  }, [getArticles, category]);
+    getRepoList();
+  }, [getRepoList]);
 
   return (
     <div>
@@ -58,11 +57,12 @@ const Articles = ({ getArticles, articlesList, match }) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  getArticles: (category) => getArticles(dispatch, category),
+  getRepoList: (cateId = "letters", headId = "/Posts") =>
+    getRepoList(dispatch, cateId, headId),
 });
 
 const mapStateToProps = (state) => ({
-  articlesList: state.articlesList,
+  repoList: state.repoList,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Articles);

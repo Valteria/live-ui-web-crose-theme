@@ -139,10 +139,10 @@ export const getImageUrl = async (dispatch, imageReader) => {
     }
 }
 
-export const postArticle = async (dispatch, draft) => {
+export const postArticle = async (dispatch, repo) => {
     dispatch({ type: actionType.POST_ARTICLE_REQUEST })
     try {
-        const { data } = await axios.post('http://localhost:5000/api/articles/post-article', draft, {
+        const { data } = await axios.put(`http://localhost:5000/api/repos/update-repo/${repo._id}`, { ...repo, isPublish: true }, {
             headers: {
                 'Content-Type': 'application/json',
                 'Accepts': 'application/json'
@@ -154,36 +154,6 @@ export const postArticle = async (dispatch, draft) => {
             ? error.response.data.message
             : error.message
         dispatch({ type: actionType.POST_ARTICLE_FAIL, payload: message })
-    }
-}
-
-export const getArticles = async (dispatch, category) => {
-    dispatch({ type: actionType.GET_ARTICLES_REQUEST })
-
-    const isLetters = category === '/Articles' ? true : false
-
-    try {
-        const { data } = await axios.get(`http://localhost:5000/api/articles/${isLetters}`)
-        // const result = isLetters ? data : data[0]
-        dispatch({ type: actionType.GET_ARTICLES_SUCCESS, payload: data })
-    } catch (error) {
-        const message = error.response && error.response.data.message
-            ? error.response.data.message
-            : error.message
-        dispatch({ type: actionType.GET_ARTICLES_FAIL, payload: message })
-    }
-}
-
-export const getArticleContent = async (dispatch, id) => {
-    dispatch({ type: actionType.ARTICLE_CONTENT_REQUEST })
-    try {
-        const { data } = await axios.get(`http://localhost:5000/api/articles/get-article/${id}`)
-        dispatch({ type: actionType.ARTICLE_CONTENT_SUCCESS, payload: data })
-    } catch (error) {
-        const message = error.response && error.response.data.message
-            ? error.response.data.message
-            : error.message
-        dispatch({ type: actionType.ARTICLE_CONTENT_FAIL, payload: message })
     }
 }
 

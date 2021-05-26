@@ -2,18 +2,18 @@ import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { connect } from "react-redux";
-import { getArticles } from "../store/dispatch/dispatch";
+import { getRepoList } from "../store/dispatch/dispatch";
 import LoadingBox from "../components/LoadingBox";
 import { Editor } from "react-draft-wysiwyg";
 import { convertFromRaw, EditorState } from "draft-js";
 
-const ActivitiesPage = ({ getArticles, match, articlesList }) => {
+const ActivitiesPage = ({ getRepoList, repoList }) => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
-  const { loading, data } = articlesList;
-  const category = match.path;
+  const { loading, data } = repoList;
+
   useEffect(() => {
-    getArticles(category);
-  }, [getArticles, category]);
+    getRepoList();
+  }, [getRepoList]);
 
   useEffect(() => {
     if (data) {
@@ -37,12 +37,16 @@ const ActivitiesPage = ({ getArticles, match, articlesList }) => {
                   <div class="post-content col-12 col-lg-auto">
                     <h2 className="section-heading">Sinh Hoạt Giáo Xứ</h2>
                     {loading && <LoadingBox />}
-                    {data && (
+                    {data?.length > 0 ? (
                       <Editor
                         readOnly
                         toolbarHidden
                         editorState={editorState}
                       />
+                    ) : (
+                      <span>
+                        <i>No Article</i>
+                      </span>
                     )}
                   </div>
                 </div>
@@ -57,11 +61,12 @@ const ActivitiesPage = ({ getArticles, match, articlesList }) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  getArticles: (category) => getArticles(dispatch, category),
+  getRepoList: (cateId = "activities", headId = "/Posts") =>
+    getRepoList(dispatch, cateId, headId),
 });
 
 const mapStateToProps = (state) => ({
-  articlesList: state.articlesList,
+  repoList: state.repoList,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ActivitiesPage);

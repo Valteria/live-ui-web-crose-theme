@@ -3,34 +3,32 @@ import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { connect } from "react-redux";
-import { getArticleContent } from "../store/dispatch/dispatch";
+import { getRepoContent } from "../store/dispatch/dispatch";
 import LoadingBox from "../components/LoadingBox";
 import { Editor } from "react-draft-wysiwyg";
 import { convertFromRaw, EditorState } from "draft-js";
 
-const ArticleDetail = ({ match, getArticleContent, articleContent }) => {
+const ArticleDetail = ({ match, getRepoContent, repoContent }) => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
-  const { loading, article } = articleContent;
+  const { loading, repo } = repoContent;
   const id = match.params.id;
   useEffect(() => {
-    getArticleContent(id);
-  }, [getArticleContent, id]);
+    getRepoContent(id);
+  }, [getRepoContent, id]);
 
   useEffect(() => {
-    if (article) {
+    if (repo) {
       setEditorState(
-        EditorState.createWithContent(
-          convertFromRaw(JSON.parse(article.content))
-        )
+        EditorState.createWithContent(convertFromRaw(JSON.parse(repo.content)))
       );
     }
-  }, [article]);
+  }, [repo]);
 
   return (
     <div>
       <Header />
       {loading && <LoadingBox />}
-      {!article ? (
+      {!repo ? (
         <h1>Article does not exist</h1>
       ) : (
         <>
@@ -51,7 +49,7 @@ const ArticleDetail = ({ match, getArticleContent, articleContent }) => {
                       {/* <!-- <div class="post-thumbnail mb-30 col-12 col-lg-2"><img src="" alt=""></div> --> */}
 
                       <div class="post-content col-12 col-lg-auto">
-                        <h2 class="post-title">{article.title}</h2>
+                        <h2 class="post-title">{repo.title}</h2>
                         <Editor
                           readOnly
                           toolbarHidden
@@ -75,11 +73,11 @@ const ArticleDetail = ({ match, getArticleContent, articleContent }) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  getArticleContent: (id) => getArticleContent(dispatch, id),
+  getRepoContent: (id) => getRepoContent(dispatch, id),
 });
 
 const mapStateToProps = (state) => ({
-  articleContent: state.articleContent,
+  repoContent: state.repoContent,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ArticleDetail);
