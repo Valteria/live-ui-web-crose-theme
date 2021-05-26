@@ -11,20 +11,17 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/style.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { articleContentReducer, articlePublishedReducer, articlesListReducer, cloudImageReducer, createDraftReducer, deleteRepoReducer, repoContentReducer, repoUpdatedReducer, repoListReducer } from './store/reducer/articlesReducers';
+import { cloudImageReducer, createRepoReducer, deleteRepoReducer, repoContentReducer, repoUpdatedReducer, repoListReducer } from './store/reducer/articlesReducers';
 
 const rootReducer = combineReducers({
     auth: authReducer,
     carousel: carouselReducer,
     weeklyNews: weeklyNewsReducer,
     form: formReducer,
-    createDraft: createDraftReducer,
+    createRepo: createRepoReducer,
     deleteRepo: deleteRepoReducer,
     repoContent: repoContentReducer,
     cloudImage: cloudImageReducer,
-    articlePublished: articlePublishedReducer,
-    articlesList: articlesListReducer,
-    articleContent: articleContentReducer,
     repoUpdated: repoUpdatedReducer,
     repoList: repoListReducer
 })

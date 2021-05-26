@@ -1,6 +1,6 @@
 import * as actionType from '../actionType'
 
-export const createDraftReducer = (state = {}, action) => {
+export const createRepoReducer = (state = {}, action) => {
     switch (action.type) {
         case actionType.CREATE_REPO_REQUEST:
             return { loading: true }
@@ -22,27 +22,6 @@ export const createDraftReducer = (state = {}, action) => {
             return state;
     }
 }
-
-// export const draftsListReducer = (state = { drafts: [] }, action) => {
-//     switch (action.type) {
-//         case actionType.DRAFTS_LIST_REQUEST:
-//             return {
-//                 loading: true
-//             }
-//         case actionType.DRAFTS_LIST_SUCCESS:
-//             return {
-//                 loading: false,
-//                 data: action.payload
-//             }
-//         case actionType.DRAFTS_LIST_ERROR:
-//             return {
-//                 loading: false,
-//                 error: action.message
-//             }
-//         default:
-//             return state;
-//     }
-// }
 
 export const deleteRepoReducer = (state = {}, action) => {
     switch (action.type) {
@@ -103,49 +82,6 @@ export const cloudImageReducer = (state = {}, action) => {
             return { loading: false, error: action.payload }
         case actionType.IMAGE_UPLOAD_RESET:
             return {}
-        default:
-            return state;
-    }
-}
-
-export const articlePublishedReducer = (state = {}, action) => {
-    switch (action.type) {
-        case actionType.POST_ARTICLE_REQUEST:
-            return { loading: true }
-        case actionType.POST_ARTICLE_SUCCESS:
-            return { loading: false, success: true, article: action.payload }
-        case actionType.POST_ARTICLE_FAIL:
-            return { loading: false, error: action.payload }
-        case actionType.POST_ARTICLE_RESET:
-            return {}
-        default:
-            return state;
-    }
-}
-
-export const articlesListReducer = (state = { article: [] }, action) => {
-    switch (action.type) {
-        case actionType.GET_ARTICLES_REQUEST:
-            return { loading: true }
-        case actionType.GET_ARTICLES_SUCCESS:
-            return { loading: false, data: action.payload }
-        case actionType.GET_ARTICLES_FAIL:
-            return { loading: false, error: action.payload }
-        case actionType.GET_ARTICLES_RESET:
-            return { ...state, articles: [] }
-        default:
-            return state;
-    }
-}
-
-export const articleContentReducer = (state = {}, action) => {
-    switch (action.type) {
-        case actionType.ARTICLE_CONTENT_REQUEST:
-            return { loading: true }
-        case actionType.ARTICLE_CONTENT_SUCCESS:
-            return { loading: false, article: action.payload }
-        case actionType.ARTICLE_CONTENT_FAIL:
-            return { loading: false, error: action.payload }
         default:
             return state;
     }

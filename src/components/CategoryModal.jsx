@@ -1,17 +1,17 @@
 import { Button, Form, Modal } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
 import { connect, useDispatch } from "react-redux";
-import { createNewArticle } from "../store/dispatch/dispatch";
+import { createNewRepo } from "../store/dispatch/dispatch";
 import { useHistory } from "react-router";
 import { CREATE_REPO_RESET } from "../store/actionType";
 
-function CategoryModal({ createNewArticle, createDraft }) {
+function CategoryModal({ createNewRepo, createDraft }) {
   const [cate, setCate] = useState("letters");
   const history = useHistory();
   const dispatch = useDispatch();
 
   const handleSubmit = () => {
-    createNewArticle(cate === "letters" ? true : false);
+    createNewRepo(cate === "letters" ? true : false);
     setCate("letters");
   };
   useEffect(() => {
@@ -56,7 +56,7 @@ function CategoryModal({ createNewArticle, createDraft }) {
 }
 
 const mapDispatchToMaps = (dispatch) => ({
-  createNewArticle: (isLetters) => createNewArticle(dispatch, isLetters),
+  createNewRepo: (isLetters) => createNewRepo(dispatch, isLetters),
 });
 const mapStateToProps = (state) => ({
   createDraft: state.createDraft,
