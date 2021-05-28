@@ -30,6 +30,13 @@ const Articles = ({ getRepoList, repoList }) => {
             </div>
             {/* <!-- Articles List --> */}
             {loading && <LoadingBox />}
+            {data?.length === 0 && (
+              <div style={{ textAlign: "center", fontSize: 20, flex: 1 }}>
+                <span>
+                  <i>No Article</i>
+                </span>
+              </div>
+            )}
             {data?.map((article, key) => (
               <ArticleItemList key={key} article={article} />
             ))}
