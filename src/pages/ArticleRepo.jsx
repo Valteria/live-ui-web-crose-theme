@@ -12,7 +12,7 @@ import {
   SAVE_REPO_RESET,
 } from "../store/actionType";
 
-function ArticleRepo({ deleteRepo, getRepoList, repoList, repoUpdated }) {
+function ArticleRepo({ repoDeleted, getRepoList, repoList, repoUpdated }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [cateId, setCateId] = useState("letters");
   const [headId, setHeadId] = useState("/Drafts");
@@ -22,7 +22,7 @@ function ArticleRepo({ deleteRepo, getRepoList, repoList, repoUpdated }) {
     setModalOpen(false);
   };
 
-  const { success: successDeleted } = deleteRepo;
+  const { success: successDeleted } = repoDeleted;
   const { success: successUpdated } = repoUpdated;
 
   const selectTab = (groupBtn, setId) => {
@@ -123,7 +123,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const mapStateToProps = (state) => ({
-  deleteRepo: state.deleteRepo,
+  repoDeleted: state.repoDeleted,
   repoList: state.repoList,
   repoUpdated: state.repoUpdated,
 });

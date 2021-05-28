@@ -11,7 +11,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/style.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { cloudImageReducer, createRepoReducer, deleteRepoReducer, repoContentReducer, repoUpdatedReducer, repoListReducer, repoPostedReducer } from './store/reducer/articlesReducers';
+import { cloudImageReducer, createRepoReducer, repoDeletedReducer, repoContentReducer, repoUpdatedReducer, repoListReducer, repoPostedReducer } from './store/reducer/articlesReducers';
 
 const rootReducer = combineReducers({
     auth: authReducer,
@@ -19,7 +19,7 @@ const rootReducer = combineReducers({
     weeklyNews: weeklyNewsReducer,
     form: formReducer,
     createRepo: createRepoReducer,
-    deleteRepo: deleteRepoReducer,
+    repoDeleted: repoDeletedReducer,
     repoContent: repoContentReducer,
     cloudImage: cloudImageReducer,
     repoUpdated: repoUpdatedReducer,

@@ -23,7 +23,7 @@ export const createRepoReducer = (state = {}, action) => {
     }
 }
 
-export const deleteRepoReducer = (state = {}, action) => {
+export const repoDeletedReducer = (state = {}, action) => {
     switch (action.type) {
         case actionType.DELETE_REPO_REQUEST:
             return { loading: true }

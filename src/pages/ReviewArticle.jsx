@@ -12,7 +12,11 @@ import LoadingBox from "../components/LoadingBox";
 import { Editor } from "react-draft-wysiwyg";
 import { convertFromRaw, EditorState } from "draft-js";
 import { Button } from "react-bootstrap";
-import { POST_REPO_RESET, SAVE_REPO_RESET } from "../store/actionType";
+import {
+  DELETE_REPO_RESET,
+  POST_REPO_RESET,
+  SAVE_REPO_RESET,
+} from "../store/actionType";
 import { Modal } from "react-bootstrap";
 
 function ReviewArticle({
@@ -23,22 +27,28 @@ function ReviewArticle({
   postRepo,
   repoPosted,
   repoUpdated,
+  deleteRepo,
+  repoDeleted,
 }) {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const { loading, repo } = repoContent;
   const { loading: loadingPosted, success: successPosted } = repoPosted;
+  const { loading: loadingDeleted, success: successDeleted } = repoDeleted;
   const { success: successUpdated } = repoUpdated;
   const [postModal, setPostModal] = useState(false);
   const [isPost, setIsPost] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
+  const [selectedBtn, setSelectedBtn] = useState();
   const dispatch = useDispatch();
 
   useEffect(() => {
     getRepoContent(match.params.id);
-    if (successUpdated || successPosted) {
+    if (successUpdated || successPosted || successDeleted) {
       dispatch({ type: POST_REPO_RESET });
       dispatch({ type: SAVE_REPO_RESET });
+      dispatch({ type: DELETE_REPO_RESET });
     }
-    if (successPosted) {
+    if (successPosted || successDeleted) {
       history.push("/article-repo");
     }
   }, [
@@ -48,6 +58,7 @@ function ReviewArticle({
     history,
     dispatch,
     successUpdated,
+    successDeleted,
   ]);
 
   useEffect(() => {
@@ -59,7 +70,10 @@ function ReviewArticle({
     if (isPost) {
       postRepo(repo);
     }
-  }, [repo, isPost, postRepo]);
+    if (isDelete) {
+      deleteRepo(repo._id);
+    }
+  }, [repo, isPost, postRepo, isDelete, deleteRepo]);
 
   const postModelClose = () => {
     setPostModal(false);
@@ -110,10 +124,22 @@ function ReviewArticle({
                     >
                       Repository
                     </Button>
+                    <Button
+                      variant="danger"
+                      onClick={() => {
+                        setPostModal(true);
+                        setSelectedBtn("delete");
+                      }}
+                    >
+                      {loadingDeleted ? <LoadingBox /> : "Delete"}
+                    </Button>
                     {!repo.isPublish && (
                       <Button
                         variant="success"
-                        onClick={() => setPostModal(true)}
+                        onClick={() => {
+                          setPostModal(true);
+                          setSelectedBtn("post");
+                        }}
                       >
                         {loadingPosted ? <LoadingBox /> : "Post"}
                       </Button>
@@ -125,18 +151,31 @@ function ReviewArticle({
             <Modal show={postModal} onHide={postModelClose}>
               <Modal.Header>
                 <div>
-                  Are you wanting to post{" "}
+                  Are you wanting to {selectedBtn + " "}
                   <b>
                     <i>{repo.title ? repo.title : repo.date}.</i>
                   </b>
                 </div>
               </Modal.Header>
               <Modal.Footer>
-                <Button variant="primary" onClick={postModelClose}>
+                <Button variant="secondary" onClick={postModelClose}>
                   Cancel
                 </Button>
-                <Button variant="success" onClick={() => setIsPost(true)}>
-                  Post
+                <Button
+                  variant={
+                    selectedBtn === "post"
+                      ? "success"
+                      : selectedBtn === "delete" && "danger"
+                  }
+                  onClick={() =>
+                    selectedBtn === "post"
+                      ? setIsPost(true)
+                      : selectedBtn === "delete" && setIsDelete(true)
+                  }
+                >
+                  {selectedBtn === "post"
+                    ? "Post"
+                    : selectedBtn === "delete" && "Delete"}
                 </Button>
               </Modal.Footer>
             </Modal>
@@ -152,6 +191,7 @@ const mapStateToProps = (state) => ({
   repoContent: state.repoContent,
   repoPosted: state.repoPosted,
   repoUpdated: state.repoUpdated,
+  repoDeleted: state.repoDeleted,
 });
 
 const mapDispatchToProps = (dispatch) => ({
