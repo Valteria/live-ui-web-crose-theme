@@ -37,11 +37,9 @@ function DraftArticle({ article, deleteRepo }) {
           <button
             onClick={() => history.push(`/article-review/${article._id}`)}
           >
-            <i className="fa fa-eye"></i>
+            Review
           </button>
-          <button onClick={() => setDeleteModal(true)}>
-            <i className="fa fa-trash"></i>
-          </button>
+          <button onClick={() => setDeleteModal(true)}>Delete</button>
         </div>
       </div>
       <Modal show={deleteModal} onHide={deleteModalClose}>
