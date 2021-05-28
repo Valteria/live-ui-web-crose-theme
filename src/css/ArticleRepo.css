@@ -11,20 +11,22 @@
     overflow: hidden;
 }
 
-.sidebar__headTable,
-.contents__headTable{
+.sidebar__headTable{
     background-color: rgb(223, 223, 223);
+}
+.contents__headTable{
     flex: 0.5;
-
     border-bottom: 1px solid rgba(211, 211, 211, 0.308);
+    background-color: rgba(255, 255, 255, 0.911);
 }
 
 .contents__headTable{
     cursor: pointer;
 }
 .contents__headTable.active h6{
+    background-color: rgba(0, 236, 0, 0.247);
     border-radius: 0 15px 0 15px ;
-    background-color: rgba(255, 255, 255, 0.911);
+    color: rgba(24, 83, 24, 0.719);
 }
 
 
