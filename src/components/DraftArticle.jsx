@@ -36,10 +36,16 @@ function DraftArticle({ article, deleteRepo }) {
         <div className="buttons-group">
           <button
             onClick={() => history.push(`/article-review/${article._id}`)}
+            className="buttons-group-review"
           >
             Review
           </button>
-          <button onClick={() => setDeleteModal(true)}>Delete</button>
+          <button
+            onClick={() => setDeleteModal(true)}
+            className="buttons-group-delete"
+          >
+            Delete
+          </button>
         </div>
       </div>
       <Modal show={deleteModal} onHide={deleteModalClose}>
