@@ -31,7 +31,7 @@ function CategoryModal({ createNewRepo, createRepo }) {
         <Form>
           <Form.Check
             type="radio"
-            label="Letters"
+            label="Cac Bai Viet"
             value="letters"
             name="group"
             checked
@@ -39,7 +39,7 @@ function CategoryModal({ createNewRepo, createRepo }) {
           />
           <Form.Check
             type="radio"
-            label="Parish Activities"
+            label="Sinh Hoat Giao Xu"
             value="parish-activities"
             name="group"
             onChange={(e) => setCate(e.target.value)}

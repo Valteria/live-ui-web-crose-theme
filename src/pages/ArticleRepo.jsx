@@ -84,10 +84,10 @@ function ArticleRepo({ repoDeleted, getRepoList, repoList, repoUpdated }) {
                 </div>
                 <ul>
                   <li id="letters" className="active">
-                    <strong>Letters</strong>
+                    <strong>Cac Bai Viet</strong>
                   </li>
                   <li id="parish-activities">
-                    <strong>Parish Activities</strong>
+                    <strong>Sinh hoat Giao xu</strong>
                   </li>
                 </ul>
               </div>
