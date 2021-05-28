@@ -9,7 +9,6 @@ function CategoryModal({ createNewRepo, createRepo }) {
   const [cate, setCate] = useState("letters");
   const history = useHistory();
   const dispatch = useDispatch();
-  console.log(createRepo);
 
   const handleSubmit = () => {
     createNewRepo(cate === "letters" ? true : false);

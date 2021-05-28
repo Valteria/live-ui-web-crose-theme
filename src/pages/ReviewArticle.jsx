@@ -27,7 +27,6 @@ function ReviewArticle({
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const { loading, repo } = repoContent;
   const { loading: loadingPosted, success: successPosted } = repoPosted;
-  console.log(repoUpdated);
   const { success: successUpdated } = repoUpdated;
   const [postModal, setPostModal] = useState(false);
   const [isPost, setIsPost] = useState(false);

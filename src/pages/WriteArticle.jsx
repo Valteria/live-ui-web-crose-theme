@@ -189,7 +189,7 @@ function WriteArticle({
                 onClick={handleBackBtn}
                 variant="secondary"
               >
-                <i className="fa fa-arrow-left"></i>
+                Repository
               </Button>
 
               <Button
@@ -197,7 +197,7 @@ function WriteArticle({
                 variant="success"
                 onClick={handleReviewBtn}
               >
-                <i className="fa fa-eye"></i>
+                Review
               </Button>
             </div>
           </div>
