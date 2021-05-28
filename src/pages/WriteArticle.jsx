@@ -5,12 +5,11 @@ import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
 import "../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "../css/WriteArticle.css";
 
-import { connect, useDispatch } from "react-redux";
+import { connect } from "react-redux";
 import LoadingBox from "../components/LoadingBox";
 import { getRepoContent, saveUpdateRepo } from "../store/dispatch/dispatch";
 import { Button } from "react-bootstrap";
 import UploadImageToCloud from "../components/UploadImageToCloud";
-import { SAVE_REPO_RESET } from "../store/actionType";
 
 function WriteArticle({
   match,
@@ -27,7 +26,6 @@ function WriteArticle({
   );
   const [newImage, setNewImage] = useState("");
   const [date, setDate] = useState(null);
-  const dispatch = useDispatch();
   const contentId = match.params.id;
 
   const { loading, repo } = repoContent;
@@ -40,7 +38,6 @@ function WriteArticle({
   useEffect(() => {
     if (!repo || repo._id !== contentId || success) {
       getRepoContent(contentId);
-      // dispatch({ type: SAVE_REPO_RESET });
     } else {
       setTitle(repo.title);
       setDate(repo.date);
@@ -108,7 +105,8 @@ function WriteArticle({
                     }}
                   >
                     <Button className="article__img-upload-btn">
-                      <i className="fa fa-upload"></i>
+                      {/* <i className="fa fa-upload"></i> */}
+                      Change
                     </Button>
                   </div>
                   <div className="article__img-inputURL">
@@ -127,10 +125,10 @@ function WriteArticle({
                             .classList.remove("visible");
                         }}
                       >
-                        x
+                        Cancel
                       </Button>
                       <Button variant="success" onClick={handleChangeUrl}>
-                        <i className="fa fa-save"></i>
+                        Upload
                       </Button>
                     </div>
                   </div>
