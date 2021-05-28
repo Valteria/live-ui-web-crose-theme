@@ -16,12 +16,14 @@ const ActivitiesPage = ({ getRepoList, repoList }) => {
   }, [getRepoList]);
 
   useEffect(() => {
-    if (data) {
+    if (data?.length > 0) {
       setEditorState(
         EditorState.createWithContent(
           convertFromRaw(JSON.parse(data[0].content))
         )
       );
+    } else {
+      setEditorState(EditorState.createEmpty());
     }
   }, [data]);
 
@@ -44,9 +46,11 @@ const ActivitiesPage = ({ getRepoList, repoList }) => {
                         editorState={editorState}
                       />
                     ) : (
-                      <span>
-                        <i>No Article</i>
-                      </span>
+                      <div style={{ textAlign: "center", fontSize: 20 }}>
+                        <span>
+                          <i>No Article</i>
+                        </span>
+                      </div>
                     )}
                   </div>
                 </div>
