@@ -6,9 +6,13 @@ import "../css/ArticleRepo.css";
 import DraftArticle from "../components/DraftArticle";
 import { Button, Modal } from "react-bootstrap";
 import CategoryModal from "../components/CategoryModal";
-import { DELETE_REPO_RESET } from "../store/actionType";
+import {
+  DELETE_REPO_RESET,
+  REPO_CONTENT_RESET,
+  SAVE_REPO_RESET,
+} from "../store/actionType";
 
-function ArticleRepo({ deleteRepo, getRepoList, repoList }) {
+function ArticleRepo({ deleteRepo, getRepoList, repoList, repoUpdated }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [cateId, setCateId] = useState("letters");
   const [headId, setHeadId] = useState("/Drafts");
@@ -18,7 +22,8 @@ function ArticleRepo({ deleteRepo, getRepoList, repoList }) {
     setModalOpen(false);
   };
 
-  const { success } = deleteRepo;
+  const { success: successDeleted } = deleteRepo;
+  const { success: successUpdated } = repoUpdated;
 
   const selectTab = (groupBtn, setId) => {
     for (var i = 0; i < groupBtn.length; i++) {
@@ -42,12 +47,14 @@ function ArticleRepo({ deleteRepo, getRepoList, repoList }) {
     const headBtn = document.querySelectorAll(".contents__headTable");
     selectTab(headBtn, setHeadId);
 
-    if (success) {
+    if (successDeleted || successUpdated) {
       dispatch({ type: DELETE_REPO_RESET });
+      dispatch({ type: SAVE_REPO_RESET });
     }
+    dispatch({ type: REPO_CONTENT_RESET });
 
     getRepoList(cateId, headId);
-  }, [cateId, success, dispatch, headId, getRepoList]);
+  }, [cateId, successDeleted, dispatch, headId, getRepoList, successUpdated]);
 
   return (
     <div>
@@ -118,6 +125,7 @@ const mapDispatchToProps = (dispatch) => ({
 const mapStateToProps = (state) => ({
   deleteRepo: state.deleteRepo,
   repoList: state.repoList,
+  repoUpdated: state.repoUpdated,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ArticleRepo);

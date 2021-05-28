@@ -12,7 +12,7 @@ import LoadingBox from "../components/LoadingBox";
 import { Editor } from "react-draft-wysiwyg";
 import { convertFromRaw, EditorState } from "draft-js";
 import { Button } from "react-bootstrap";
-import { POST_REPO_RESET } from "../store/actionType";
+import { POST_REPO_RESET, SAVE_REPO_RESET } from "../store/actionType";
 import { Modal } from "react-bootstrap";
 
 function ReviewArticle({
@@ -22,21 +22,34 @@ function ReviewArticle({
   history,
   postRepo,
   repoPosted,
+  repoUpdated,
 }) {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const { loading, repo } = repoContent;
   const { loading: loadingPosted, success: successPosted } = repoPosted;
+  console.log(repoUpdated);
+  const { success: successUpdated } = repoUpdated;
   const [postModal, setPostModal] = useState(false);
   const [isPost, setIsPost] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
     getRepoContent(match.params.id);
-    dispatch({ type: POST_REPO_RESET });
+    if (successUpdated || successPosted) {
+      dispatch({ type: POST_REPO_RESET });
+      dispatch({ type: SAVE_REPO_RESET });
+    }
     if (successPosted) {
       history.push("/article-repo");
     }
-  }, [match.params.id, getRepoContent, successPosted, history, dispatch]);
+  }, [
+    match.params.id,
+    getRepoContent,
+    successPosted,
+    history,
+    dispatch,
+    successUpdated,
+  ]);
 
   useEffect(() => {
     if (repo && repo?.content) {
@@ -139,6 +152,7 @@ function ReviewArticle({
 const mapStateToProps = (state) => ({
   repoContent: state.repoContent,
   repoPosted: state.repoPosted,
+  repoUpdated: state.repoUpdated,
 });
 
 const mapDispatchToProps = (dispatch) => ({

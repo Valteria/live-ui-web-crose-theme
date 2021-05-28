@@ -38,12 +38,9 @@ function WriteArticle({
   };
 
   useEffect(() => {
-    if (success) {
-      history.push(`/article-review/${contentId}`);
-    }
-    dispatch({ type: SAVE_REPO_RESET });
     if (!repo || repo._id !== contentId || success) {
       getRepoContent(contentId);
+      // dispatch({ type: SAVE_REPO_RESET });
     } else {
       setTitle(repo.title);
       setDate(repo.date);
@@ -56,7 +53,7 @@ function WriteArticle({
     } else {
       setEditorState(EditorState.createEmpty());
     }
-  }, [getRepoContent, contentId, repo, dispatch, success, history]);
+  }, [getRepoContent, contentId, repo, success, history]);
 
   const saveArticle = () => {
     const article = {
@@ -80,10 +77,13 @@ function WriteArticle({
 
   const handleReviewBtn = () => {
     saveArticle();
+
+    history.push(`/article-review/${contentId}`);
   };
 
   const handleBackBtn = () => {
     saveArticle();
+
     history.push("/article-repo");
   };
 
