@@ -101,7 +101,13 @@ function ArticleRepo({ repoDeleted, getRepoList, repoList, repoUpdated }) {
                   </div>
                 </div>
                 <ul>
-                  {repoList.data?.length === 0 && <li>No Draft</li>}
+                  {repoList.data?.length === 0 && (
+                    <li>
+                      <strong>
+                        <i style={{ fontWeight: 100 }}>No Article</i>
+                      </strong>
+                    </li>
+                  )}
                   {repoList.data?.map((article, idx) => (
                     <DraftArticle key={idx} article={article} />
                   ))}
