@@ -127,7 +127,7 @@ export const saveUpdateRepo = async (dispatch, article) => {
 export const getImageUrl = async (dispatch, imageReader) => {
     dispatch({ type: actionType.IMAGE_UPLOAD_REQUEST })
     try {
-        const { data } = await axios.post('http://localhost:5000/api/cloudinary/upload-image', JSON.stringify({ data: imageReader }), {
+        const { data } = await axios.post('http://localhost:5000/api/cloudinary/upload-image', imageReader, {
             headers: {
                 'Content-Type': 'application/json',
                 'Accepts': 'application/json'

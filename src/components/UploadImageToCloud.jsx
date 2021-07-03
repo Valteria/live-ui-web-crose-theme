@@ -26,14 +26,9 @@ function UploadImageToCloud({ getImageUrl, cloudImage }) {
 
   const handleChangeImage = (e) => {
     setFileImage(e.target.value);
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onloadend = () => {
-        setImageReader(reader.result);
-      };
-    }
+    const formBodyData = new FormData();
+    formBodyData.append("image", e.target.files[0]);
+    setImageReader(formBodyData);
   };
 
   return (
