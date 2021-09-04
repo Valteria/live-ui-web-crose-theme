@@ -1,78 +1,83 @@
 //TODO: Working on this
-import React from 'react';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import articleContent from '../database/articles-content';
+import React, { useEffect, useState } from "react";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import { connect } from "react-redux";
+import { getRepoContent } from "../store/dispatch/dispatch";
+import LoadingBox from "../components/LoadingBox";
+import { Editor } from "react-draft-wysiwyg";
+import { convertFromRaw, EditorState } from "draft-js";
 
-const ArticleDetail = ({ match }) => {
-    const date = match.params.date;
-    const article = articleContent.find(article => article.date === date);
-    if (!article) return <h1>Article does not exist</h1>
-    return (
-        <div>
-            <Header />
-            <div dangerouslySetInnerHTML={{ __html: '<!-- ##### Blog Content Area Start ##### -->' }} />
-            <section class="blog-content-area section-padding-100">
-                <div class="container">
-                    <div class="row justify-content-between">
-                        {/* <!-- Blog Posts Area --> */}
-                        <div class="col-12 col-lg-12">
-                            <div class="blog-posts-area">
+const ArticleDetail = ({ match, getRepoContent, repoContent }) => {
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const { loading, repo } = repoContent;
+  const id = match.params.id;
+  useEffect(() => {
+    getRepoContent(id);
+  }, [getRepoContent, id]);
 
-                                {/* <!-- Post Details Area Start --> */}
+  useEffect(() => {
+    if (repo) {
+      setEditorState(
+        EditorState.createWithContent(convertFromRaw(JSON.parse(repo.content)))
+      );
+    }
+  }, [repo]);
 
-                                <div class="single-post-details-area">
-                                    {/* <!-- <div class="post-thumbnail mb-30 col-12 col-lg-2"><img src="" alt=""></div> --> */}
+  return (
+    <div>
+      <Header />
+      {loading && <LoadingBox />}
+      {!repo ? (
+        <h1>Article does not exist</h1>
+      ) : (
+        <>
+          <div
+            dangerouslySetInnerHTML={{
+              __html: "<!-- ##### Blog Content Area Start ##### -->",
+            }}
+          />
+          <section class="blog-content-area section-padding-100">
+            <div class="container">
+              <div class="row justify-content-between">
+                {/* <!-- Blog Posts Area --> */}
+                <div class="col-12 col-lg-12">
+                  <div class="blog-posts-area">
+                    {/* <!-- Post Details Area Start --> */}
 
-                                    <div class="post-content col-12 col-lg-auto">
-                                        <h2 class="post-title">{article.title}</h2>
-                                        <p>{article.body.split('\n').map((item, key) => {
-                                            return <span  key={key}>{item}<br /></span >
-                                        })}</p>
-                                    </div>
-                                </div>
-                                {/* <!-- Post Details Area End --> */}
+                    <div class="single-post-details-area">
+                      {/* <!-- <div class="post-thumbnail mb-30 col-12 col-lg-2"><img src="" alt=""></div> --> */}
 
-                            </div>
-                        </div>
+                      <div class="post-content col-12 col-lg-auto">
+                        <h2 class="post-title">{repo.title}</h2>
+                        <Editor
+                          readOnly
+                          toolbarHidden
+                          editorState={editorState}
+                        />
+                      </div>
                     </div>
+                    {/* <!-- Post Details Area End --> */}
+                  </div>
                 </div>
-            </section>
-            {/* <!-- ##### Blog Content Area End ##### --> */}
-            <Footer />
-        </div>
-    );
-}
+              </div>
+            </div>
+          </section>
+          {/* <!-- ##### Blog Content Area End ##### --> */}
+        </>
+      )}
 
-export default ArticleDetail;
+      <Footer />
+    </div>
+  );
+};
 
+const mapDispatchToProps = (dispatch) => ({
+  getRepoContent: (id) => getRepoContent(dispatch, id),
+});
 
+const mapStateToProps = (state) => ({
+  repoContent: state.repoContent,
+});
 
-// const ArticleDetail = (prop) => {
-//     const date = prop.match.params.date;
-//     const [getContent, setContent] = useState({});
-//     return(
-//         <div>
-//             <Header/>
-//             <section class="blog-content-area section-padding-100">
-//                 <div class="container">
-//                     <div class="row justify-content-between">
-//                         {/* <!-- Blog Posts Area --> */}
-//                         <div class="col-12 col-lg-12">
-//                             <div class="blog-posts-area">
-//                                 <div class="single-post-details-area">
-//                                     <div class="post-content col-12 col-lg-auto">
-//                                         <h2 class="post-title">{getContent.title}</h2>
-//                                         <p>{getContent.content}</p>
-//                                     </div>
-//                                 </div>
-//                             </div>
-//                         </div>
-//                     </div>
-//                 </div>
-//             </section>
-//             <Footer/>
-//         </div>
-//     );
-// }
-// export default ArticleDetail;
+export default connect(mapStateToProps, mapDispatchToProps)(ArticleDetail);
